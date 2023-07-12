@@ -431,9 +431,6 @@ if (nBoostedTau < 3) continue;
         ele_pt = Electron4Momentum.Pt();
         MatchTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(min_dR_index2), boostedTauEta->at(min_dR_index2), boostedTauPhi->at(min_dR_index2), boostedTauMass->at(min_dR_index2));
         
-        plotFill("ele_pt", ele_pt, 50, 0, 1000);
-        plotFill("ele_Eta", eleEta->at(i), 50, 0, 10);
-        plotFill("ele_Phi", elePhi->at(i), 50, 0, 10);
 
         match_tau_pt = MatchTau4Momentum.Pt();
         ratio2 = (ele_pt - match_tau_pt) / match_tau_pt;
