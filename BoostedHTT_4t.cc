@@ -20,7 +20,7 @@
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
-            if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < .5) continue;
+            if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
                 min_dr = BoostTau4Momentum.DeltaR(Object4Momentum);
@@ -40,7 +40,7 @@
         float min_dR = 100;
         int min_dR_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
-            //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0) continue;
+            if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Muon4Momentum) < min_dR){
                 min_dR = boostedTau4Momentum.DeltaR(Muon4Momentum);
@@ -63,6 +63,7 @@
         float min_dR2 = 100;
         int min_dR_index2 = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+            if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Electron4Momentum) < min_dR2){
                 min_dR2 = boostedTau4Momentum.DeltaR(Electron4Momentum);
@@ -290,13 +291,20 @@ if (nBoostedTau < 3) continue;
     // check isolation of each tau
     float subtau_iso, third_tau_iso, fourth_tau_iso;
     lead_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(0);
+    //if (lead_tau_iso < .5) continue;
     subtau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(1);
+    //if (subtau_iso < .5) continue;
     third_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(2);
+    //if (third_tau_iso < .5) continue;
     fourth_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(3);
+    //if (fourth_tau_iso < .5) continue;
+    
     plotFill("lead_tau_iso", lead_tau_iso, 50, -1.1, 1.1);
     plotFill("subtau_iso", subtau_iso, 50, -1.1, 1);
     plotFill("third_tau_iso", third_tau_iso, 50, -1.1, 1.1);
     plotFill("fourth_tau_iso", fourth_tau_iso, 50, -1.1, 1.1);
+
+
 
 
 
@@ -394,7 +402,7 @@ if (nBoostedTau < 3) continue;
     float ratio;
     for (int i = 0; i < nMu; ++i){
         Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
-        if (Muon4Momentum.Pt() < 50) continue;
+        if (Muon4Momentum.Pt() < 20) continue;
         tau_dR result = MatchTauToMuon(Muon4Momentum);
         int min_dR_index_muon = result.min_dR_index;
         float min_dR = result.min_dR;
@@ -421,7 +429,7 @@ if (nBoostedTau < 3) continue;
     float ratio2;
     for (int i = 0; i < nEle; ++i){
         Electron4Momentum.SetPtEtaPhiM(elePt->at(i), eleEta->at(i), elePhi->at(i), eleMass);
-        if (Electron4Momentum.Pt() < 50) continue;
+        if (Electron4Momentum.Pt() < 20) continue;
         tau_ele_dR result = MatchTauToElectron(Electron4Momentum);
         int min_dR_index2 = result.min_dR_index2;
         float min_dR2 = result.min_dR2;
