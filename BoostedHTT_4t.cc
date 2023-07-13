@@ -13,6 +13,7 @@
 
 
 
+
 //function to find which tau are pairs from same higgs
     int MatchBoostedTau(TLorentzVector Object4Momentum, int charge){
         TLorentzVector BoostTau4Momentum;
@@ -21,6 +22,9 @@
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
+            if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
+            if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
+            plotFill("nboostTau", nBoostedTau, 50, 0, 8);
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
                 min_dr = BoostTau4Momentum.DeltaR(Object4Momentum);
@@ -41,6 +45,8 @@
         int min_dR_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
+            if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
+            if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Muon4Momentum) < min_dR){
                 min_dR = boostedTau4Momentum.DeltaR(Muon4Momentum);
@@ -64,6 +70,8 @@
         int min_dR_index2 = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
+            if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
+            if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Electron4Momentum) < min_dR2){
                 min_dR2 = boostedTau4Momentum.DeltaR(Electron4Momentum);
@@ -455,6 +463,7 @@ if (nBoostedTau < 3) continue;
     // delta R between the two Higgs
     float dr_HH;
     dr_HH = higgs1_momentum.DeltaR(higgs2_momentum);
+    if (dr_HH < 2) continue;
     plotFill("dr_HH", dr_HH, 50, 0, 5); 
 
     // HT
@@ -466,13 +475,7 @@ if (nBoostedTau < 3) continue;
     plotFill("HT", HT, 50, 0, 1600);
 
     //MET
-    for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
-        if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
-        plotFill("MET", pfMET, 50, 0, 1000);
-    }
-
-
-    
+    plotFill("MET", pfMET, 50, 0, 1000);
 
 
     // muons
@@ -529,13 +532,28 @@ if (nBoostedTau < 3) continue;
 
     // TMass
     float TMass_H1, TMass_H2, TMass_Radion;
-    TMass_H1 = TMass_F(higgs1_momentum.Pt(), higgs1_momentum.Px(), higgs1_momentum.Py(), Met, Metphi);
-    
-    TMass_H2 = TMass_F(higgs2_momentum.Pt(), higgs2_momentum.Px(), higgs2_momentum.Py(), Met, Metphi);
-    TMass_Radion = TMass_F(rad4Momentum.Pt(), rad4Momentum.Px(), rad4Momentum.Py(), Met, Metphi);
-    plotFill("TMass_H1", TMass_H1, 50, 0, .5);
-    plotFill("TMass_H2", TMass_H2, 50, 0, .5);
-    plotFill("TMass_Radion", TMass_Radion, 50, 0, .5);
+    TMass_H1 = TMass_F(higgs1_momentum.Pt(), higgs1_momentum.Px(), higgs1_momentum.Py(), pfMET, pfMETPhi);
+    TMass_H2 = TMass_F(higgs2_momentum.Pt(), higgs2_momentum.Px(), higgs2_momentum.Py(), pfMET, pfMETPhi);
+    TMass_Radion = TMass_F(rad4Momentum.Pt(), rad4Momentum.Px(), rad4Momentum.Py(), pfMET, pfMETPhi);
+    plotFill("TMass_H1", TMass_H1, 50, 0, 5000);
+    plotFill("TMass_H2", TMass_H2, 50, 0, 2500);
+    plotFill("TMass_Radion", TMass_Radion, 50, 0, 4500);
+    plotFill("METPhi", pfMETPhi, 50, 0, 5);
+
+
+    //dPhi plots
+    Met4Momentum.SetPtEtaPhiM(pfMET, 0, pfMETPhi, 0);
+    float dphi_H1_MET, dphi_H2_MET, dphi_rad_MET;
+    dphi_H1_MET = higgs1_momentum.DeltaPhi(Met4Momentum);
+    dphi_H2_MET = higgs2_momentum.DeltaPhi(Met4Momentum);
+    dphi_rad_MET = rad4Momentum.DeltaPhi(Met4Momentum);
+    plotFill("dphi_H1_MET", dphi_H1_MET, 50, 0, 5);
+    plotFill("dphi_H2_MET", dphi_H2_MET, 50, 0, 5);
+    plotFill("dphi_rad_MET", dphi_rad_MET, 50, 0, 5);
+
+
+
+
 
 
 
