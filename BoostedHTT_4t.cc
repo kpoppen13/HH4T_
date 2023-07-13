@@ -76,6 +76,10 @@
         return result;
     }
 
+// TMass Definition
+float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi) {
+    return sqrt(pow(pt3lep + met, 2) - pow(px3lep + met * cos(metPhi), 2) - pow(py3lep + met * sin(metPhi), 2));
+}
 
 
 
@@ -171,6 +175,20 @@ int main(int argc, char* argv[]) {
 //    float dR_Z_jet=-10;
 //    bool lep1IsoPassL,lep2IsoPassL,lep1IsoPassV,lep2IsoPassV,OS,SS;
     float tmass,ht,st,Met,FullWeight, dR_lep_lep, Metphi,BoostedTauRawIso, higgs_pT, higgs_pT2, radion_pt, higgs_m, m_sv_, wtnom_zpt_weight, gen_higgs_pT,gen_leadjet_pT;
+    float LeadingBoostedTauPt= -10;
+    float SubLeadingBoostedTauPt= -10;
+    float ThirdBoostedTauPt= -10;
+    float FourthBoostedTauPt= -10;
+    float dphi_HH= -10;
+    float dr_HH= -10;
+    float dphi_H2= -10;
+    float dphi_H1= -10;
+    float higgs2_dr2= -10;
+    float higgs1_dr= -10;
+    float fourth_tau_mass= -10;
+    float third_tau_mass= -10;
+    float sub_tau_mass= -10;
+    float lead_tau_mass= -10; 
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
 //
@@ -202,6 +220,26 @@ int main(int argc, char* argv[]) {
     outTr->Branch("higgs_pT",&higgs_pT,"higgs_pT/F");
     outTr->Branch("higgs_pT2",&higgs_pT2,"higgs_pT/F");
     outTr->Branch("lead_tau_iso",&lead_tau_iso,"lead_tau_iso/F");
+
+
+    outTr->Branch("lead_tau_mass",&lead_tau_mass,"lead_tau_mass/F");
+    outTr->Branch("sub_tau_mass",&sub_tau_mass,"sub_tau_mass/F");
+    outTr->Branch("third_tau_mass",&third_tau_mass,"third_tau_mass/F");
+    outTr->Branch("fourth_tau_mass",&fourth_tau_mass,"fourth_tau_mass");
+
+    outTr->Branch("higgs1_dr",&higgs1_dr,"higgs1_dr/F");
+    outTr->Branch("higgs2_dr",&higgs2_dr2,"higgs2_dr/F");
+
+    outTr->Branch("dphi_H1",&dphi_H1,"dphi_H1/F");
+    outTr->Branch("dphi_H2",&dphi_H2,"dphi_H2/F");
+
+    outTr->Branch("dr_HH",&dr_HH,"dr_HH/F");
+    outTr->Branch("dphi_HH",&dphi_HH,"dphi_HH/F");
+
+    outTr->Branch("LeadingBoostedTauPt",&LeadingBoostedTauPt,"LeadingBoostedTauPt/F");
+    outTr->Branch("SubLeadingBoostedTauPt",&SubLeadingBoostedTauPt,"SubLeadingBoostedTauPt/F");
+    outTr->Branch("ThirdBoostedTauPt",&ThirdBoostedTauPt,"ThirdBoostedTauPt/F");
+    outTr->Branch("FourthBoostedTauPt",&FourthBoostedTauPt,"FourthBoostedTauPt/F");
 //    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
 //    outTr->Branch("nbjet",&nbjet,"nbjet/I");
 //    outTr->Branch("gen_higgs_pT",&gen_higgs_pT,"gen_higgs_pT/F");
@@ -215,6 +253,14 @@ int main(int argc, char* argv[]) {
 //    outTr->Branch("run",&run,"run/I");
 //    outTr->Branch("event",&event,"event/I");
 //    outTr->Branch("lumis",&lumis,"lumis/I");
+
+
+
+  
+
+    
+
+
     
     
     Int_t nentries_wtn = (Int_t) Run_Tree->GetEntries();
@@ -269,11 +315,14 @@ if (nBoostedTau < 3) continue;
     float ThirdBoostedTauPt= boostedTauPt->at(2);
     float FourthBoostedTauPt= boostedTauPt->at(3);
 
-
-    plotFill("LeadingBoostedTauPt_",LeadingBoostedTauPt ,20,0,500);
-    plotFill("SubLeadingBoostedTauPt_",SubLeadingBoostedTauPt ,20,0,500);
-    plotFill("ThirdBoostedTauPt_",ThirdBoostedTauPt ,20,0,500);
-    plotFill("FourthBoostedTauPt_",FourthBoostedTauPt ,20,0,500);
+    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(0) < 0.5) continue;
+    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(1) < 0.5) continue;
+    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(2) < 0.5) continue;
+    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(3) < 0.5) continue;
+    plotFill("LeadingBoostedTauPt_",LeadingBoostedTauPt ,50,0,2000);
+    plotFill("SubLeadingBoostedTauPt_",SubLeadingBoostedTauPt ,50,0,1000);
+    plotFill("ThirdBoostedTauPt_",ThirdBoostedTauPt ,50,0,700);
+    plotFill("FourthBoostedTauPt_",FourthBoostedTauPt ,50,0,500);
 
         
         //=========================================================================================================
@@ -286,6 +335,18 @@ if (nBoostedTau < 3) continue;
     SubTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(1), boostedTauEta->at(1), boostedTauPhi->at(1), boostedTauMass->at(1));
     ThirdTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(2), boostedTauEta->at(2), boostedTauPhi->at(2), boostedTauMass->at(2));
     FourthTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(3), boostedTauEta->at(3), boostedTauPhi->at(3), boostedTauMass->at(3));
+
+
+    // plot mass of each tau
+    float lead_tau_mass, sub_tau_mass, third_tau_mass, fourth_tau_mass;
+    lead_tau_mass = LeadTau4Momentum.M();
+    sub_tau_mass = SubTau4Momentum.M();
+    third_tau_mass = ThirdTau4Momentum.M();
+    fourth_tau_mass = FourthTau4Momentum.M();
+    plotFill("lead_tau_mass", lead_tau_mass, 50, 0, 2);
+    plotFill("sub_tau_mass", sub_tau_mass, 50, 0, 2);
+    plotFill("third_tau_mass", third_tau_mass, 50, 0, 2);
+    plotFill("fourth_tau_mass", fourth_tau_mass, 50, 0, 2);
 
 
     // check isolation of each tau
@@ -328,8 +389,13 @@ if (nBoostedTau < 3) continue;
     higgs1_momentum = LeadTau4Momentum + LeadMatch4Momentum;
     vis_mass= higgs1_momentum.M();
     plotFill("higgs1_vis_mass", vis_mass, 50, 0, 250);
-    plotFill("higgs1_dR", higgs1_dr, 50, 0, 1.5);
+    plotFill("higgs1_dr", higgs1_dr, 50, 0, 1.5);
     plotFill("lead_match_indices", index_lead_match, 40, .5, 8);
+
+    // delta phi between the two tau in higgs 1
+    float dphi_H1;
+    dphi_H1 = LeadMatch4Momentum.DeltaPhi(LeadTau4Momentum);
+    plotFill("dphi_H1", dphi_H1, 50, 0, 5);
     
 
     //now eliminate the two indices that are a pair
@@ -354,13 +420,21 @@ if (nBoostedTau < 3) continue;
     higgs2_dr = NewBoostedTau4Momentum.DeltaR(SecondPair4Momentum);
     vis_mass2 = higgs2_momentum.M();
     plotFill("higgs2_vis_mass", vis_mass2, 50, 0, 250); 
-    plotFill("higgs2_dR", higgs2_dr, 50, 0, 1.5); 
+    plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5); 
     plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
+    
+    // delta phi between the two tau in higgs 2
+    float dphi_H2;
+    dphi_H2 = SecondPair4Momentum.DeltaPhi(NewBoostedTau4Momentum);
+    plotFill("dphi_H2", dphi_H2, 50, 0, 5);
+
 
     //delta phi between the two higgs
-    float dphi=-10;
-    dphi = higgs1_momentum.DeltaPhi(higgs2_momentum);
-    plotFill("dphi", dphi, 50, 0, 5);
+    float dphi_HH=-10;
+    dphi_HH = higgs1_momentum.DeltaPhi(higgs2_momentum);
+    plotFill("dphi_HH", dphi_HH, 50, 0, 5);
+
+
 
     //get the pt of each higgs
     higgs_pT = higgs1_momentum.Pt();
@@ -369,6 +443,8 @@ if (nBoostedTau < 3) continue;
     plotFill("higgs_pt1", higgs_pT, 50, 0, 1500);
     plotFill("higgs_pt2", higgs_pT2, 50, 0, 1400);
     plotFill("radion_pt", radion_pt, 50, 0, 1000);
+
+    
 
     //find invariant mass of the two higgs (radion) and plot
     TLorentzVector radion4momentum;
@@ -382,10 +458,11 @@ if (nBoostedTau < 3) continue;
     plotFill("dr_HH", dr_HH, 50, 0, 5); 
 
     // HT
-    float HT;
+    float HT, TMass;
     TLorentzVector rad4Momentum;
     rad4Momentum = LeadTau4Momentum + LeadMatch4Momentum + NewBoostedTau4Momentum + SecondPair4Momentum;
     HT = rad4Momentum.Pt();
+    
     plotFill("HT", HT, 50, 0, 1600);
 
     //MET
@@ -393,6 +470,10 @@ if (nBoostedTau < 3) continue;
         if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
         plotFill("MET", pfMET, 50, 0, 1000);
     }
+
+
+    
+
 
     // muons
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
@@ -446,6 +527,15 @@ if (nBoostedTau < 3) continue;
     }
 
 
+    // TMass
+    float TMass_H1, TMass_H2, TMass_Radion;
+    TMass_H1 = TMass_F(higgs1_momentum.Pt(), higgs1_momentum.Px(), higgs1_momentum.Py(), Met, Metphi);
+    
+    TMass_H2 = TMass_F(higgs2_momentum.Pt(), higgs2_momentum.Px(), higgs2_momentum.Py(), Met, Metphi);
+    TMass_Radion = TMass_F(rad4Momentum.Pt(), rad4Momentum.Px(), rad4Momentum.Py(), Met, Metphi);
+    plotFill("TMass_H1", TMass_H1, 50, 0, .5);
+    plotFill("TMass_H2", TMass_H2, 50, 0, .5);
+    plotFill("TMass_Radion", TMass_Radion, 50, 0, .5);
 
 
 
