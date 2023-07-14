@@ -495,105 +495,105 @@ c18.SaveAs('out18.pdf')
 
 
 c19=TCanvas()
-LeadingBoostedTauPt_1000=Rad_1000.Get("LeadingBoostedTauPt_")
-LeadingBoostedTauPt_1000.SetLineColor(1)
-LeadingBoostedTauPt_1000.Draw()        
+tau1_h1_pt_1000=Rad_1000.Get("tau1_h1_pt")
+tau1_h1_pt_1000.SetLineColor(1)
+tau1_h1_pt_1000.Draw()        
 
-LeadingBoostedTauPt_2000=Rad_2000.Get("LeadingBoostedTauPt_")
-LeadingBoostedTauPt_2000.SetLineColor(2)
-LeadingBoostedTauPt_2000.Draw('same')
+tau1_h1_pt_2000=Rad_2000.Get("tau1_h1_pt")
+tau1_h1_pt_2000.SetLineColor(2)
+tau1_h1_pt_2000.Draw('same')
 
-LeadingBoostedTauPt_3000=Rad_3000.Get("LeadingBoostedTauPt_")
-LeadingBoostedTauPt_3000.SetLineColor(4)
-LeadingBoostedTauPt_3000.Draw('same')
+tau1_h1_pt_3000=Rad_3000.Get("tau1_h1_pt")
+tau1_h1_pt_3000.SetLineColor(4)
+tau1_h1_pt_3000.Draw('same')
 
 leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
 leg.SetLineColor(1)
-leg.AddEntry(LeadingBoostedTauPt_1000, "LeadingBoostedTauPt_1000", "l")
-leg.AddEntry(LeadingBoostedTauPt_2000, "LeadingBoostedTauPt_2000", "l")
-leg.AddEntry(LeadingBoostedTauPt_3000, "LeadingBoostedTauPt_3000", "l")
+leg.AddEntry(tau1_h1_pt_1000, "tau1_h1_pt_1000", "l")
+leg.AddEntry(tau1_h1_pt_2000, "tau1_h1_pt_2000", "l")
+leg.AddEntry(tau1_h1_pt_3000, "tau1_h1_pt_3000", "l")
 leg.Draw()
 
-LeadingBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
-LeadingBoostedTauPt_1000.SetMaximum(700)  # Set the maximum value for the y-axis
+tau1_h1_pt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+tau1_h1_pt_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
 c19.SaveAs('out19.pdf')
 
 
 
 c20=TCanvas()
-SubLeadingBoostedTauPt_1000=Rad_1000.Get("SubLeadingBoostedTauPt_")
-SubLeadingBoostedTauPt_1000.SetLineColor(1)
-SubLeadingBoostedTauPt_1000.Draw()        
+tau2_h1_pt_1000=Rad_1000.Get("tau2_h1_pt")
+tau2_h1_pt_1000.SetLineColor(1)
+tau2_h1_pt_1000.Draw()        
 
-SubLeadingBoostedTauPt_2000=Rad_2000.Get("SubLeadingBoostedTauPt_")
-SubLeadingBoostedTauPt_2000.SetLineColor(2)
-SubLeadingBoostedTauPt_2000.Draw('same')
+tau2_h1_pt_2000=Rad_2000.Get("tau2_h1_pt")
+tau2_h1_pt_2000.SetLineColor(2)
+tau2_h1_pt_2000.Draw('same')
 
-SubLeadingBoostedTauPt_3000=Rad_3000.Get("SubLeadingBoostedTauPt_")
-SubLeadingBoostedTauPt_3000.SetLineColor(4)
-SubLeadingBoostedTauPt_3000.Draw('same')
+tau2_h1_pt_3000=Rad_3000.Get("tau2_h1_pt")
+tau2_h1_pt_3000.SetLineColor(4)
+tau2_h1_pt_3000.Draw('same')
 
 leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
 leg.SetLineColor(1)
-leg.AddEntry(SubLeadingBoostedTauPt_1000, "SubLeadingBoostedTauPt_1000", "l")
-leg.AddEntry(SubLeadingBoostedTauPt_2000, "SubLeadingBoostedTauPt_2000", "l")
-leg.AddEntry(SubLeadingBoostedTauPt_3000, "SubLeadingBoostedTauPt_3000", "l")
+leg.AddEntry(tau2_h1_pt_1000, "tau2_h1_pt_1000", "l")
+leg.AddEntry(tau2_h1_pt_2000, "tau2_h1_pt_2000", "l")
+leg.AddEntry(tau2_h1_pt_3000, "tau2_h1_pt_3000", "l")
 leg.Draw()
 
-SubLeadingBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
-SubLeadingBoostedTauPt_1000.SetMaximum(900)  # Set the maximum value for the y-axis
+tau2_h1_pt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+tau2_h1_pt_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
 c20.SaveAs('out20.pdf')
 
 
 
 c21=TCanvas()
-ThirdBoostedTauPt_1000=Rad_1000.Get("ThirdBoostedTauPt_")
-ThirdBoostedTauPt_1000.SetLineColor(1)
-ThirdBoostedTauPt_1000.Draw()        
+tau1_h2_pt_1000=Rad_1000.Get("tau1_h2_pt")
+tau1_h2_pt_1000.SetLineColor(1)
+tau1_h2_pt_1000.Draw()        
 
-ThirdBoostedTauPt_2000=Rad_2000.Get("ThirdBoostedTauPt_")
-ThirdBoostedTauPt_2000.SetLineColor(2)
-ThirdBoostedTauPt_2000.Draw('same')
+tau1_h2_pt_2000=Rad_2000.Get("tau1_h2_pt")
+tau1_h2_pt_2000.SetLineColor(2)
+tau1_h2_pt_2000.Draw('same')
 
-ThirdBoostedTauPt_3000=Rad_3000.Get("ThirdBoostedTauPt_")
-ThirdBoostedTauPt_3000.SetLineColor(4)
-ThirdBoostedTauPt_3000.Draw('same')
+tau1_h2_pt_3000=Rad_3000.Get("tau1_h2_pt")
+tau1_h2_pt_3000.SetLineColor(4)
+tau1_h2_pt_3000.Draw('same')
 
 leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
 leg.SetLineColor(1)
-leg.AddEntry(ThirdBoostedTauPt_1000, "ThirdBoostedTauPt_1000", "l")
-leg.AddEntry(ThirdBoostedTauPt_2000, "ThirdBoostedTauPt_2000", "l")
-leg.AddEntry(ThirdBoostedTauPt_3000, "ThirdBoostedTauPt_3000", "l")
+leg.AddEntry(tau1_h2_pt_1000, "tau1_h2_pt_1000", "l")
+leg.AddEntry(tau1_h2_pt_2000, "tau1_h2_pt_2000", "l")
+leg.AddEntry(tau1_h2_pt_3000, "tau1_h2_pt_3000", "l")
 leg.Draw()
 
-ThirdBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
-ThirdBoostedTauPt_1000.SetMaximum(1000)  # Set the maximum value for the y-axis
+tau1_h2_pt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+tau1_h2_pt_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
 c21.SaveAs('out21.pdf')
 
 
 
 c22=TCanvas()
-FourthBoostedTauPt_1000=Rad_1000.Get("FourthBoostedTauPt_")
-FourthBoostedTauPt_1000.SetLineColor(1)
-FourthBoostedTauPt_1000.Draw()        
+tau2_h2_pt_1000=Rad_1000.Get("tau2_h2_pt")
+tau2_h2_pt_1000.SetLineColor(1)
+tau2_h2_pt_1000.Draw()        
 
-FourthBoostedTauPt_2000=Rad_2000.Get("FourthBoostedTauPt_")
-FourthBoostedTauPt_2000.SetLineColor(2)
-FourthBoostedTauPt_2000.Draw('same')
+tau2_h2_pt_2000=Rad_2000.Get("tau2_h2_pt")
+tau2_h2_pt_2000.SetLineColor(2)
+tau2_h2_pt_2000.Draw('same')
 
-FourthBoostedTauPt_3000=Rad_3000.Get("FourthBoostedTauPt_")
-FourthBoostedTauPt_3000.SetLineColor(4)
-FourthBoostedTauPt_3000.Draw('same')
+tau2_h2_pt_3000=Rad_3000.Get("tau2_h2_pt")
+tau2_h2_pt_3000.SetLineColor(4)
+tau2_h2_pt_3000.Draw('same')
 
 leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
 leg.SetLineColor(1)
-leg.AddEntry(FourthBoostedTauPt_1000, "FourthBoostedTauPt_1000", "l")
-leg.AddEntry(FourthBoostedTauPt_2000, "FourthBoostedTauPt_2000", "l")
-leg.AddEntry(FourthBoostedTauPt_3000, "FourthBoostedTauPt_3000", "l")
+leg.AddEntry(tau2_h2_pt_1000, "tau2_h2_pt1000", "l")
+leg.AddEntry(tau2_h2_pt_2000, "tau2_h2_pt_2000", "l")
+leg.AddEntry(tau2_h2_pt_3000, "tau2_h2_pt_3000", "l")
 leg.Draw()
 
-FourthBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
-FourthBoostedTauPt_1000.SetMaximum(1200)  # Set the maximum value for the y-axis
+tau2_h2_pt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+tau2_h2_pt_1000.SetMaximum(3500)  # Set the maximum value for the y-axis
 c22.SaveAs('out22.pdf')
 
 
