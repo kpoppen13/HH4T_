@@ -315,17 +315,25 @@ int main(int argc, char* argv[]) {
         TLorentzVector LeadTau4Momentum,SubTau4Momentum, Sub_and_Lead_Momentum, Met4Momentum, LeadTau4MomentumNominal, SubTau4MomentumNominal;
         //=========================================================================================================
 if (nBoostedTau < 3) continue;
+int min_index = 15;
+float lead_charge;
+TLorentzVector leadtau4mom;
+for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+    if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
+    if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
+    if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
+    if (ibtau<min_index){
+        min_index = ibtau;
+        leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
+        lead_charge = boostedTauCharge->at(ibtau);
+    }
+    }
 
     
     float LeadingBoostedTauPt= boostedTauPt->at(0);
     float SubLeadingBoostedTauPt= boostedTauPt->at(1);
     float ThirdBoostedTauPt= boostedTauPt->at(2);
     float FourthBoostedTauPt= boostedTauPt->at(3);
-
-    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(0) < 0.5) continue;
-    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(1) < 0.5) continue;
-    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(2) < 0.5) continue;
-    //if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(3) < 0.5) continue;
     plotFill("LeadingBoostedTauPt_",LeadingBoostedTauPt ,50,0,2000);
     plotFill("SubLeadingBoostedTauPt_",SubLeadingBoostedTauPt ,50,0,1000);
     plotFill("ThirdBoostedTauPt_",ThirdBoostedTauPt ,50,0,700);
@@ -344,25 +352,12 @@ if (nBoostedTau < 3) continue;
     FourthTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(3), boostedTauEta->at(3), boostedTauPhi->at(3), boostedTauMass->at(3));
 
 
-    // plot mass of each tau
-    float lead_tau_mass, sub_tau_mass, third_tau_mass, fourth_tau_mass;
-    lead_tau_mass = LeadTau4Momentum.M();
-    sub_tau_mass = SubTau4Momentum.M();
-    third_tau_mass = ThirdTau4Momentum.M();
-    fourth_tau_mass = FourthTau4Momentum.M();
-    plotFill("lead_tau_mass", lead_tau_mass, 50, 0, 2);
-    plotFill("sub_tau_mass", sub_tau_mass, 50, 0, 2);
-    plotFill("third_tau_mass", third_tau_mass, 50, 0, 2);
-    plotFill("fourth_tau_mass", fourth_tau_mass, 50, 0, 2);
-
-
     // check isolation of each tau
     float subtau_iso, third_tau_iso, fourth_tau_iso;
     lead_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(0);
     subtau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(1);
     third_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(2);
     fourth_tau_iso = boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(3);
-    
     
     plotFill("lead_tau_iso", lead_tau_iso, 50, -1.1, 1.1);
     plotFill("subtau_iso", subtau_iso, 50, -1.1, 1);
@@ -377,30 +372,32 @@ if (nBoostedTau < 3) continue;
     plotFill("dR_sub_lead_", dR_sub_lead, 50,0,5);
     plotFill("dR_lead_third_", dR_lead_third, 50,0,5);
     plotFill("dR_lead_fourth_", dR_lead_fourth, 50,0,5);
-    
+    //==================================================================
+
+
     //matching the pairs
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
     //find index of the tau that matches to the lead tau 
-    int index_lead_match = MatchBoostedTau(LeadTau4Momentum, boostedTauCharge->at(0));
+    int index_lead_match = MatchBoostedTau(leadtau4mom, lead_charge);
     if (index_lead_match < 0) continue;
     //plot their visible mass
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_lead_match), boostedTauEta->at(index_lead_match), boostedTauPhi->at(index_lead_match), boostedTauMass->at(index_lead_match));
-    higgs1_dr = LeadTau4Momentum.DeltaR(LeadMatch4Momentum);
-    higgs1_momentum = LeadTau4Momentum + LeadMatch4Momentum;
+    higgs1_dr = leadtau4mom.DeltaR(LeadMatch4Momentum);
+    higgs1_momentum = leadtau4mom + LeadMatch4Momentum;
     vis_mass= higgs1_momentum.M();
     plotFill("higgs1_vis_mass", vis_mass, 50, 0, 250);
     plotFill("higgs1_dr", higgs1_dr, 50, 0, 1.5);
     plotFill("lead_match_indices", index_lead_match, 40, .5, 8);
 
     // delta phi between the two tau in higgs 1
-    dphi_H1 = LeadMatch4Momentum.DeltaPhi(LeadTau4Momentum);
+    dphi_H1 = LeadMatch4Momentum.DeltaPhi(leadtau4mom);
     plotFill("dphi_H1", dphi_H1, 50, -4, 4);
     
 
-    //now eliminate the two indices that are a pair
+    //now eliminate the two indices that are a pair 
     float newcharge = 0;
     for (int i=0; i <nBoostedTau; i++){
-        if (i ==0) continue;
+        if (i == min_index) continue;  
         if (i==index_lead_match) continue;
         NewBoostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(i), boostedTauEta->at(i), boostedTauPhi->at(i), boostedTauMass->at(i));
         newcharge = boostedTauCharge->at(i);
@@ -437,14 +434,14 @@ if (nBoostedTau < 3) continue;
     radion_pt = higgs_pT + higgs_pT2;
     plotFill("higgs_pt1", higgs_pT, 50, 0, 1500);
     plotFill("higgs_pt2", higgs_pT2, 50, 0, 1400);
-    plotFill("radion_pt", radion_pt, 50, 0, 1000);
+    plotFill("radion_pt", radion_pt, 50, 0, 2000);
 
 
     //find invariant mass of the two higgs (radion) and plot
     TLorentzVector radion4momentum;
     radion4momentum = higgs1_momentum + higgs2_momentum;
     radion_inv_mass = radion4momentum.M();
-    plotFill("radion_inv_mass", radion_inv_mass, 50, 0, 2200); 
+    plotFill("radion_inv_mass", radion_inv_mass, 50, 0, 2600); 
 
     // delta R between the two Higgs
     dr_HH = higgs1_momentum.DeltaR(higgs2_momentum);
@@ -454,7 +451,7 @@ if (nBoostedTau < 3) continue;
     // HT
     float HT, TMass;
     TLorentzVector rad4Momentum;
-    rad4Momentum = LeadTau4Momentum + LeadMatch4Momentum + NewBoostedTau4Momentum + SecondPair4Momentum;
+    rad4Momentum = leadtau4mom + LeadMatch4Momentum + NewBoostedTau4Momentum + SecondPair4Momentum;
     HT = rad4Momentum.Pt();
     
     plotFill("HT", HT, 50, 0, 1600);
