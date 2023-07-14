@@ -11,7 +11,7 @@ Rad_1000 =TFile('out_1000.root', 'READ')
 Rad_2000 = TFile('out_2000.root', 'READ')
 Rad_3000 = TFile('out_3000.root', 'READ')
 
-'''
+
 c=TCanvas()
 H1_vismass_1000=Rad_1000.Get("higgs1_vis_mass")
 H1_vismass_1000.SetLineColor(1)
@@ -34,8 +34,9 @@ leg.Draw()
 
 H1_vismass_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 H1_vismass_1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
 c.SaveAs('out.pdf')
+
+
 
 c2=TCanvas()
 H2_vismass_1000=Rad_1000.Get("higgs2_vis_mass")
@@ -59,7 +60,6 @@ leg.Draw()
 
 H2_vismass_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 H2_vismass_1000.SetMaximum(900)  # Set the maximum value for the y-axis
-
 c2.SaveAs('out2.pdf')
 
 
@@ -89,6 +89,7 @@ radion_inv_mass1000.SetMaximum(1000)  # Set the maximum value for the y-axis
 c3.SaveAs('out3.pdf')
 
 
+
 c4=TCanvas()
 higgs1_dR1000=Rad_1000.Get("higgs1_dr")
 higgs1_dR1000.SetLineColor(1)
@@ -111,8 +112,8 @@ leg.Draw()
 
 higgs1_dR1000.SetMinimum(0)  # Set the minimum value for the y-axis
 higgs1_dR1000.SetMaximum(2000)  # Set the maximum value for the y-axis
-
 c4.SaveAs('out4.pdf')
+
 
 
 c5=TCanvas()
@@ -140,6 +141,7 @@ higgs2_dR1000.SetMaximum(1450)  # Set the maximum value for the y-axis
 c5.SaveAs('out5.pdf')
 
 
+
 c6=TCanvas()
 dr_HH1000=Rad_1000.Get("dr_HH")
 dr_HH1000.SetLineColor(1)
@@ -163,6 +165,7 @@ leg.Draw()
 dr_HH1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dr_HH1000.SetMaximum(2000)  # Set the maximum value for the y-axis
 c6.SaveAs('out6.pdf')
+
 
 
 c7=TCanvas()
@@ -190,6 +193,7 @@ HT_rad_1000.SetMaximum(1200)  # Set the maximum value for the y-axis
 c7.SaveAs('out7.pdf')
 
 
+
 c8=TCanvas()
 min_dR_muon1000=Rad_1000.Get("min_dR_muon")
 min_dR_muon1000.SetLineColor(1)
@@ -214,9 +218,8 @@ c8.SetLogy()
 c8.Update()
 y_max = min_dR_muon3000.GetMaximum()
 min_dR_muon1000.GetYaxis().SetRangeUser(0.1, 10 * y_max)  # Increase the y-axis range by a factor of 10
-
-
 c8.SaveAs('out8.pdf')
+
 
 
 c9=TCanvas()
@@ -271,8 +274,8 @@ c10.SetLogy()
 c10.Update()
 y_max = min_dR_electron3000.GetMaximum()
 min_dR_electron1000.GetYaxis().SetRangeUser(0.1, 10 * y_max)  # Increase the y-axis range by a factor of 10
-
 c10.SaveAs('out10.pdf')
+
 
 
 c11=TCanvas()
@@ -324,7 +327,8 @@ leg.Draw()
 ratio1000.SetMinimum(0)  # Set the minimum value for the y-axis
 ratio1000.SetMaximum(11000)  # Set the maximum value for the y-axis
 c12.SaveAs('out12.pdf')
-'''
+
+
 
 c13=TCanvas()
 pfMET1000=Rad_1000.Get("MET")
@@ -349,7 +353,7 @@ leg.Draw()
 pfMET1000.SetMinimum(0)  # Set the minimum value for the y-axis
 pfMET1000.SetMaximum(1000)  # Set the maximum value for the y-axis
 c13.SaveAs('out13.pdf')
-'''
+
 
 
 c14=TCanvas()
@@ -375,9 +379,9 @@ leg.Draw()
 ratio2_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 ratio2_1000.SetMaximum(11000)  # Set the maximum value for the y-axis
 c14.SaveAs('out14.pdf')
-'''
 
-'''
+
+
 c15=TCanvas()
 lead_tau_iso1000=Rad_1000.Get("lead_tau_iso")
 lead_tau_iso1000.SetLineColor(1)
@@ -402,10 +406,7 @@ c15.SetLogy()
 c15.Update()
 y_max = lead_tau_iso3000.GetMaximum()
 lead_tau_iso1000.GetYaxis().SetRangeUser(0.1, 20 * y_max)  # Increase the y-axis range by a factor of 10
-
 c15.SaveAs('out15.pdf')
-
-
 
 
 
@@ -433,10 +434,7 @@ c16.SetLogy()
 c16.Update()
 y_max = subtau_iso3000.GetMaximum()
 subtau_iso1000.GetYaxis().SetRangeUser(0.1, 20 * y_max)  # Increase the y-axis range by a factor of 10
-
 c16.SaveAs('out16.pdf')
-
-
 
 
 
@@ -464,9 +462,7 @@ c17.SetLogy()
 c17.Update()
 y_max = third_tau_iso3000.GetMaximum()
 third_tau_iso1000.GetYaxis().SetRangeUser(0.1, 20 * y_max)  # Increase the y-axis range by a factor of 10
-
 c17.SaveAs('out17.pdf')
-
 
 
 
@@ -494,7 +490,6 @@ c18.SetLogy()
 c18.Update()
 y_max = fourth_tau_iso3000.GetMaximum()
 fourth_tau_iso1000.GetYaxis().SetRangeUser(0.1, 20 * y_max)  # Increase the y-axis range by a factor of 10
-
 c18.SaveAs('out18.pdf')
 
 
@@ -521,8 +516,8 @@ leg.Draw()
 
 LeadingBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 LeadingBoostedTauPt_1000.SetMaximum(700)  # Set the maximum value for the y-axis
-
 c19.SaveAs('out19.pdf')
+
 
 
 c20=TCanvas()
@@ -547,7 +542,6 @@ leg.Draw()
 
 SubLeadingBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 SubLeadingBoostedTauPt_1000.SetMaximum(900)  # Set the maximum value for the y-axis
-
 c20.SaveAs('out20.pdf')
 
 
@@ -574,7 +568,6 @@ leg.Draw()
 
 ThirdBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 ThirdBoostedTauPt_1000.SetMaximum(1000)  # Set the maximum value for the y-axis
-
 c21.SaveAs('out21.pdf')
 
 
@@ -601,119 +594,11 @@ leg.Draw()
 
 FourthBoostedTauPt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 FourthBoostedTauPt_1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
 c22.SaveAs('out22.pdf')
 
 
 
 c23=TCanvas()
-fourth_tau_mass1000=Rad_1000.Get("fourth_tau_mass")
-fourth_tau_mass1000.SetLineColor(1)
-fourth_tau_mass1000.Draw()        
-
-fourth_tau_mass2000=Rad_2000.Get("fourth_tau_mass")
-fourth_tau_mass2000.SetLineColor(2)
-fourth_tau_mass2000.Draw('same')
-
-fourth_tau_mass3000=Rad_3000.Get("fourth_tau_mass")
-fourth_tau_mass3000.SetLineColor(4)
-fourth_tau_mass3000.Draw('same')
-
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
-leg.SetLineColor(1)
-leg.AddEntry(fourth_tau_mass1000, "fourth_tau_mass_1000", "l")
-leg.AddEntry(fourth_tau_mass2000, "fourth_tau_mass_2000", "l")
-leg.AddEntry(fourth_tau_mass3000, "fourth_tau_mass_3000", "l")
-leg.Draw()
-
-fourth_tau_mass1000.SetMinimum(0)  # Set the minimum value for the y-axis
-fourth_tau_mass1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
-c23.SaveAs('out23.pdf')
-
-
-c24=TCanvas()
-lead_tau_mass1000=Rad_1000.Get("lead_tau_mass")
-lead_tau_mass1000.SetLineColor(1)
-lead_tau_mass1000.Draw()        
-
-lead_tau_mass2000=Rad_2000.Get("lead_tau_mass")
-lead_tau_mass2000.SetLineColor(2)
-lead_tau_mass2000.Draw('same')
-
-lead_tau_mass3000=Rad_3000.Get("lead_tau_mass")
-lead_tau_mass3000.SetLineColor(4)
-lead_tau_mass3000.Draw('same')
-
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
-leg.SetLineColor(1)
-leg.AddEntry(lead_tau_mass1000, "lead_tau_mass1000", "l")
-leg.AddEntry(lead_tau_mass2000, "lead_tau_mass2000", "l")
-leg.AddEntry(lead_tau_mass3000, "lead_tau_mass3000", "l")
-leg.Draw()
-
-lead_tau_mass1000.SetMinimum(0)  # Set the minimum value for the y-axis
-lead_tau_mass1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
-c24.SaveAs('out24.pdf')
-
-
-c25=TCanvas()
-sub_tau_mass1000=Rad_1000.Get("sub_tau_mass")
-sub_tau_mass1000.SetLineColor(1)
-sub_tau_mass1000.Draw()        
-
-sub_tau_mass2000=Rad_2000.Get("sub_tau_mass")
-sub_tau_mass2000.SetLineColor(2)
-sub_tau_mass2000.Draw('same')
-
-sub_tau_mass3000=Rad_3000.Get("sub_tau_mass")
-sub_tau_mass3000.SetLineColor(4)
-sub_tau_mass3000.Draw('same')
-
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
-leg.SetLineColor(1)
-leg.AddEntry(sub_tau_mass1000, "sub_tau_mass1000", "l")
-leg.AddEntry(sub_tau_mass2000, "sub_tau_mass2000", "l")
-leg.AddEntry(sub_tau_mass3000, "sub_tau_mass3000", "l")
-leg.Draw()
-
-sub_tau_mass1000.SetMinimum(0)  # Set the minimum value for the y-axis
-sub_tau_mass1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
-c25.SaveAs('out25.pdf')
-
-
-
-c26=TCanvas()
-third_tau_mass1000=Rad_1000.Get("third_tau_mass")
-third_tau_mass1000.SetLineColor(1)
-third_tau_mass1000.Draw()        
-
-third_tau_mass2000=Rad_2000.Get("third_tau_mass")
-third_tau_mass2000.SetLineColor(2)
-third_tau_mass2000.Draw('same')
-
-third_tau_mass3000=Rad_3000.Get("third_tau_mass")
-third_tau_mass3000.SetLineColor(4)
-third_tau_mass3000.Draw('same')
-
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
-leg.SetLineColor(1)
-leg.AddEntry(third_tau_mass1000, "third_tau_mass1000", "l")
-leg.AddEntry(third_tau_mass2000, "third_tau_mass2000", "l")
-leg.AddEntry(third_tau_mass3000, "third_tau_mass3000", "l")
-leg.Draw()
-
-third_tau_mass1000.SetMinimum(0)  # Set the minimum value for the y-axis
-third_tau_mass1000.SetMaximum(1200)  # Set the maximum value for the y-axis
-
-c26.SaveAs('out26.pdf')
-
-
-
-
-c27=TCanvas()
 dphi1000=Rad_1000.Get("dphi_HH")
 dphi1000.SetLineColor(1)
 dphi1000.Draw()        
@@ -735,13 +620,11 @@ leg.Draw()
 
 dphi1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dphi1000.SetMaximum(3000)  # Set the maximum value for the y-axis
-
-c27.SaveAs('out27.pdf')
-
+c23.SaveAs('out23.pdf')
 
 
 
-c28=TCanvas()
+c24=TCanvas()
 dphi_H1_1000=Rad_1000.Get("dphi_H1")
 dphi_H1_1000.SetLineColor(1)
 dphi_H1_1000.Draw()        
@@ -754,7 +637,7 @@ dphi_H1_3000=Rad_3000.Get("dphi_H1")
 dphi_H1_3000.SetLineColor(4)
 dphi_H1_3000.Draw('same')
 
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg = ROOT.TLegend(0.15, 0.75, 0.40, 0.9)
 leg.SetLineColor(1)
 leg.AddEntry(dphi_H1_1000, "dphi_H1_1000", "l")
 leg.AddEntry(dphi_H1_2000, "dphi_H1_2000", "l")
@@ -763,11 +646,11 @@ leg.Draw()
 
 dphi_H1_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dphi_H1_1000.SetMaximum(3000)  # Set the maximum value for the y-axis
+c24.SaveAs('out24.pdf')
 
-c28.SaveAs('out28.pdf')
 
 
-c29=TCanvas()
+c25=TCanvas()
 dphi_H2_1000=Rad_1000.Get("dphi_H2")
 dphi_H2_1000.SetLineColor(1)
 dphi_H2_1000.Draw()        
@@ -780,7 +663,7 @@ dphi_H2_3000=Rad_3000.Get("dphi_H2")
 dphi_H2_3000.SetLineColor(4)
 dphi_H2_3000.Draw('same')
 
-leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg = ROOT.TLegend(0.15, 0.75, 0.40, 0.9)
 leg.SetLineColor(1)
 leg.AddEntry(dphi_H2_1000, "dphi_H21000", "l")
 leg.AddEntry(dphi_H2_2000, "dphi_H22000", "l")
@@ -789,13 +672,11 @@ leg.Draw()
 
 dphi_H2_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dphi_H2_1000.SetMaximum(2000)  # Set the maximum value for the y-axis
-
-c29.SaveAs('out29.pdf')
-'''
+c25.SaveAs('out25.pdf')
 
 
 
-c30=TCanvas()
+c26=TCanvas()
 TMass_H1_1000=Rad_1000.Get("TMass_H1")
 TMass_H1_1000.SetLineColor(1)
 TMass_H1_1000.Draw()        
@@ -815,16 +696,15 @@ leg.AddEntry(TMass_H1_2000, "TMass_H1_2000", "l")
 leg.AddEntry(TMass_H1_3000, "TMass_H1_3000", "l")
 leg.Draw()
 
-c30.SetLogy()
-c30.Update()
+c26.SetLogy()
+c26.Update()
 y_max = TMass_H1_3000.GetMaximum()
 TMass_H1_1000.GetYaxis().SetRangeUser(0.1, 10 * y_max)  # Increase the y-axis range by a factor of 10
-
-c30.SaveAs('out30.pdf')
-
+c26.SaveAs('out26.pdf')
 
 
-c31=TCanvas()
+
+c27=TCanvas()
 TMass_H2_1000=Rad_1000.Get("TMass_H2")
 TMass_H2_1000.SetLineColor(1)
 TMass_H2_1000.Draw()        
@@ -844,16 +724,15 @@ leg.AddEntry(TMass_H2_2000, "TMass_H2_2000", "l")
 leg.AddEntry(TMass_H2_3000, "TMass_H2_3000", "l")
 leg.Draw()
 
-c31.SetLogy()
-c31.Update()
+c27.SetLogy()
+c27.Update()
 y_max = TMass_H2_3000.GetMaximum()
 TMass_H2_1000.GetYaxis().SetRangeUser(0.1, 10 * y_max)  # Increase the y-axis range by a factor of 10
-
-c31.SaveAs('out31.pdf')
-
+c27.SaveAs('out27.pdf')
 
 
-c32=TCanvas()
+
+c28=TCanvas()
 TMass_Radion_1000=Rad_1000.Get("TMass_Radion")
 TMass_Radion_1000.SetLineColor(1)
 TMass_Radion_1000.Draw()        
@@ -873,17 +752,15 @@ leg.AddEntry(TMass_Radion_2000, "TMass_Radion_2000", "l")
 leg.AddEntry(TMass_Radion_3000, "TMass_Radion_3000", "l")
 leg.Draw()
 
-c32.SetLogy()
-c32.Update()
+c28.SetLogy()
+c28.Update()
 y_max = TMass_Radion_3000.GetMaximum()
 TMass_Radion_1000.GetYaxis().SetRangeUser(0.1, 10 * y_max)  # Increase the y-axis range by a factor of 10
-
-c32.SaveAs('out32.pdf')
-
+c28.SaveAs('out28.pdf')
 
 
-'''
-c33=TCanvas()
+
+c29=TCanvas()
 dphi_H1_MET_1000=Rad_1000.Get("dphi_H1_MET")
 dphi_H1_MET_1000.SetLineColor(1)
 dphi_H1_MET_1000.Draw()        
@@ -904,14 +781,12 @@ leg.AddEntry(dphi_H1_MET_3000, "dphi_H1_MET_3000", "l")
 leg.Draw()
 
 dphi_H1_MET_1000.SetMinimum(0)  # Set the minimum value for the y-axis
-dphi_H1_MET_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
-
-
-c33.SaveAs('out33.pdf')
+dphi_H1_MET_1000.SetMaximum(1700)  # Set the maximum value for the y-axis
+c29.SaveAs('out29.pdf')
 
 
 
-c34=TCanvas()
+c30=TCanvas()
 dphi_H2_MET_1000=Rad_1000.Get("dphi_H2_MET")
 dphi_H2_MET_1000.SetLineColor(1)
 dphi_H2_MET_1000.Draw()        
@@ -933,14 +808,11 @@ leg.Draw()
 
 dphi_H2_MET_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dphi_H2_MET_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
+c30.SaveAs('out30.pdf')
 
 
 
-c34.SaveAs('out34.pdf')
-
-
-
-c35=TCanvas()
+c31=TCanvas()
 dphi_rad_MET_1000=Rad_1000.Get("dphi_rad_MET")
 dphi_rad_MET_1000.SetLineColor(1)
 dphi_rad_MET_1000.Draw()        
@@ -962,11 +834,163 @@ leg.Draw()
 
 dphi_rad_MET_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 dphi_rad_MET_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
+c31.SaveAs('out31.pdf')
 
 
+
+c32=TCanvas()
+dphi_H2_Rad_1000=Rad_1000.Get("dphi_H2_Rad")
+dphi_H2_Rad_1000.SetLineColor(1)
+dphi_H2_Rad_1000.Draw()        
+
+dphi_H2_Rad_2000=Rad_2000.Get("dphi_H2_Rad")
+dphi_H2_Rad_2000.SetLineColor(2)
+dphi_H2_Rad_2000.Draw('same')
+
+dphi_H2_Rad_3000=Rad_3000.Get("dphi_H2_Rad")
+dphi_H2_Rad_3000.SetLineColor(4)
+dphi_H2_Rad_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(dphi_H2_Rad_1000, "dphi_H2_Rad_1000", "l")
+leg.AddEntry(dphi_H2_Rad_2000, "dphi_H2_Rad_2000", "l")
+leg.AddEntry(dphi_H2_Rad_3000, "dphi_H2_Rad_3000", "l")
+leg.Draw()
+
+dphi_H2_Rad_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+dphi_H2_Rad_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
+c32.SaveAs('out32.pdf')
+
+
+
+c33=TCanvas()
+dphi_H1_Rad_1000=Rad_1000.Get("dphi_H1_Rad")
+dphi_H1_Rad_1000.SetLineColor(1)
+dphi_H1_Rad_1000.Draw()        
+
+dphi_H1_Rad_2000=Rad_2000.Get("dphi_H1_Rad")
+dphi_H1_Rad_2000.SetLineColor(2)
+dphi_H1_Rad_2000.Draw('same')
+
+dphi_H1_Rad_3000=Rad_3000.Get("dphi_H1_Rad")
+dphi_H1_Rad_3000.SetLineColor(4)
+dphi_H1_Rad_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(dphi_H1_Rad_1000, "dphi_H1_Rad_1000", "l")
+leg.AddEntry(dphi_H1_Rad_2000, "dphi_H1_Rad_2000", "l")
+leg.AddEntry(dphi_H1_Rad_3000, "dphi_H1_Rad_3000", "l")
+leg.Draw()
+
+dphi_H1_Rad_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+dphi_H1_Rad_1000.SetMaximum(2000)  # Set the maximum value for the y-axis
+c33.SaveAs('out33.pdf')
+
+
+
+c34=TCanvas()
+dr_H1_Rad_1000=Rad_1000.Get("dr_H1_Rad")
+dr_H1_Rad_1000.SetLineColor(1)
+dr_H1_Rad_1000.Draw()        
+
+dr_H1_Rad_2000=Rad_2000.Get("dr_H1_Rad")
+dr_H1_Rad_2000.SetLineColor(2)
+dr_H1_Rad_2000.Draw('same')
+
+dr_H1_Rad_3000=Rad_3000.Get("dr_H1_Rad")
+dr_H1_Rad_3000.SetLineColor(4)
+dr_H1_Rad_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(dr_H1_Rad_1000, "dr_H1_Rad_1000", "l")
+leg.AddEntry(dr_H1_Rad_2000, "dr_H1_Rad_2000", "l")
+leg.AddEntry(dr_H1_Rad_3000, "dr_H1_Rad_3000", "l")
+leg.Draw()
+
+dr_H1_Rad_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+dr_H1_Rad_1000.SetMaximum(2000)  # Set the maximum value for the y-axis
+c34.SaveAs('out34.pdf')
+
+
+
+c35=TCanvas()
+dr_H2_Rad_1000=Rad_1000.Get("dr_H2_Rad")
+dr_H2_Rad_1000.SetLineColor(1)
+dr_H2_Rad_1000.Draw()        
+
+dr_H2_Rad_2000=Rad_2000.Get("dr_H2_Rad")
+dr_H2_Rad_2000.SetLineColor(2)
+dr_H2_Rad_2000.Draw('same')
+
+dr_H2_Rad_3000=Rad_3000.Get("dr_H2_Rad")
+dr_H2_Rad_3000.SetLineColor(4)
+dr_H2_Rad_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(dr_H2_Rad_1000, "dr_H2_Rad_1000", "l")
+leg.AddEntry(dr_H2_Rad_2000, "dr_H2_Rad_2000", "l")
+leg.AddEntry(dr_H2_Rad_3000, "dr_H2_Rad_3000", "l")
+leg.Draw()
+
+dr_H2_Rad_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+dr_H2_Rad_1000.SetMaximum(2000)  # Set the maximum value for the y-axis
 c35.SaveAs('out35.pdf')
-'''
 
+
+
+c36=TCanvas()
+radion_pt_1000=Rad_1000.Get("radion_pt")
+radion_pt_1000.SetLineColor(1)
+radion_pt_1000.Draw()        
+
+radion_pt_2000=Rad_2000.Get("radion_pt")
+radion_pt_2000.SetLineColor(2)
+radion_pt_2000.Draw('same')
+
+radion_pt_3000=Rad_3000.Get("radion_pt")
+radion_pt_3000.SetLineColor(4)
+radion_pt_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(radion_pt_1000, "radion_pt_1000", "l")
+leg.AddEntry(radion_pt_2000, "radion_pt_2000", "l")
+leg.AddEntry(radion_pt_3000, "radion_pt_3000", "l")
+leg.Draw()
+
+radion_pt_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+radion_pt_1000.SetMaximum(1400)  # Set the maximum value for the y-axis
+c36.SaveAs('out36.pdf')
+
+
+
+c37=TCanvas()
+radion_inv_mass_1000=Rad_1000.Get("radion_inv_mass")
+radion_inv_mass_1000.SetLineColor(1)
+radion_inv_mass_1000.Draw()        
+
+radion_inv_mass_2000=Rad_2000.Get("radion_inv_mass")
+radion_inv_mass_2000.SetLineColor(2)
+radion_inv_mass_2000.Draw('same')
+
+radion_inv_mass_3000=Rad_3000.Get("radion_inv_mass")
+radion_inv_mass_3000.SetLineColor(4)
+radion_inv_mass_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(radion_inv_mass_1000, "radion_inv_mass_1000", "l")
+leg.AddEntry(radion_inv_mass_2000, "radion_inv_mass_2000", "l")
+leg.AddEntry(radion_inv_mass_3000, "radion_inv_mass_3000", "l")
+leg.Draw()
+
+radion_inv_mass_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+radion_inv_mass_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
+c37.SaveAs('out37.pdf')
 
 
 
