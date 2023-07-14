@@ -189,6 +189,7 @@ int main(int argc, char* argv[]) {
     float TMass_H1, TMass_H2, TMass_Radion;
     float dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H1_Rad, dphi_H2_Rad;
     float dr_H1_Rad, dr_H2_Rad;
+    float tau1_h1_pt, tau2_h1_pt, tau1_h2_pt, tau2_h2_pt;
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
 //
@@ -241,11 +242,10 @@ int main(int argc, char* argv[]) {
     outTr->Branch("dr_H2_Rad",&dr_H2_Rad,"dr_H2_Rad/F");
     outTr->Branch("dr_H1_Rad",&dr_H1_Rad,"dr_H1_Rad/F");
 
-
-    outTr->Branch("LeadingBoostedTauPt",&LeadingBoostedTauPt,"LeadingBoostedTauPt/F");
-    outTr->Branch("SubLeadingBoostedTauPt",&SubLeadingBoostedTauPt,"SubLeadingBoostedTauPt/F");
-    outTr->Branch("ThirdBoostedTauPt",&ThirdBoostedTauPt,"ThirdBoostedTauPt/F");
-    outTr->Branch("FourthBoostedTauPt",&FourthBoostedTauPt,"FourthBoostedTauPt/F");
+    outTr->Branch("tau1_h1_pt",&tau1_h1_pt,"tau1_h1_pt/F");
+    outTr->Branch("tau2_h1_pt",&tau2_h1_pt,"tau2_h1_pt/F");
+    outTr->Branch("tau1_h2_pt",&tau1_h2_pt,"tau1_h2_pt/F");
+    outTr->Branch("tau2_h2_pt",&tau2_h2_pt,"tau2_h2_pt/F");
 
 //    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
 //    outTr->Branch("nbjet",&nbjet,"nbjet/I");
@@ -417,6 +417,18 @@ for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
     plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5); 
     plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
     
+
+    // pt of each tau
+    tau1_h1_pt = leadtau4mom.Pt();
+    tau2_h1_pt = NewBoostedTau4Momentum.Pt();
+    tau1_h2_pt = SecondPair4Momentum.Pt();
+    tau2_h2_pt = LeadMatch4Momentum.Pt();
+
+    plotFill("tau1_h1_pt", tau1_h1_pt, 50, 0, 1500);
+    plotFill("tau2_h1_pt", tau2_h1_pt, 50, 0, 1500);
+    plotFill("tau1_h2_pt", tau1_h2_pt, 50, 0, 1500);
+    plotFill("tau2_h2_pt", tau2_h2_pt, 50, 0, 1500);
+
     // delta phi between the two tau in higgs 2
     dphi_H2 = SecondPair4Momentum.DeltaPhi(NewBoostedTau4Momentum);
     plotFill("dphi_H2", dphi_H2, 50, -4, 4);
