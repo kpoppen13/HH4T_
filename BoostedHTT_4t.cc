@@ -14,6 +14,21 @@
 
 
 
+// function to fix pairing issue
+// true = none of the conditions are met, so it is a good tau
+// false = one of the conditions is met, so it is a bad tau. 
+// want to skip false outputs
+bool isTauGood(int tau_index) {
+    bool good_or_bad = true; // Initialize to true by default
+    if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(tau_index) < 0.5 || 
+        boostedTaupfTausDiscriminationByDecayModeFinding->at(tau_index) < 0.5 || 
+        (boostedTauPt->at(tau_index) <= 30 || fabs(boostedTauEta->at(tau_index)) >= 2.3)) {
+        good_or_bad = false;
+    }
+    return good_or_bad;
+}
+
+
 //function to find which tau are pairs from same higgs
     int MatchBoostedTau(TLorentzVector Object4Momentum, int charge){
         TLorentzVector BoostTau4Momentum;
@@ -21,9 +36,8 @@
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
-            if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
-            if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
-            if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
+            if (isTauGood(ibtau) == false) continue;
+            //std::cout<<ibtau<<endl;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
                 min_dr = BoostTau4Momentum.DeltaR(Object4Momentum);
@@ -43,6 +57,7 @@
         float min_dR = 100;
         int min_dR_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+            if (isTauGood(ibtau) == false) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Muon4Momentum) < min_dR){
                 min_dR = boostedTau4Momentum.DeltaR(Muon4Momentum);
@@ -65,6 +80,7 @@
         float min_dR2 = 100;
         int min_dR_index2 = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+            if (isTauGood(ibtau) == false) continue;
             boostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if (boostedTau4Momentum.DeltaR(Electron4Momentum) < min_dR2){
                 min_dR2 = boostedTau4Momentum.DeltaR(Electron4Momentum);
@@ -81,6 +97,7 @@
 float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi) {
     return sqrt(pow(pt3lep + met, 2) - pow(px3lep + met * cos(metPhi), 2) - pow(py3lep + met * sin(metPhi), 2));
 }
+
 
 
 
@@ -190,6 +207,7 @@ int main(int argc, char* argv[]) {
     float dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H1_Rad, dphi_H2_Rad;
     float dr_H1_Rad, dr_H2_Rad;
     float tau1_h1_pt, tau2_h1_pt, tau1_h2_pt, tau2_h2_pt;
+    float rad_eta;
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
 //
@@ -223,7 +241,9 @@ int main(int argc, char* argv[]) {
 //    outTr->Branch("BoostedTauRawIso",&BoostedTauRawIso,"BoostedTauRawIso/F");
     outTr->Branch("higgs_pT",&higgs_pT,"higgs_pT/F");
     outTr->Branch("higgs_pT2",&higgs_pT2,"higgs_pT/F");
-    //outTr->Branch("lead_tau_iso",&lead_tau_iso,"lead_tau_iso/F");
+    outTr->Branch("rad_eta", &rad_eta, "rad_eta/F");
+    outTr->Branch("radion_pt", &radion_pt, "radion_pt/F");
+
     outTr->Branch("higgs1_dr",&higgs1_dr,"higgs1_dr/F");
     outTr->Branch("higgs2_dr",&higgs2_dr,"higgs2_dr/F");
     outTr->Branch("dphi_H1",&dphi_H1,"dphi_H1/F");
@@ -315,19 +335,7 @@ int main(int argc, char* argv[]) {
         TLorentzVector LeadTau4Momentum,SubTau4Momentum, Sub_and_Lead_Momentum, Met4Momentum, LeadTau4MomentumNominal, SubTau4MomentumNominal;
         //=========================================================================================================
 if (nBoostedTau < 3) continue;
-int min_index = 15;
-float lead_charge;
-TLorentzVector leadtau4mom;
-for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
-    if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(ibtau) < 0.5) continue;
-    if (boostedTaupfTausDiscriminationByDecayModeFinding->at(ibtau) < 0.5 ) continue;
-    if (boostedTauPt->at(ibtau) <= 30 || fabs(boostedTauEta->at(ibtau)) >= 2.3 ) continue;
-    if (ibtau<min_index){
-        min_index = ibtau;
-        leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
-        lead_charge = boostedTauCharge->at(ibtau);
-    }
-    }
+
 
     
     float LeadingBoostedTauPt= boostedTauPt->at(0);
@@ -375,9 +383,29 @@ for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
     //==================================================================
 
 
+
+
     //matching the pairs
+
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
-    //find index of the tau that matches to the lead tau 
+    // get lead tau
+    bool good_or_bad_match = true;
+    int min_index = 15;
+    float lead_charge;
+    TLorentzVector leadtau4mom;
+    for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+        good_or_bad_match = isTauGood(ibtau);
+        if (good_or_bad_match == false) continue;
+        if (ibtau<min_index){
+            min_index = ibtau;
+            leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
+            lead_charge = boostedTauCharge->at(ibtau);
+            
+        }
+
+    }
+    
+    // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
     int index_lead_match = MatchBoostedTau(leadtau4mom, lead_charge);
     if (index_lead_match < 0) continue;
     //plot their visible mass
@@ -394,28 +422,40 @@ for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
     plotFill("dphi_H1", dphi_H1, 50, -4, 4);
     
 
-    //now eliminate the two indices that are a pair 
+    // now eliminate the two indices that are a pair 
+    // check that the next "lead" tau also passes the requirements in isTauGood function
     float newcharge = 0;
+    bool good_or_bad_match2 = true;
+    int new_min_index = 15;
     for (int i=0; i <nBoostedTau; i++){
-        if (i == min_index) continue;  
-        if (i==index_lead_match) continue;
-        NewBoostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(i), boostedTauEta->at(i), boostedTauPhi->at(i), boostedTauMass->at(i));
-        newcharge = boostedTauCharge->at(i);
+        good_or_bad_match2 = isTauGood(i);
+        if (good_or_bad_match2 == false) continue;
+        if (i != min_index & i !=index_lead_match){
+            if (i<new_min_index){
+                new_min_index = i;
+                NewBoostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(i), boostedTauEta->at(i), boostedTauPhi->at(i), boostedTauMass->at(i));
+                newcharge = boostedTauCharge->at(i);
+        }
+        }
         plotFill("new_boosted_tau_index", i , 40, 0, 7);
+        
 
+    
+
+        //call match boosted tau function again now that the first pair is eliminated, in order to match the second pair
+        int index_match_2 = MatchBoostedTau(NewBoostedTau4Momentum, newcharge);
+        if (index_match_2 < 0) continue;
+        
+        //plot their visible mass
+        SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
+        plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
     }
-
-    //call match boosted tau function again now that the first pair is eliminated, in order to match the second pair
-    int index_match_2 = MatchBoostedTau(NewBoostedTau4Momentum, newcharge);
-    if (index_match_2 < 0) continue;
-    //plot their visible mass
-    SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
     higgs2_momentum = SecondPair4Momentum + NewBoostedTau4Momentum;
     higgs2_dr = NewBoostedTau4Momentum.DeltaR(SecondPair4Momentum);
     vis_mass2 = higgs2_momentum.M();
     plotFill("higgs2_vis_mass", vis_mass2, 50, 0, 250); 
     plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5); 
-    plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
+    
     
 
     // pt of each tau
@@ -451,9 +491,12 @@ for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
 
     //find invariant mass of the two higgs (radion) and plot
     TLorentzVector radion4momentum;
+    
     radion4momentum = higgs1_momentum + higgs2_momentum;
     radion_inv_mass = radion4momentum.M();
+    rad_eta = radion4momentum.Eta();
     plotFill("radion_inv_mass", radion_inv_mass, 50, 0, 2600); 
+    plotFill("radion_eta", rad_eta, 50, 0, 5);
 
     // delta R between the two Higgs
     dr_HH = higgs1_momentum.DeltaR(higgs2_momentum);
