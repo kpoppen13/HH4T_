@@ -994,6 +994,32 @@ c37.SaveAs('out37.pdf')
 
 
 
+c38=TCanvas()
+radion_eta_1000=Rad_1000.Get("radion_eta")
+radion_eta_1000.SetLineColor(1)
+radion_eta_1000.Draw()        
+
+radion_eta_2000=Rad_2000.Get("radion_eta")
+radion_eta_2000.SetLineColor(2)
+radion_eta_2000.Draw('same')
+
+radion_eta_3000=Rad_3000.Get("radion_eta")
+radion_eta_3000.SetLineColor(4)
+radion_eta_3000.Draw('same')
+
+leg = ROOT.TLegend(0.50, 0.75, 0.75, 0.9)
+leg.SetLineColor(1)
+leg.AddEntry(radion_eta_1000, "radion_eta_1000", "l")
+leg.AddEntry(radion_eta_2000, "radion_eta_2000", "l")
+leg.AddEntry(radion_eta_3000, "rradion_eta_3000", "l")
+leg.Draw()
+
+radion_eta_1000.SetMinimum(0)  # Set the minimum value for the y-axis
+radion_eta_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
+c38.SaveAs('out38.pdf')
+
+
+
 
 
 
