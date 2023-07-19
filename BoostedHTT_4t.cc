@@ -37,7 +37,25 @@ bool isTauGood(int tau_index) {
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
-            //std::cout<<ibtau<<endl;
+            BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
+            if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
+                min_dr = BoostTau4Momentum.DeltaR(Object4Momentum);
+                min_dr_index = ibtau;
+            }
+        }
+        return min_dr_index;
+    }
+
+//function to find which tau are pairs from same higgs
+    int MatchBoostedTauAgain(TLorentzVector Object4Momentum, int charge, int lead_index, int lead_index_match){
+        TLorentzVector BoostTau4Momentum;
+        float min_dr=100;
+        int min_dr_index = -1;
+        for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+            if (ibtau == lead_index) continue;
+            if (ibtau == lead_index_match) continue;
+            if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
+            if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
                 min_dr = BoostTau4Momentum.DeltaR(Object4Momentum);
@@ -386,7 +404,6 @@ if (nBoostedTau < 3) continue;
 
 
     //matching the pairs
-
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
     // get lead tau
     bool good_or_bad_match = true;
@@ -400,6 +417,7 @@ if (nBoostedTau < 3) continue;
             min_index = ibtau;
             leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
             lead_charge = boostedTauCharge->at(ibtau);
+            plotFill("lead_tau_index", ibtau, 50, 0, 5);
             
         }
 
@@ -408,55 +426,44 @@ if (nBoostedTau < 3) continue;
     // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
     int index_lead_match = MatchBoostedTau(leadtau4mom, lead_charge);
     if (index_lead_match < 0) continue;
-    //plot their visible mass
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_lead_match), boostedTauEta->at(index_lead_match), boostedTauPhi->at(index_lead_match), boostedTauMass->at(index_lead_match));
-    higgs1_dr = leadtau4mom.DeltaR(LeadMatch4Momentum);
-    higgs1_momentum = leadtau4mom + LeadMatch4Momentum;
-    vis_mass= higgs1_momentum.M();
-    plotFill("higgs1_vis_mass", vis_mass, 50, 0, 250);
-    plotFill("higgs1_dr", higgs1_dr, 50, 0, 1.5);
     plotFill("lead_match_indices", index_lead_match, 40, .5, 8);
 
-    // delta phi between the two tau in higgs 1
-    dphi_H1 = LeadMatch4Momentum.DeltaPhi(leadtau4mom);
-    plotFill("dphi_H1", dphi_H1, 50, -4, 4);
-    
 
-    // now eliminate the two indices that are a pair 
-    // check that the next "lead" tau also passes the requirements in isTauGood function
+
+
+    int min2_index = 15;
     float newcharge = 0;
-    bool good_or_bad_match2 = true;
-    int new_min_index = 15;
-    for (int i=0; i <nBoostedTau; i++){
-        good_or_bad_match2 = isTauGood(i);
-        if (good_or_bad_match2 == false) continue;
-        if (i != min_index & i !=index_lead_match){
-            if (i<new_min_index){
-                new_min_index = i;
-                NewBoostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(i), boostedTauEta->at(i), boostedTauPhi->at(i), boostedTauMass->at(i));
-                newcharge = boostedTauCharge->at(i);
+    for (int i = 0; i< nBoostedTau; i++){
+        if (i == min_index) continue;
+        if (i == index_lead_match) continue;
+        if (isTauGood(i) == false) continue;
+        if (i<min2_index){
+            min2_index = i;
+            NewBoostedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(i), boostedTauEta->at(i), boostedTauPhi->at(i), boostedTauMass->at(i));
+            newcharge = boostedTauCharge->at(i);
+            plotFill("new_boosted_tau_index", i , 40, 0, 7);
         }
-        }
-        plotFill("new_boosted_tau_index", i , 40, 0, 7);
-        
+    } 
 
+    int index_match_2 = MatchBoostedTauAgain(NewBoostedTau4Momentum, newcharge, min_index, index_lead_match);
+    if (index_match_2 < 0) continue; 
+    SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
+    plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
     
 
-        //call match boosted tau function again now that the first pair is eliminated, in order to match the second pair
-        int index_match_2 = MatchBoostedTau(NewBoostedTau4Momentum, newcharge);
-        if (index_match_2 < 0) continue;
-        
-        //plot their visible mass
-        SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
-        plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8);
-    }
+
+    //constructing the higgs, get their dr and vis mass
+    higgs1_momentum = leadtau4mom + LeadMatch4Momentum;
     higgs2_momentum = SecondPair4Momentum + NewBoostedTau4Momentum;
+    higgs1_dr = leadtau4mom.DeltaR(LeadMatch4Momentum);
     higgs2_dr = NewBoostedTau4Momentum.DeltaR(SecondPair4Momentum);
+    vis_mass= higgs1_momentum.M();
     vis_mass2 = higgs2_momentum.M();
+    plotFill("higgs1_vis_mass", vis_mass, 50, 0, 250);
+    plotFill("higgs1_dr", higgs1_dr, 50, 0, 1.5);
     plotFill("higgs2_vis_mass", vis_mass2, 50, 0, 250); 
     plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5); 
-    
-    
 
     // pt of each tau
     tau1_h1_pt = leadtau4mom.Pt();
@@ -473,11 +480,13 @@ if (nBoostedTau < 3) continue;
     dphi_H2 = SecondPair4Momentum.DeltaPhi(NewBoostedTau4Momentum);
     plotFill("dphi_H2", dphi_H2, 50, -4, 4);
 
+    // delta phi between the two tau in higgs 1
+    dphi_H1 = LeadMatch4Momentum.DeltaPhi(leadtau4mom);
+    plotFill("dphi_H1", dphi_H1, 50, -4, 4);
 
     //delta phi between the two higgs
     dphi_HH = higgs1_momentum.DeltaPhi(higgs2_momentum);
     plotFill("dphi_HH", dphi_HH, 50, -4, 4);
-
 
 
     //get the pt of each higgs
@@ -491,7 +500,6 @@ if (nBoostedTau < 3) continue;
 
     //find invariant mass of the two higgs (radion) and plot
     TLorentzVector radion4momentum;
-    
     radion4momentum = higgs1_momentum + higgs2_momentum;
     radion_inv_mass = radion4momentum.M();
     rad_eta = radion4momentum.Eta();
@@ -508,7 +516,6 @@ if (nBoostedTau < 3) continue;
     TLorentzVector rad4Momentum;
     rad4Momentum = leadtau4mom + LeadMatch4Momentum + NewBoostedTau4Momentum + SecondPair4Momentum;
     HT = rad4Momentum.Pt();
-    
     plotFill("HT", HT, 50, 0, 1600);
 
     //MET
@@ -598,8 +605,6 @@ if (nBoostedTau < 3) continue;
 
 
 
-
-
     // Fill the tree
     outTr->Fill();
         
@@ -623,6 +628,11 @@ if (nBoostedTau < 3) continue;
     
     fout->Close();
 }
+
+
+
+
+
 
 
 
