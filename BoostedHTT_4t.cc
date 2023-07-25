@@ -16,9 +16,7 @@
 
 
 // function to fix pairing issue
-// true = none of the conditions are met, so it is a good tau
-// false = one of the conditions is met, so it is a bad tau. 
-// want to skip false outputs
+// true = good tau, false = bad tau
 bool isTauGood(int tau_index) {
     bool good_or_bad = true; // Initialize to true by default
     if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(tau_index) < 0.5 || 
@@ -117,27 +115,42 @@ float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi)
     return sqrt(pow(pt3lep + met, 2) - pow(px3lep + met * cos(metPhi), 2) - pow(py3lep + met * sin(metPhi), 2));
 }
 
+// function to find Z to ee multiplicity
 int Zto_ee_multiplicity(){
     TLorentzVector lead_electron4Momentum, sublead_electron4Momentum;
     int min_index = 100;
     int min_sublead_index = 100;
     int Z_multiplicity_ele = 0;
+    bool eleMVAId= false;
+    bool eleMVAId2 = false;
     for (int ibtau = 0; ibtau < nEle; ++ibtau){
+        // check ID
+        if (fabs (eleSCEta->at(ibtau)) <= 0.8 && eleIDMVANoIso->at(ibtau) >    0.837   ) eleMVAId= true;
+        else if (fabs (eleSCEta->at(ibtau)) >  0.8 &&fabs (eleSCEta->at(ibtau)) <=  1.5 && eleIDMVANoIso->at(ibtau) >    0.715   ) eleMVAId= true;
+        else if ( fabs (eleSCEta->at(ibtau)) >=  1.5 && eleIDMVANoIso->at(ibtau) >   0.357   ) eleMVAId= true;
+        else eleMVAId= false;
+        if (!eleMVAId) continue;
         // create lead
         if (ibtau<min_index){
             min_index = ibtau;
             lead_electron4Momentum.SetPtEtaPhiM(elePt->at(ibtau), eleEta->at(ibtau), elePhi->at(ibtau), 0.000511);
         }
-        // create sublead, check that they have opposite signs
-        for (int jbtau = 0; jbtau < nEle; ++jbtau){
-            if (eleCharge->at(min_index) * eleCharge->at(jbtau) > 0) continue;
-            if (jbtau < min_sublead_index){
-                min_sublead_index = jbtau;
-                sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jbtau), eleEta->at(jbtau), elePhi->at(jbtau), 0.000511);
-            }
+    // create sublead, check that they have opposite signs
+    for (int jbtau = 0; jbtau < nEle; ++jbtau){
+        if (jbtau == min_index) continue;
+        // check ID
+        if (fabs (eleSCEta->at(jbtau)) <= 0.8 && eleIDMVANoIso->at(jbtau) >    0.837   ) eleMVAId2= true;
+        else if (fabs (eleSCEta->at(jbtau)) >  0.8 &&fabs (eleSCEta->at(jbtau)) <=  1.5 && eleIDMVANoIso->at(jbtau) >    0.715   ) eleMVAId2= true;
+        else if ( fabs (eleSCEta->at(jbtau)) >=  1.5 && eleIDMVANoIso->at(jbtau) >   0.357   ) eleMVAId2= true;
+        else eleMVAId2= false;
+        if (!eleMVAId2) continue;
+        if (eleCharge->at(min_index) * eleCharge->at(jbtau) > 0) continue;
+        if (jbtau < min_sublead_index){
+            min_sublead_index = jbtau;
+            sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jbtau), eleEta->at(jbtau), elePhi->at(jbtau), 0.000511);
         }
-        //check ID
-
+    }
+    //find mass of the electron pair, add to Z multiplicity
     float ee_mass = (lead_electron4Momentum + sublead_electron4Momentum).M();
     if (ee_mass >= 80 & ee_mass <= 100){
         Z_multiplicity_ele++;
@@ -147,27 +160,34 @@ int Zto_ee_multiplicity(){
 }
 
 
+// function to find Z to muon muon multiplicity
 int Zto_mumu_multiplicity(){
     TLorentzVector lead_muon4Momentum, sublead_muon4Momentum;
     int min_index = 100;
     int min_sublead_index = 100;
     int Z_multiplicity_muon = 0;
     for (int ibtau = 0; ibtau < nMu; ++ibtau){
+        //check ID of lead
+        bool MuId=((muIDbit->at(ibtau) >> 1 & 1)  && fabs(muD0->at(ibtau)) < 0.045 && fabs(muDz->at(ibtau)) < 0.2);
+        if (MuId == false) continue;
         // create lead
         if (ibtau<min_index){
             min_index = ibtau;
             lead_muon4Momentum.SetPtEtaPhiM(muPt->at(ibtau), muEta->at(ibtau), muPhi->at(ibtau), 0.10565837);
         }
-        // create sublead, check that they have opposite signs
-        for (int jbtau = 0; jbtau < nMu; ++jbtau){
-            if (muCharge->at(min_index) * muCharge->at(jbtau) > 0) continue;
-            if (jbtau < min_sublead_index){
-                min_sublead_index = jbtau;
-                sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jbtau), muEta->at(jbtau), muPhi->at(jbtau), 0.10565837);
-            }
+    // create sublead, check that they have opposite signs
+    for (int jbtau = 0; jbtau < nMu; ++jbtau){
+        if (jbtau == min_index) continue;
+        //check ID of sublead
+        bool MuId=((muIDbit->at(jbtau) >> 1 & 1)  && fabs(muD0->at(jbtau)) < 0.045 && fabs(muDz->at(jbtau)) < 0.2);
+        if (MuId == false) continue;
+        if (muCharge->at(min_index) * muCharge->at(jbtau) > 0) continue;
+        if (jbtau < min_sublead_index){
+            min_sublead_index = jbtau;
+            sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jbtau), muEta->at(jbtau), muPhi->at(jbtau), 0.10565837);
         }
-        //check ID
-
+    }
+    // find mass of muon pair, add to Z multiplicity
     float mumu_mass = (lead_muon4Momentum + sublead_muon4Momentum).M();
     if (mumu_mass >= 80 & mumu_mass <= 100){
         Z_multiplicity_muon++;
