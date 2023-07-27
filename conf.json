@@ -1,0 +1,11 @@
+{
+  "model_path": "/uscms/home/kpoppen/nobackup/HH4tau/HH4tau/CMSSW_13_0_0/src/ann-tthbb-dl/model.h5",
+  "input_tree_name": "tree_4tau;1",
+  "output_tree_name": "output_eval_tree",
+  "input_branches": ["radion_pt", "vis_mass", "vis_mass2", "radion_inv_mass",
+  "HT", "rad_eta", "higgs2_dr", "higgs1_dr", "dr_HH"] ,
+  "evaluation_branches": ["radion_pt", "vis_mass", "vis_mass2", "radion_inv_mass",
+  "HT", "rad_eta", "higgs2_dr", "higgs1_dr", "dr_HH"] ,
+  "output_column_name": "HH4tau"
+}
+
