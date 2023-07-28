@@ -138,37 +138,21 @@ int Zto_ee_multiplicity(){
             lead_electron4Momentum.SetPtEtaPhiM(elePt->at(ibtau), eleEta->at(ibtau), elePhi->at(ibtau), 0.000511);
         }
     }
+    // create sublead, check that they have opposite signs
     for (int jbtau = 0; jbtau < nEle; ++jbtau){
         if (jbtau == min_index) continue;
-        if (fabs (eleSCEta->at(jbtau)) <= 0.8 && eleIDMVANoIso->at(jbtau) >    0.837   ) eleMVAId= true;
-        else if (fabs (eleSCEta->at(jbtau)) >  0.8 &&fabs (eleSCEta->at(jbtau)) <=  1.5 && eleIDMVANoIso->at(jbtau) >    0.715   ) eleMVAId= true;
-        else if ( fabs (eleSCEta->at(jbtau)) >=  1.5 && eleIDMVANoIso->at(jbtau) >   0.357   ) eleMVAId= true;
-        else eleMVAId= false;
-        if (!eleMVAId) continue;
+        // check ID
+        if (fabs (eleSCEta->at(jbtau)) <= 0.8 && eleIDMVANoIso->at(jbtau) >    0.837   ) eleMVAId2= true;
+        else if (fabs (eleSCEta->at(jbtau)) >  0.8 &&fabs (eleSCEta->at(jbtau)) <=  1.5 && eleIDMVANoIso->at(jbtau) >    0.715   ) eleMVAId2= true;
+        else if ( fabs (eleSCEta->at(jbtau)) >=  1.5 && eleIDMVANoIso->at(jbtau) >   0.357   ) eleMVAId2= true;
+        else eleMVAId2= false;
+        if (!eleMVAId2) continue;
         if (eleCharge->at(min_index) * eleCharge->at(jbtau) > 0) continue;
-        sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jbtau), eleEta->at(jbtau), elePhi->at(jbtau), 0.000511);
-        if(lead_electron4Momentum.DeltaR(sublead_electron4Momentum) < min_dr ){
-            min_dr = lead_electron4Momentum.DeltaR(sublead_electron4Momentum);
-            min_dr_index = jbtau;
+        if (jbtau < min_sublead_index){
+            min_sublead_index = jbtau;
             sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jbtau), eleEta->at(jbtau), elePhi->at(jbtau), 0.000511);
         }
     }
-
-    // create sublead, check that they have opposite signs
-    //for (int jbtau = 0; jbtau < nEle; ++jbtau){
-        //if (jbtau == min_index) continue;
-        // check ID
-        //if (fabs (eleSCEta->at(jbtau)) <= 0.8 && eleIDMVANoIso->at(jbtau) >    0.837   ) eleMVAId2= true;
-        //else if (fabs (eleSCEta->at(jbtau)) >  0.8 &&fabs (eleSCEta->at(jbtau)) <=  1.5 && eleIDMVANoIso->at(jbtau) >    0.715   ) eleMVAId2= true;
-        //else if ( fabs (eleSCEta->at(jbtau)) >=  1.5 && eleIDMVANoIso->at(jbtau) >   0.357   ) eleMVAId2= true;
-        //else eleMVAId2= false;
-        //if (!eleMVAId2) continue;
-        //if (eleCharge->at(min_index) * eleCharge->at(jbtau) > 0) continue;
-        //if (jbtau < min_sublead_index){
-            //min_sublead_index = jbtau;
-            //sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jbtau), eleEta->at(jbtau), elePhi->at(jbtau), 0.000511);
-        //}
-    //}
     //find mass of the electron pair, add to Z multiplicity
     float ee_mass = (lead_electron4Momentum + sublead_electron4Momentum).M();
     if (ee_mass >= 80 && ee_mass <= 100){
@@ -197,30 +181,18 @@ int Zto_mumu_multiplicity(){
             lead_muon4Momentum.SetPtEtaPhiM(muPt->at(ibtau), muEta->at(ibtau), muPhi->at(ibtau), 0.10565837);
         }
     }
+    // create sublead, check that they have opposite signs
     for (int jbtau = 0; jbtau < nMu; ++jbtau){
         if (jbtau == min_index) continue;
+        //check ID of sublead
         bool MuId2=((muIDbit->at(jbtau) >> 1 & 1)  && fabs(muD0->at(jbtau)) < 0.045 && fabs(muDz->at(jbtau)) < 0.2);
         if (MuId2 == false) continue;
         if (muCharge->at(min_index) * muCharge->at(jbtau) > 0) continue;
-        sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jbtau), muEta->at(jbtau), muPhi->at(jbtau), 0.10565837);
-        if(lead_muon4Momentum.DeltaR(sublead_muon4Momentum) < min_dr ){
-            min_dr = lead_muon4Momentum.DeltaR(sublead_muon4Momentum);
-            min_dr_index = jbtau;
+        if (jbtau < min_sublead_index){
+            min_sublead_index = jbtau;
             sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jbtau), muEta->at(jbtau), muPhi->at(jbtau), 0.10565837);
         }
     }
-    // create sublead, check that they have opposite signs
-    //for (int jbtau = 0; jbtau < nMu; ++jbtau){
-        //if (jbtau == min_index) continue;
-        //check ID of sublead
-        //bool MuId2=((muIDbit->at(jbtau) >> 1 & 1)  && fabs(muD0->at(jbtau)) < 0.045 && fabs(muDz->at(jbtau)) < 0.2);
-        //if (MuId2 == false) continue;
-        //if (muCharge->at(min_index) * muCharge->at(jbtau) > 0) continue;
-        //if (jbtau < min_sublead_index){
-            //min_sublead_index = jbtau;
-            //sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jbtau), muEta->at(jbtau), muPhi->at(jbtau), 0.10565837);
-        //}
-    //}
     // find mass of muon pair, add to Z multiplicity
     float mumu_mass = (lead_muon4Momentum + sublead_muon4Momentum).M();
     if (mumu_mass >= 80 && mumu_mass <= 100){
@@ -229,6 +201,12 @@ int Zto_mumu_multiplicity(){
 
     return Z_multiplicity_muon;
 }
+
+
+
+
+
+
 
 
 
@@ -533,7 +511,7 @@ if (nBoostedTau < 3) continue;
 
     int Z_multiplicity = 0;
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
-    plotFill("Z_multiplicity", Z_multiplicity, 50, 0, 10);
+    plotFill("Z_multiplicity", Z_multiplicity, 50, 0, 4.5);
     if (Z_multiplicity > 0) continue;
     
 
@@ -636,7 +614,7 @@ if (nBoostedTau < 3) continue;
     radion_inv_mass = radion4momentum.M();
     rad_eta = radion4momentum.Eta();
     plotFill("radion_inv_mass", radion_inv_mass, 50, 0, 2600, LumiWeight); 
-    plotFill("radion_eta", rad_eta, 50, 0, 5, LumiWeight);
+    plotFill("radion_eta", rad_eta, 50, -5, 5, LumiWeight);
 
     // delta R between the two Higgs
     dr_HH = higgs1_momentum.DeltaR(higgs2_momentum);
