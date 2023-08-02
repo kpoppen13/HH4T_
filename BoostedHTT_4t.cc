@@ -2,6 +2,10 @@
 #include <string>
 #include <ostream>
 #include <vector>
+
+#include <list>
+#include <algorithm>
+
 #include "RooWorkspace.h"
 #include "RooRealVar.h"
 #include "RooFunctor.h"
@@ -118,44 +122,46 @@ float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi)
 // function to find Z to ee multiplicity
 int Zto_ee_multiplicity(){
     TLorentzVector lead_electron4Momentum, sublead_electron4Momentum;
-    int min_index = 100;
-    int min_sublead_index = 100;
     int Z_multiplicity_ele = 0;
     bool eleMVAId= false;
     bool eleMVAId2 = false;
-    float min_dr=100;
-    int min_dr_index = -1;
+    std::vector<int> indices_used;
     for (int iEle = 0; iEle < nEle; ++iEle){
+        std::vector<int>::iterator it = std::find(indices_used.begin(), indices_used.end(), iEle);
+        if (it != indices_used.end()) continue;
         // check ID
         if (fabs (eleSCEta->at(iEle)) <= 0.8 && eleIDMVANoIso->at(iEle) >    0.837   ) eleMVAId= true;
         else if (fabs (eleSCEta->at(iEle)) >  0.8 &&fabs (eleSCEta->at(iEle)) <=  1.5 && eleIDMVANoIso->at(iEle) >    0.715   ) eleMVAId= true;
         else if ( fabs (eleSCEta->at(iEle)) >=  1.5 && eleIDMVANoIso->at(iEle) >   0.357   ) eleMVAId= true;
         else eleMVAId= false;
         if (!eleMVAId) continue;
-        // create lead
-        if (iEle<min_index){
-            min_index = iEle;
-            lead_electron4Momentum.SetPtEtaPhiM(elePt->at(min_index), eleEta->at(min_index), elePhi->at(min_index), 0.000511);
-        }
-        for (int jEle = 0; jEle < nEle; ++jEle){
+        
+        lead_electron4Momentum.SetPtEtaPhiM(elePt->at(iEle), eleEta->at(iEle), elePhi->at(iEle), 0.000511);
+        
+        for (int jEle = iEle +1; jEle < nEle; ++jEle){
+            std::vector<int>::iterator it = std::find(indices_used.begin(), indices_used.end(), jEle);
+            if (it != indices_used.end()) continue;
             if (fabs (eleSCEta->at(jEle)) <= 0.8 && eleIDMVANoIso->at(jEle) >    0.837   ) eleMVAId2= true;
             else if (fabs (eleSCEta->at(jEle)) >  0.8 &&fabs (eleSCEta->at(jEle)) <=  1.5 && eleIDMVANoIso->at(jEle) >    0.715   ) eleMVAId2= true;
             else if ( fabs (eleSCEta->at(jEle)) >=  1.5 && eleIDMVANoIso->at(jEle) >   0.357   ) eleMVAId2= true;
             else eleMVAId2= false;
             if (!eleMVAId2) continue;
-            if (eleCharge->at(min_index) * eleCharge->at(jEle) > 0) continue;
-
+            if (eleCharge->at(iEle) * eleCharge->at(jEle) > 0) continue;
             sublead_electron4Momentum.SetPtEtaPhiM(elePt->at(jEle), eleEta->at(jEle), elePhi->at(jEle), 0.000511);
-
         //find mass of the electron pair, add to Z multiplicity
         float ee_mass = (lead_electron4Momentum + sublead_electron4Momentum).M();
         if (ee_mass >= 80 && ee_mass <= 100){
             Z_multiplicity_ele++;
-                }
-            }
+            indices_used.push_back(iEle);
+            indices_used.push_back(jEle);
         }
-        return Z_multiplicity_ele;
+        
+            }
     }
+            return Z_multiplicity_ele;
+    }
+    
+
 
 
 
@@ -167,33 +173,35 @@ int Zto_mumu_multiplicity(){
     int Z_multiplicity_muon = 0;
     float min_dr=100;
     int min_dr_index = -1;
+    std::vector<int> indices_used;
     for (int iMu = 0; iMu < nMu; ++iMu){
+        std::vector<int>::iterator it = std::find(indices_used.begin(), indices_used.end(), iMu);
+        if (it != indices_used.end()) continue;
         //check ID of lead
         bool MuId=((muIDbit->at(iMu) >> 1 & 1)  && fabs(muD0->at(iMu)) < 0.045 && fabs(muDz->at(iMu)) < 0.2);
         if (MuId == false) continue;
-        // create lead
-        if (iMu<min_index){
-            min_index = iMu;
-            lead_muon4Momentum.SetPtEtaPhiM(muPt->at(min_index), muEta->at(min_index), muPhi->at(min_index), 0.10565837);
-        }
-        for (int jMu = 0; jMu < nMu; ++jMu){
-            //if (jMu == min_index) continue;
-            bool MuId2=((muIDbit->at(iMu) >> 1 & 1)  && fabs(muD0->at(iMu)) < 0.045 && fabs(muDz->at(iMu)) < 0.2);
-            if (MuId2 == false) continue;
-            if (muCharge->at(min_index) * muCharge->at(jMu) > 0) continue;
-            
+        lead_muon4Momentum.SetPtEtaPhiM(muPt->at(iMu), muEta->at(iMu), muPhi->at(iMu), 0.10565837);
+
+        for (int jMu = iMu +1; jMu < nMu; ++jMu){
+            std::vector<int>::iterator it = std::find(indices_used.begin(), indices_used.end(), jMu);
+            if (it != indices_used.end()) continue;
+            bool MuId2=((muIDbit->at(jMu) >> 1 & 1)  && fabs(muD0->at(jMu)) < 0.045 && fabs(muDz->at(jMu)) < 0.2);
+            if (! MuId2) continue;
+            if (muCharge->at(iMu) * muCharge->at(jMu) > 0) continue;
             sublead_muon4Momentum.SetPtEtaPhiM(muPt->at(jMu), muEta->at(jMu), muPhi->at(jMu), 0.10565837);
             
+
         // find mass of muon pair, add to Z multiplicity
         float mumu_mass = (lead_muon4Momentum + sublead_muon4Momentum).M();
         if (mumu_mass >= 80 && mumu_mass <= 100){
-        Z_multiplicity_muon++;
+            Z_multiplicity_muon++;
+            indices_used.push_back(iMu);
+            indices_used.push_back(jMu);
             }
         }
     }
-        return Z_multiplicity_muon;
+    return Z_multiplicity_muon;
 }
-
 
 
 
@@ -498,6 +506,9 @@ if (nBoostedTau < 3) continue;
     int Z_multiplicity = 0;
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
     plotFill("Z_multiplicity", Z_multiplicity, 50, 0, 4.5);
+    plotFill("Z_muon_mult", Zto_mumu_multiplicity(), 50, 0, 4.5);
+    plotFill("Z_ee_mult", Zto_ee_multiplicity(), 50, 0, 4.5);
+    //plotFill("Z_ee_mumu_mult", Zto_mumu_multiplicity(), Zto_ee_multiplicity(), 50, 0, 10);
     if (Z_multiplicity > 0) continue;
     
 
@@ -526,7 +537,6 @@ if (nBoostedTau < 3) continue;
     if (index_lead_match < 0) continue;
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_lead_match), boostedTauEta->at(index_lead_match), boostedTauPhi->at(index_lead_match), boostedTauMass->at(index_lead_match));
     plotFill("Lead_Tau's_Match_Index", index_lead_match, 40, .5, 8, LumiWeight);
-
 
     int min2_index = 15;
     float newcharge = 0;
