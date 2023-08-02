@@ -61,8 +61,7 @@ def prepare_data():
 
     Selection_inputs = [] ## don't need
  
-    ML_inputs = ["radion_pt", "vis_mass", "vis_mass2", "radion_inv_mass",
-                 "HT", "rad_eta", "higgs2_dr", "higgs1_dr",] 
+    ML_inputs = ["radion_pt", "vis_mass", "vis_mass2", "radion_inv_mass","rad_eta", "higgs2_dr", "higgs1_dr"] 
 
     print('Preparing data')
     for s in samples: # loop over samples
@@ -137,7 +136,7 @@ def nn_model():
     # create model
     model = Sequential()
     ###change dimension here (input_dim = number of variables in ML inputs) 
-    model.add(Dense(249, input_dim=8,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
+    model.add(Dense(249, input_dim=7,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.09))
     model.add(Dense(24,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
