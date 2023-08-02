@@ -19,7 +19,7 @@
 
 
 
-// function to fix pairing issue
+// function to chek if tau is good 
 // true = good tau, false = bad tau
 bool isTauGood(int tau_index) {
     bool good_or_bad = true; // Initialize to true by default
