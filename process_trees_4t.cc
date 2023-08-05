@@ -79,7 +79,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         //float NN_disc,MuMatchedIsolation,EleMatchedIsolation,NN_disc_ZTT,NN_disc_QCD;
         //float higgs_pT, higgs_m, m_sv, gen_higgs_pT, gen_leadjet_pT;
         //bool isGenTauSub_, isGenTauLead_;
-        double weight, NN_disc, radion_pt, vis_mass, vis_mass2, rad_eta, higgs1_dr, higgs2_dr, dphi_H1, dphi_H1_MET;
+        double NN_disc, radion_pt, vis_mass, vis_mass2, rad_eta, higgs1_dr, higgs2_dr, dphi_H1, dphi_H1_MET;
         double dphi_H2, dphi_H2_MET, dr_HH, dr_H1_Rad, dphi_HH, dr_H2_Rad, dphi_rad_MET, LumiWeight, radion_inv_mass, HH4tau_NN_output;
 
 
@@ -143,10 +143,10 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             
             // use weight or LumiWeight?? 
             if (NN_disc<0.7) { // final analysis
-                hists_1d.at(categories.at(lowPurity)).back()->Fill(observable, weight);
+                hists_1d.at(categories.at(lowPurity)).back()->Fill(observable, LumiWeight);
             }
             else{
-            hists_1d.at(categories.at(highPurity)).back()->Fill(observable, weight);
+            hists_1d.at(categories.at(highPurity)).back()->Fill(observable, LumiWeight);
       }
         }
         delete fin;
