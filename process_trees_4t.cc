@@ -83,7 +83,6 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         double dphi_H2, dphi_H2_MET, dr_HH, dr_H1_Rad, dphi_HH, dr_H2_Rad, dphi_rad_MET, LumiWeight, radion_inv_mass, HH4tau_NN_output;
 
 
-
         tree->SetBranchAddress("radion_pt",&radion_pt);
         tree->SetBranchAddress("vis_mass",&vis_mass);
         tree->SetBranchAddress("vis_mass2",&vis_mass2);
@@ -140,12 +139,14 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
             //            ################    Fill  data, signal & non QCD Bkg
             //            ################################################################################
-            // check if I use 'weight' or 'LumiWeight'
+            
+            
+            // use weight or LumiWeight?? 
             if (NN_disc<0.7) { // final analysis
-                hists_1d.at(categories.at(lowPurity)).back()->Fill(observable,  LumiWeight);
+                hists_1d.at(categories.at(lowPurity)).back()->Fill(observable, weight);
             }
             else{
-            hists_1d.at(categories.at(highPurity)).back()->Fill(observable,  LumiWeight);
+            hists_1d.at(categories.at(highPurity)).back()->Fill(observable, weight);
       }
         }
         delete fin;
