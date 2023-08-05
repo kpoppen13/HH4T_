@@ -502,6 +502,7 @@ if (nBoostedTau < 3) continue;
     if (LumiWeight == 0){
         LumiWeight = 1;
     }
+    std::cout<<LumiWeight<<endl;
 
     int Z_multiplicity = 0;
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
