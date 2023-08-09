@@ -15,7 +15,7 @@ def add_lumi():
     lumi.SetTextColor(    1 )
     lumi.SetTextSize(0.06)
     lumi.SetTextFont (   42 )
-    lumi.AddText("41.5 fb^{-1} (13 TeV)")
+    lumi.AddText("59 fb^{-1} (13 TeV)")
 #    lumi.AddText("77.4 fb^{-1} (13 TeV)")
     return lumi
 
@@ -42,7 +42,7 @@ def add_Preliminary():
     lumi.SetFillStyle(    0 )
     lumi.SetTextAlign(   12 )
     lumi.SetTextColor(    1 )
-    lumi.AddText("Preliminary")
+    lumi.AddText("Simulation")
     return lumi
 
 def make_legend():
@@ -57,7 +57,7 @@ def make_legend():
     return output
 
 def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
-    MaxRange=200
+    MaxRange=1500
     ROOT.gStyle.SetFrameLineWidth(3)
     ROOT.gStyle.SetLineWidth(3)
     ROOT.gStyle.SetOptStat(0)
@@ -76,8 +76,10 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
 #    categories=["MuTau_DiJet","MuTau_JetBJet"]
 #    ncat=
 
+
+    print  ("categoriy is "), categoriy
     Data=file.Get(categoriy).Get("data_obs")
-    Data.Rebin(RB_)
+#    Data.Rebin(RB_)
     
     ## print Data table for HEPDATA EXO-17-015
     for bin in range(Data.GetNbinsX()):
@@ -95,18 +97,31 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
 
     
     DY=file.Get(categoriy).Get("output_bkg_DY")
+
     #QCD.Rebin(RB_)
 
     T_tchan=file.Get(categoriy).Get("output_bkg_T-tchan")
+    if not T_tchan:
+        T_tchan=file.Get(categoriy).Get("output_bkg_WZ")
+        T_tchan.Scale(1/1000.)
     #W.Rebin(RB_)
 
     TT=file.Get(categoriy).Get("output_bkg_TT")
     #TT.Rebin(RB_)
 
     Tbar_tW=file.Get(categoriy).Get("output_bkg_Tbar-tW")
+    if not Tbar_tW:
+        Tbar_tW=file.Get(categoriy).Get("output_bkg_WZ")
+        Tbar_tW.Scale(1/1000.)
+
+    
     #ZJ.Rebin(RB_)
     
     VV=file.Get(categoriy).Get("output_bkg_VV2l2nu")
+    if not VV:
+        VV=file.Get(categoriy).Get("output_bkg_WZ")
+        VV.Scale(1/1000.)
+    
     #VV.Rebin(RB_)
 
     WJets=file.Get(categoriy).Get("output_bkg_WJets")
@@ -117,19 +132,19 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
     ZZ=file.Get(categoriy).Get("output_bkg_ZZ")
 
     
-    Signal=file.Get(categoriy.replace('postfit','prefit')).Get(output_signal_2000)
-    Signal.Scale( 50)  # CS x BR  1000_400_440  // factor of 2 is added as we consider the full doublet
+    Signal=file.Get(categoriy.replace('postfit','prefit')).Get("output_signal_")
+    #Signal.Scale( 50)  # CS x BR  1000_400_440  // factor of 2 is added as we consider the full doublet
     Signal.Rebin(RB_)
     #    Signal.SetFillStyle(0.)
     Signal.SetLineStyle(11)
     Signal.SetLineWidth(3)
+    Signal.SetLineColor(2) #maybe change this back to 4
+    Signal.SetMarkerColor(2) #maybe change this back to 4
+    Signal.SetLineStyle(1)
+    #ROOT.TColor.GetColor(108, 226, 354)
     Signal.SetLineColor(4)
     Signal.SetMarkerColor(4)
-    Signal.SetLineStyle(8)
-
-    Signal.SetLineColor(ROOT.TColor.GetColor(108, 226, 354))
-    Signal.SetMarkerColor(ROOT.TColor.GetColor(108, 226, 354))
-    Signal.SetLineColor(kBlue)
+#    Signal.SetLineColor(kBlue)
     
 
 
@@ -172,14 +187,24 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
 
 
 
-    DY.SetFillColor(ROOT.TColor.GetColor(408, 106, 154))
-    T_tchan.SetFillColor(ROOT.TColor.GetColor(200, 2, 285))
-    TT.SetFillColor(ROOT.TColor.GetColor(208, 376, 124))
-    Tbar_tW.SetFillColor(ROOT.TColor.GetColor(150, 132, 232))
-    VV.SetFillColor(ROOT.TColor.GetColor(200, 282, 232))
-    WJets.SetFillColor(ROOT.TColor.GetColor(108, 226, 354))
-    WZ.SetFillColor(ROOT.TColor.GetColor(255, 0, 0))
-    WZ.SetFillColor(ROOT.TColor.GetColor(0, 255, 255))
+    DY.SetFillColor(224)
+    T_tchan.SetFillColor(228)
+    TT.SetFillColor(212)
+    Tbar_tW.SetFillColor(227)
+    VV.SetFillColor(96)
+    WJets.SetFillColor(209)
+    WZ.SetFillColor(51)
+    ZZ.SetFillColor(46) #was WZ
+
+
+    #DY.SetFillColor(ROOT.TColor.GetColor(408, 106, 154))
+    #T_tchan.SetFillColor(ROOT.TColor.GetColor(200, 2, 285))
+    #TT.SetFillColor(ROOT.TColor.GetColor(208, 376, 124))
+    #Tbar_tW.SetFillColor(ROOT.TColor.GetColor(150, 132, 232))
+    #VV.SetFillColor(ROOT.TColor.GetColor(200, 282, 232))
+    #WJets.SetFillColor(ROOT.TColor.GetColor(108, 226, 354))
+    #WZ.SetFillColor(ROOT.TColor.GetColor(255, 0, 0))
+    #WZ.SetFillColor(ROOT.TColor.GetColor(0, 255, 255))
 
 
 #    for i in range(Data.GetNbinsX()):
@@ -227,8 +252,23 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
     stack.Add(ZZ)
 #    stack.Add(Signal)
 
-    errorBand = QCD.Clone()
-    errorBand.Add(DY)
+
+
+# Set the desired x-axis range
+    x_min = 0
+    x_max = 2000
+
+# Loop through histograms in the stack and set their x-axis range
+    for hist in stack.GetHists():
+        hist.GetXaxis().SetRangeUser(x_min, x_max)
+
+
+    
+
+
+
+#    errorBand = QCD.Clone()
+    errorBand=DY.Clone()
     errorBand.Add(T_tchan)
     errorBand.Add(TT)
     errorBand.Add(Tbar_tW)
@@ -243,6 +283,7 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
     errorBand.SetLineWidth(1)
 
     pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
+
     
     pad1.Draw()
     pad1.cd()
@@ -264,21 +305,36 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
     pad1.SetFrameBorderMode(0)
     pad1.SetFrameBorderSize(10)
 
+    
+
     Data.GetXaxis().SetLabelSize(0)
     
-    if Status == "LOG" :Data.SetMaximum(Data.GetMaximum()*2000); Data.SetMinimum(0.001)
+    #if Status == "LOG" :stack.SetMaximum(stack.GetMaximum()*2000); stack.SetMinimum(0.001)
 #    if Status == "LOG" :Data.SetMaximum(999); Data.SetMinimum(0.01)
-    if Status=="Normal": Data.SetMaximum(Data.GetMaximum()*3) ;  Data.SetMinimum(0)
+    #if Status=="Normal": stack.SetMaximum(stack.GetMaximum()*4) ;  stack.SetMinimum(0)
+
+    if Status == "LOG":
+        stack.SetMaximum(5)  # Set the maximum y-axis value to 10 for logarithmic scale
+        stack.SetMinimum(0.001)
+    # if Status == "LOG" :Data.SetMaximum(999); Data.SetMinimum(0.01)
+    elif Status == "Normal":
+        stack.SetMaximum(5)  # Set the maximum y-axis value to 10 for linear scale
+        stack.SetMinimum(0)
+
 
 
     Data.GetXaxis().SetRangeUser(0,MaxRange)
+
+
     
     Data.SetBinErrorOption(rt.TH1.kPoisson)
-    Data.Draw("ex0")
-    stack.Draw("histsame")
+#    Data.Draw("ex0")
+    stack.Draw("hist")
+    stack.GetXaxis().SetRangeUser(x_min, x_max)
     errorBand.Draw("e2same")
-    Data.Draw("ex0same")
-#    Signal.Draw("histsame")
+#    Data.Draw("ex0same")
+    Signal.Draw("histsame")
+
 #    Signal.Draw("histsame")
 
 
@@ -299,7 +355,7 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
 
 
 
-#    legende.AddEntry(Signal,sigLeg,"l")
+    legende.AddEntry(Signal,"Radion 2000 ","l")
     legende.AddEntry(DY,"DY","f")
 #    legende.AddEntry(Signal2,sigLeg2,"l")
     legende.AddEntry(T_tchan,"T_tchan","f")
@@ -396,16 +452,16 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
     h1.GetYaxis().SetLabelSize(0.11)
     h1.GetXaxis().SetTitleFont(42)
     h1.GetYaxis().SetTitleFont(42)
-    h1.GetXaxis().SetRangeUser(0,MaxRange)
-#    h1.GetYaxis().SetRangeUser(0,1.99)
+    h1.GetXaxis().SetRangeUser(0, MaxRange)
+    h1.GetYaxis().SetRangeUser(0,15) 
 
 #    h1.SetMaximum(1.99)
 #    for i in range(h3.GetNbinsX()):
 #        if i > 5 : h3.SetBinContent(i+1,0)
 
 
-    h1.Draw("e2")
-    h3.Draw("Ex0psame")
+    h1.Draw()
+#    h3.Draw("Ex0psame")
 
 
 #    c.cd()
@@ -414,7 +470,7 @@ def MakePlot(FileName,categoriy,HistName,Xaxis, Status, Channel):
 #    ROOT.gPad.RedrawAxis()
 
 #    c.Modified()
-    h1.GetYaxis().SetRangeUser(.01,1.99)
+    #h1.GetYaxis().SetRangeUser(.01,1.99)
 #    c.Modified()
     c.SaveAs("_Finalplot_"+prefix+categoriy+Status+"_CMB_"+Channel+".pdf")
 
@@ -431,8 +487,8 @@ prefix=sys.argv[2]
 FileNamesInfo=[
 #               [InputRootfile,"pass_postfit","m_{vis} [GeV]","PostFit (Pass)","mt"],
 #               [InputRootfile,"ch2_postfit","m_{vis} [GeV]","PostFit (Fail)","mt"],
-               [InputRootfile,"highPurity_1_13TeV_prefit","m_{vis} [GeV]","highPurity","mt"],
-               [InputRootfile,"lowPurity_1_13TeV_prefit", "m{vis} [GeV]","low_purity", "mt"]
+               [InputRootfile,"H_4t_highPurity_1_13TeV_prefit","m_4tau [GeV]","high_Purity",""],
+               [InputRootfile,"H_4t_lowPurity_1_13TeV_prefit", "m_4tau [GeV]","low_purity", ""]
 #               [InputRootfile,"ch2_prefit","m_{vis} [GeV]","PreFit (Fail)","mt"],
 
 
@@ -470,4 +526,3 @@ for i in range(0,len(FileNamesInfo)):
 
 
 #Table for HEP DATA
-
