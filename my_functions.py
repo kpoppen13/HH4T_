@@ -114,8 +114,8 @@ def compare_train_test_binary(clf, X_train, y_train, X_test, y_test, xlabel):
 
     # Plot train-test data
     figKS = plt.figure(figsize=(20, 12))
-    plt.hist(decisions[0],bins=bin_edges,density=True,histtype='stepfilled',color='blue',label='Signal (train)',alpha=0.5)
-    plt.hist(decisions[1],bins=bin_edges,density=True,histtype='stepfilled',color='orange',label='Background (train)',alpha=0.5)
+    plt.hist(decisions[0],bins=bin_edges,density=True,histtype='stepfilled',color='orange',label='Signal (train)',alpha=0.5)
+    plt.hist(decisions[1],bins=bin_edges,density=True,histtype='stepfilled',color='blue',label='Background (train)',alpha=0.5)
 
     ax = plt.gca()    
     plt.text(0.5, 1.05, "CMS Simulation (Work In Progress)      (13 TeV)", fontweight="bold", horizontalalignment='center',verticalalignment='center', transform=ax.transAxes, fontsize=28)
@@ -125,12 +125,12 @@ def compare_train_test_binary(clf, X_train, y_train, X_test, y_test, xlabel):
     err_ttHbb = np.sqrt(hist_ttHbb * scale) / scale # error on test background
     width = 0.1 # histogram bin width
     center = (bin_edges[:-1] + bin_edges[1:]) / 2 # bin centres
-    plt.errorbar(x=center, y=hist_ttHbb, yerr=err_ttHbb, fmt='o',c='blue', label='Signal (test)' ) # Signal (test)
+    plt.errorbar(x=center, y=hist_ttHbb, yerr=err_ttHbb, fmt='o',c='orange', label='Signal (test)' ) # Signal (test)
 
     hist_ttbb, bin_edges = np.histogram(decisions[3],bins=bin_edges,density=True )
     scale = len(decisions[3]) / sum(hist_ttbb) # between raw and normalised
     err_ttbb = np.sqrt(hist_ttbb * scale) / scale # error on test background
-    plt.errorbar(x=center, y=hist_ttbb, yerr=err_ttbb, fmt='o',c='orange', label='Background (test)' ) # tt (test)
+    plt.errorbar(x=center, y=hist_ttbb, yerr=err_ttbb, fmt='o',c='blue', label='Background (test)' ) # tt (test)
 
     handles, labels = ax.get_legend_handles_labels()
     handles.append(mpatches.Patch(color='none', label=extraString_Signal))
@@ -208,28 +208,6 @@ def plot_input_features(X, y, idx_label, xlabel):
         bin_edges = [-5., -4.75, -4.5, -4.25, -4., -3.75, -3.5, -3.25, -3., -2.75, -2.5, -2.25, -2., -1.75, -1.5, -1.25, -1., 
                      -.75, -.5, -.25, 0., .25, .5, .75, 1., 1.25, 1.5, 1.75, 2., 2.25, 2.5, 2.75, 3., 3.25, 3.5, 3.75, 4., 4.25, 4.5, 4.75, 5.]
 
-    #if(xlabel=='N_btags_Loose'):
-        #bin_edges = [3.,4.,5.,6.,7.,8.,9.,10.,11.,12.]
-    #if(xlabel=='multiplicity_higgsLikeDijet15'):
-        #bin_edges = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.]
-    #if(xlabel=='mass_higgsLikeDijet'):
-        #bin_edges = [50.,55.,60.,65.,70.,75.,80.,85.,90.,95.,100.,105.,110.,115.,120.,125.,130.,135.,140.,145.,150.,155.,160.,165.,170.,175.,180.,185.,190.,195.,200.]        
-    #if(xlabel=='mass_tag_tag_min_deltaR'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.]
-    #if(xlabel=='mass_tag_tag_max_mass'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.]
-    #if(xlabel=='mass_jet_jet_jet_max_pT'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.,520.,540.,560.,580.,600.,620.,640.,660.,680.,700.]
-    #if(xlabel=='pT_tag_tag_min_deltaR'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.]
-    #if(xlabel=='pT_jet_jet_min_deltaR'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.]
-    #if(xlabel=='jet2_pt'):
-        #bin_edges = [0.,20.,40.,60.,80.,100.,120.,140.,160.,180.,200.,220.,240.,260.,280.,300.,320.,340.,360.,380.,400.,420.,440.,460.,480.,500.]
-    #if(xlabel=='HT_jets'):
-        #bin_edges = [120.,160.,200.,240.,280.,320.,360.,400.,440.,480.,520.,560.,600.,640.,680.,720.,760.,800.,840.,880.,920.,960.,1000.,1040.,1080.,1120.,1160.,1200.]
-    #if(xlabel=='aplanarity_jet'):
-        #bin_edges = [0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4]
  
 
     # Plot train-test data
@@ -241,7 +219,7 @@ def plot_input_features(X, y, idx_label, xlabel):
     plt.text(0.5, 1.05, "CMS Simulation (Work In Progress)      (13 TeV)", fontweight="bold", horizontalalignment='center',verticalalignment='center', transform=ax.transAxes, fontsize=28)
 
     plt.hist(decisions[0],bins=bin_edges,density=True,histtype='stepfilled',color='blue',label='Background- ZZ4l + ZZ2l2q',alpha=0.5)
-    plt.hist(decisions[1],bins=bin_edges,density=True,histtype='stepfilled',color='orange',label='Signal-GluGluToRadionToHHTo4T_M-2000',alpha=0.5)
+    plt.hist(decisions[1],bins=bin_edges,density=True,histtype='stepfilled',color='orange',label='Signal-GluGluToRadionToHHTo4T_M-1000',alpha=0.5)
     #plt.hist(decisions[2],bins=bin_edges,density=True,histtype='stepfilled',color='mediumpurple',label='ttcc',alpha=0.5)
     #plt.hist(decisions[3],bins=bin_edges,density=True,histtype='stepfilled',color='cadetblue',label='ttlf',alpha=0.5)
 
