@@ -125,11 +125,13 @@ int main(int argc, char** argv) {
 
     
     
+    
+
     map<string, Categories> cats;
-    cats["4t_lowPurity"] = {
+    cats["4t_lowPurity_13TeV"] = {
         {1, "4t_lowPurity"}
     };
-    cats["4t_highPurity"] = {
+    cats["4t_highPurity_13TeV"] = {
         {1, "4t_highPurity"}
     };
 
