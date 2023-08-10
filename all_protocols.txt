@@ -1,0 +1,55 @@
+Here are all the protocols I followed in order to run the scripts included in this repository:
+
+******************************************************************
+
+To run event selection (BoostedHTT_4t.cc):
+* Make sure to have all files in interface in your directory
+
+./Make BoostedHTT_4t.cc
+
+./BoostedHTT_4t.cc -s input.root -n out.root
+
+python compare_script.py
+
+python bkg_signal_compare.py
+
+********************************************************************
+
+To run BNN:
+*Make sure to have all files necessary in interface
+*Make sure to have my_functions.py in your directory
+
+To run training script:
+
+python3 my_train_model_binary.py
+
+To run evaluation script:
+
+python3 evaluate.py input.root output.root conf.json
+
+
+********************************************************************
+
+To create data card and limit plots:
+
+Run these commands in a CMSSW release in /src/CombineHarvester/CombineTools/bin/
+
+Create an /aux directory in /bin with the root file you want to use for the data card
+
+Make sure to have the build file, and make sure BuildFile.xml is updated with the following line:
+<bin file=“DataCard2.cpp” name=“DataCard2”></bin>
+
+./build process_trees_4t_2.cc process_trees_4t
+
+./process_trees_4t -d RootFilesDIR/ --suf test -v radion_inv_mass
+
+DataCard2 --prefix=radion_inv_masstest --postfix=XXXXX --year=2018
+
+sh add_auto_MC_Stat.sh NAMEOFDIRECTORYOFDATACARD
+*******************************************************************
+
+To draw stack plots for the final observable:
+python3 Draw_POSTPREFIT.py postfit_shapes_all.root postfix
+
+
+
