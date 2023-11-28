@@ -204,6 +204,63 @@ int Zto_mumu_multiplicity(){
 }
 
 
+// function to find ST (from his code)
+float getST( float SimpleJetPtCut, string JetSys){
+    float ST=0;
+    
+    if (JetSys.find("Nominal")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPt->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 3.0 )
+                ST += jetPt->at(ijet);
+        }
+    }
+    else if (JetSys.find("JetTotUp")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncUp->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 3.0 )
+                ST += jetPtTotUncUp->at(ijet);
+        }
+    }
+    else if (JetSys.find("JetTotDown")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncDown->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 3.0 )
+                ST += jetPtTotUncDown->at(ijet);
+        }
+    }
+    
+    return ST;
+}
+
+
+// function to find MHT (from his code)
+float getMHT( float SimpleJetPtCut, string JetSys){
+    float MHT_x=0;
+    float MHT_y=0;
+    
+    if (JetSys.find("Nominal")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPt->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 5.0 )
+                MHT_x += jetPt->at(ijet)*cos(jetPhi->at(ijet));
+            MHT_y += jetPt->at(ijet)*sin(jetPhi->at(ijet));
+        }
+    }
+    else if (JetSys.find("JetTotUp")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncUp->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 5.0 )
+                MHT_x += jetPtTotUncUp->at(ijet)*cos(jetPhi->at(ijet));
+            MHT_y += jetPtTotUncUp->at(ijet)*sin(jetPhi->at(ijet));
+        }
+    }
+    else if (JetSys.find("JetTotDown")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncDown->at(ijet) > SimpleJetPtCut && fabs(jetEta->at(ijet)) < 5.0 )
+                MHT_x += jetPtTotUncDown->at(ijet)*cos(jetPhi->at(ijet));
+            MHT_y += jetPtTotUncDown->at(ijet)*sin(jetPhi->at(ijet));
+        }
+    }
+    return sqrt(MHT_x*MHT_x + MHT_y*MHT_y);
+}
+
+
 
 int main(int argc, char* argv[]) {
     
@@ -212,7 +269,7 @@ int main(int argc, char* argv[]) {
     std::string name = parser.Option("-n");
 //    std::string path = parser.Option("-p");
 //    std::string output_dir = parser.Option("-d");
-//    std::string syst = parser.Option("-u");
+    std::string syst = parser.Option("-u");
 //    std::string fname = path + sample + ".root";
     std::string fname = sample ;
     
@@ -313,6 +370,10 @@ int main(int argc, char* argv[]) {
     float rad_eta;
     float HT;
     float ratio, ratio2;
+    bool PassTrigger_40;
+    bool PassTrigger_39;
+    float pass_both_triggers;
+    float pfMHT;
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
@@ -393,6 +454,12 @@ int main(int argc, char* argv[]) {
 //    outTr->Branch("event",&event,"event/I");
 //    outTr->Branch("lumis",&lumis,"lumis/I");
 
+//for the trigger
+string JetSys="Nominal";
+if (syst=="JEnTotUp") JetSys="JetTotUp";
+else if (syst=="JEnTotDown") JetSys="JetTotDown";
+else std::cout<<"This is nominal Jet\n";
+
 
 
   
@@ -426,9 +493,22 @@ int main(int argc, char* argv[]) {
 //        PassTrigger_22 = ((HLTJet >> 22 & 1)==1); //HLT_PFHT300_PFMET110_v // only 2016?
 //
 //
-//        //2017 and 2018
-//        PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v //HLT_AK8PFJet400_TrimMass30_v
-//        PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+// 2017 and 2018
+PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v 
+PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+
+//std::cout << "PassTrigger_40: " << PassTrigger_40 << endl;
+if (PassTrigger_40 == 1){
+    plotFill("passtrigger_40_beforecuts", PassTrigger_40, 100, 0, 1.25);
+}
+if (PassTrigger_39 == 1){
+    plotFill("passtrigger_39_beforecuts", PassTrigger_39, 100, 0, 1.25);
+}
+plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
+plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
+
+
+    
 //
 //        // Trigger
 //        //        https://cmsoms.cern.ch/cms/triggers/hlt_trigger_rates?cms_run=325175
@@ -459,7 +539,84 @@ if (nBoostedTau < 3) continue;
     plotFill("ThirdBoostedTauPt_",ThirdBoostedTauPt ,50,0,700);
     plotFill("FourthBoostedTauPt_",FourthBoostedTauPt ,50,0,500);
 
+
+
+
+
+// 
+//=========================================================================================================
+        // Cut on AK8 (for trigger purposes)
+        float AK8Pt=0;
+        float AK8Mass=0;
+        float AK8Eta=100;
         
+
+        //come back to this section
+
+        float PFHT= getST(JetPtCut,JetSys); //need to make a function like this
+        float PFMET=Met;
+        float MHT=getMHT(JetPtCut,JetSys);
+        
+        float TriggerWeight = 1;
+        float TriggerWeightError = 1;
+        float _cut_AK8Pt_,_cut_AK8Mass_,_cut_PFHT_,_cut_PFMET_,_cut_PFMHT_, _cut_PFMETMHT_, _cut_st_;
+        bool _Pass_AK8_Trigger_, _Pass_METHT_Trigger_;
+
+
+// Trigger Efficiency==========================================================================
+
+
+
+
+//if (year== 2018  && PFHT > 400 ){
+    //plotFill("RunBeforeTrigger",run, 50 ,315000,326000);
+    //if (PassTrigger_39) plotFill("RunHLTJet39",run, 50 ,315000,326000);
+    //if (PassTrigger_40) plotFill("RunHLTJet40",run, 50 ,315000,326000);
+    //}
+
+//=========================================================================================
+if (year== 2018){    
+    _cut_AK8Pt_ = 450;
+    _cut_AK8Mass_ = 30;
+    _cut_PFHT_ = 500;         //need for 39
+    _cut_PFMET_ = 100;        //need for 39
+    _cut_PFMHT_= 100;         //need for 39
+    //_cut_PFMETMHT_ = 280;
+    _Pass_AK8_Trigger_=PassTrigger_40;
+    _Pass_METHT_Trigger_=PassTrigger_39;
+    //_cut_st_ = 600;
+    }
+
+    /*
+    ////apply trigger only on data
+    bool passing;
+    if (year == 2018){
+        // trigger 39     HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+        //&& PFMHT > _cut_PFMHT_ need to add this into the if statement eventually
+        if (PFHT > _cut_PFHT_ && PFMET > _cut_PFMET_  && _Pass_METHT_Trigger_){ 
+            //TriggerWeight = getTriggerWeight(year, isData, AK8Pt, AK8Mass, triggerEff_HT_SF);
+            //TriggerWeightError = getTriggerWeightError(year, isData,  AK8Pt , AK8Mass ,triggerEff_HT_SF);
+            passing = true;
+        }
+        // trigger 40     HLT_AK8PFJet400_TrimMass30_v
+        else if(_Pass_AK8_Trigger_){ 
+            //TriggerWeight = getTriggerWeight(year, isData, PFHT, PFMET, MHT, triggerEff_MET_SF);
+            //TriggerWeightError = getTriggerWeightError(year, isData, PFHT, PFMET, MHT, triggerEff_MET_SF);
+            passing = true;
+        }
+        else {
+            passing = false;
+        }
+    }
+    if (! passing) continue; //FIXME  this is for trigger studies for embedded
+
+    std::cout<<"passing: "<<passing<<endl;
+    */
+
+    
+//===============================================================================================
+// ^^
+
         //=========================================================================================================
         // Event Selection
         //=========================================================================================================
@@ -502,7 +659,7 @@ if (nBoostedTau < 3) continue;
     if (LumiWeight == 0){
         LumiWeight = 1;
     }
-    std::cout<<LumiWeight<<endl;
+    //std::cout<<LumiWeight<<endl;
 
     int Z_multiplicity = 0;
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
@@ -628,6 +785,11 @@ if (nBoostedTau < 3) continue;
     //MET
     plotFill("MET", pfMET, 50, 0, 1000, LumiWeight);
 
+    //MHT
+    plotFill("MHT", pfMHT, 50, 0, 1000, LumiWeight);
+
+    //
+
     // muons
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     float muMass = 0.10565837;
@@ -711,6 +873,29 @@ if (nBoostedTau < 3) continue;
     plotFill("LumiWeight", LumiWeight, 50, 0, 2);
     
 
+
+    //Trigger
+    PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v //HLT_AK8PFJet400_TrimMass30_v
+    PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+
+    //std::cout << "PassTrigger_40: " << PassTrigger_40 << endl;
+    plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
+    plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
+
+
+    if (PassTrigger_40 == 1){
+        plotFill("aftercuts_trigger40", PassTrigger_40, 100, 0, 1.25);
+    }
+
+    if (PassTrigger_39==1){
+        plotFill("aftercuts_trigger39", PassTrigger_39, 100, 0, 1.25);
+    }
+    
+    if (PassTrigger_40 ==1 && PassTrigger_39==1){
+        pass_both_triggers = (PassTrigger_39 + PassTrigger_40)/2;
+        plotFill("passed both triggers", pass_both_triggers, 100, .99 , 1.01);
+    }
+
     // Fill the tree
     outTr->Fill();
         
@@ -734,13 +919,3 @@ if (nBoostedTau < 3) continue;
     
     fout->Close();
 }
-
-
-
-
-
-
-
-
-
-
