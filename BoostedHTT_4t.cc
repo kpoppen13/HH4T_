@@ -927,7 +927,9 @@ if (year== 2018){
     //std::cout<<MHT<<endl;
     //std::cout<<TrimMass<<endl;
     //std::cout<<AK8Jet<<endl;
+    //std::cout<<PFHT<<endl;
     PFMET_PFMHT = pfMET + MHT;
+    
 
 
     //find total number of events
@@ -942,7 +944,7 @@ if (year== 2018){
     float events_passed39 = 0;
     float total_efficiency_39;
     for (int i=0; i < nBoostedTau; ++i){
-        efficiency39 = calculate_efficiency_39(pfMET, PFMET_PFMHT);
+        efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
         //std::cout<<efficiency_1<<endl;
         if (efficiency39 == 1.0){
             events_passed39 = events_passed39 + 1;
@@ -950,7 +952,7 @@ if (year== 2018){
     }
     total_efficiency_39 = events_passed39 / total_events_aftercuts1TeV;
     //std::cout<<total_efficiency_39<<endl;
-    
+
     /*
     //Trigger 40
     float efficiency40;
