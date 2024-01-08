@@ -260,6 +260,31 @@ float getMHT( float SimpleJetPtCut, string JetSys){
     return sqrt(MHT_x*MHT_x + MHT_y*MHT_y);
 }
 
+// function to find efficiency (trigger 39)
+float calculate_efficiency_39(float PFHT, float PFMET_PFMHT){
+    float efficiency_39;
+    float passing;
+    if (PFHT > 500 && PFMET_PFMHT > 200){
+        efficiency_39 = 1.0;
+    }
+    else{
+        efficiency_39 = 0.0;
+    }
+    return efficiency_39;
+}
+
+
+// function to find efficiency (trigger 40)
+float calculate_efficiency_40(float TrimMass, float AK8Jet){
+    float efficiency_40;
+    if (TrimMass > 5 && AK8Jet > 50){
+        efficiency_40 = 1.0;
+    }
+    else{
+        efficiency_40 = 0.0;
+    }
+    return efficiency_40;
+}
 
 
 int main(int argc, char* argv[]) {
@@ -374,6 +399,8 @@ int main(int argc, char* argv[]) {
     bool PassTrigger_39;
     float pass_both_triggers;
     float pfMHT;
+    float PFMET_PFMHT;
+
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
@@ -553,7 +580,7 @@ if (nBoostedTau < 3) continue;
 
         //come back to this section
 
-        float PFHT= getST(JetPtCut,JetSys); //need to make a function like this
+        float PFHT= getST(JetPtCut,JetSys); 
         float PFMET=Met;
         float MHT=getMHT(JetPtCut,JetSys);
         
@@ -578,9 +605,9 @@ if (nBoostedTau < 3) continue;
 if (year== 2018){    
     _cut_AK8Pt_ = 450;
     _cut_AK8Mass_ = 30;
-    _cut_PFHT_ = 500;         //need for 39
-    _cut_PFMET_ = 100;        //need for 39
-    _cut_PFMHT_= 100;         //need for 39
+    _cut_PFHT_ = 500;         
+    _cut_PFMET_ = 100;        
+    _cut_PFMHT_= 100;         
     //_cut_PFMETMHT_ = 280;
     _Pass_AK8_Trigger_=PassTrigger_40;
     _Pass_METHT_Trigger_=PassTrigger_39;
@@ -895,6 +922,50 @@ if (year== 2018){
         pass_both_triggers = (PassTrigger_39 + PassTrigger_40)/2;
         plotFill("passed both triggers", pass_both_triggers, 100, .99 , 1.01);
     }
+
+    //std::cout<<pfMET<<endl;
+    //std::cout<<MHT<<endl;
+    //std::cout<<TrimMass<<endl;
+    //std::cout<<AK8Jet<<endl;
+    PFMET_PFMHT = pfMET + MHT;
+
+
+    //find total number of events
+    // FIX THIS LATER
+    float total_events_aftercuts1TeV = 3706;
+    float total_events_aftercuts2TeV = 7363;
+    float total_events_aftercuts3TeV = 7325;
+
+
+    //Trigger 39
+    float efficiency39;
+    float events_passed39 = 0;
+    float total_efficiency_39;
+    for (int i=0; i < nBoostedTau; ++i){
+        efficiency39 = calculate_efficiency_39(pfMET, PFMET_PFMHT);
+        //std::cout<<efficiency_1<<endl;
+        if (efficiency39 == 1.0){
+            events_passed39 = events_passed39 + 1;
+        }
+    }
+    total_efficiency_39 = events_passed39 / total_events_aftercuts1TeV;
+    //std::cout<<total_efficiency_39<<endl;
+
+
+    /*
+    //Trigger 40
+    float efficiency40;
+    float events_passed40 = 0;
+    float total_efficiency_40;
+    for (int i=0; i < nBoostedTau; ++i){
+        efficiency40 = calculate_efficiency_40(TrimMass, AK8Jet);
+        if (efficiency40 == 1.0){
+            events_passed40 = events_passed40 + 1;
+        }
+    }
+    total_efficiency_40 = events_passed40 / total_events_aftercuts1TeV;
+    */
+    
 
     // Fill the tree
     outTr->Fill();
