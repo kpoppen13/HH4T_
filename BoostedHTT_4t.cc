@@ -950,8 +950,7 @@ if (year== 2018){
     }
     total_efficiency_39 = events_passed39 / total_events_aftercuts1TeV;
     //std::cout<<total_efficiency_39<<endl;
-
-
+    
     /*
     //Trigger 40
     float efficiency40;
