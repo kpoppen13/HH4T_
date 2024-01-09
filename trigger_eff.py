@@ -11,28 +11,33 @@ Rad_1000 =TFile('out_1000.root', 'READ')
 Rad_2000 = TFile('out_2000.root', 'READ')
 Rad_3000 = TFile('out_3000.root', 'READ')
 
-### Trigger 39, 1 TeV
-# create canvas
-c = TCanvas("canvas", "2D Efficiency Plot", 800, 600)
+# TRIGGER 39, 1 TeV
+## need to divide the two histograms
+# Get the histograms from the file
+denominator = Rad_1000.Get("Denominator39")
+numerator = Rad_1000.Get("Numerator39")
 
-pfMET_MHT_1000=Rad_1000.Get("PFMET_PFMHT")
-PFHT_1000=Rad_1000.Get("PFHT")
-efficiencies = Rad_1000.Get("total_efficiency_39")
+# Divide numerator by denominator
+result_histogram = numerator.Clone()
+result_histogram.Divide(denominator)
 
-# Histogram ranges
-# can change these later on
-#min_pfMET_MHT = 0
-#max_pfMET_MHT = 1000
-#min_PFHT = 0
-#max_PFHT = 1000
+c = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
 
-# Create a 2D histogram for efficiency plot
-#TH2F::TH2F(const char* name, const char* title, int nbinsx, const float* xbins, int nbinsy, const float* ybins)
-histogram = TH2F("efficiency", "Efficiency Plot", 100, pfMET_MHT_1000, 100, PFHT_1000)
-histogram.Fill(pfMET_MHT_1000, PFHT_1000, efficiencies)
+result_histogram.SetTitle("Numerator/Denominator")
+#result_histogram.GetXaxis().SetTitle("X-axis label")
+#result_histogram.GetYaxis().SetTitle("Y-axis label")
 
-# "colz" option displays colors for different efficiencies
-histogram.Draw("colz")
 c.Draw()
-c.SaveAs("efficiencies_39.pdf")
+c.SaveAs("divided_histogram.pdf")
 
+
+# TRIGGER 39, 2 TeV
+
+# TRIGGER 39, 3 TeV
+
+# TRIGGER 40, 1 TeV
+
+# TRIGGER 40, 2 TeV
+
+# TRIGGER 40, 3 TeV
