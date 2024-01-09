@@ -400,6 +400,11 @@ int main(int argc, char* argv[]) {
     float pass_both_triggers;
     float pfMHT;
     float PFMET_PFMHT;
+    float total_efficiency_39;
+    float Numerator39;
+    float Denominator39;
+    float Numerator40;
+    float Denominator40;
 
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
@@ -466,6 +471,11 @@ int main(int argc, char* argv[]) {
     outTr->Branch("tau2_h2_pt",&tau2_h2_pt,"tau2_h2_pt/F");
     outTr->Branch("ratio",&ratio,"ratio/F");
     outTr->Branch("ratio2",&ratio2,"ratio2/F");
+    outTr->Branch("total_efficiency_39",&total_efficiency_39,"total_efficiency_39/F");
+    outTr->Branch("Denominator39",&Denominator39,"Denominator39/F");
+    outTr->Branch("Numerator39",&Numerator39,"Numerator39/F");
+    outTr->Branch("Denominator40",&Denominator40,"Denominator40/F");
+    outTr->Branch("Numerator40",&Numerator40,"Numerator40/F");
 
 //    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
 //    outTr->Branch("nbjet",&nbjet,"nbjet/I");
@@ -521,6 +531,7 @@ else std::cout<<"This is nominal Jet\n";
 //
 //
 // 2017 and 2018
+// Trigger results
 PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v 
 PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
 
@@ -576,6 +587,8 @@ if (nBoostedTau < 3) continue;
         float AK8Pt=0;
         float AK8Mass=0;
         float AK8Eta=100;
+
+        float AK8Jet;
         
 
         //come back to this section
@@ -939,33 +952,36 @@ if (year== 2018){
     float total_events_aftercuts3TeV = 7325;
 
 
-    //Trigger 39
-    float efficiency39;
-    float events_passed39 = 0;
-    float total_efficiency_39;
-    for (int i=0; i < nBoostedTau; ++i){
-        efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
-        //std::cout<<efficiency_1<<endl;
-        if (efficiency39 == 1.0){
-            events_passed39 = events_passed39 + 1;
-        }
-    }
-    total_efficiency_39 = events_passed39 / total_events_aftercuts1TeV;
-    //std::cout<<total_efficiency_39<<endl;
 
-    /*
-    //Trigger 40
-    float efficiency40;
-    float events_passed40 = 0;
-    float total_efficiency_40;
-    for (int i=0; i < nBoostedTau; ++i){
-        efficiency40 = calculate_efficiency_40(TrimMass, AK8Jet);
-        if (efficiency40 == 1.0){
-            events_passed40 = events_passed40 + 1;
-        }
+    // First apply all off line cuts
+    // from your function
+    // if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5) break;
+
+
+    // trigger 39 outcome (offline cuts)
+    float efficiency39;
+    efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
+    if (efficiency39 == 1.0){
+        // denominator
+        plotFill("Denominator39", MHT, pfMET, 100, 1, 10);
     }
-    total_efficiency_40 = events_passed40 / total_events_aftercuts1TeV;
-    */
+    //numerator 
+    if (PassTrigger_39){
+        plotFill("Numerator39", MHT, pfMET, 100, 1, 10);
+    }
+
+
+    // trigger 40 outcome (offline cuts)
+    float efficiency40;
+    efficiency40 = calculate_efficiency_40(AK8Mass, AK8Jet);
+    if (efficiency40 == 1.0){
+        // denominator
+        plotFill("Denominator40", AK8Mass, AK8Jet, 100, 1, 10);
+    }
+    // numerator
+    if (PassTrigger_40){
+        plotFill("Numerator40", AK8Mass, AK8Jet, 100, 1, 10);
+    }
     
 
     // Fill the tree
