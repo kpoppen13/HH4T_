@@ -953,8 +953,7 @@ if (year== 2018){
 
 
 
-    // First apply all off line cuts
-    // from your function
+
     // if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5) break;
 
 
@@ -962,23 +961,25 @@ if (year== 2018){
     float efficiency39;
     efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
     if (efficiency39 == 1.0){
-        // denominator
+        // denominator (passes offline cuts)
         plotFill("Denominator39", MHT, pfMET, 100, 1, 10);
     }
-    //numerator 
+    //numerator (passes online cuts)
     if (PassTrigger_39){
         plotFill("Numerator39", MHT, pfMET, 100, 1, 10);
     }
 
+    //std::cout<<AK8Jet<<endl;
+    //std::cout<<AK8Mass<<endl;
 
     // trigger 40 outcome (offline cuts)
     float efficiency40;
     efficiency40 = calculate_efficiency_40(AK8Mass, AK8Jet);
     if (efficiency40 == 1.0){
-        // denominator
+        // denominator (passes offline cuts)
         plotFill("Denominator40", AK8Mass, AK8Jet, 100, 1, 10);
     }
-    // numerator
+    // numerator (passes online cuts)
     if (PassTrigger_40){
         plotFill("Numerator40", AK8Mass, AK8Jet, 100, 1, 10);
     }
