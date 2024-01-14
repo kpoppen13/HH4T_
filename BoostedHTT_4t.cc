@@ -603,6 +603,25 @@ if (nBoostedTau < 3) continue;
         bool _Pass_AK8_Trigger_, _Pass_METHT_Trigger_;
 
 
+
+        //TLorentzVector AK8Jet;
+        for (int ijet=0; ijet < nAK8Jet ; ijet ++){
+            
+            AK8Pt=AK8JetPt->at(ijet);
+            if (syst=="JEnTotUp") AK8Pt=AK8JetPtTotUncUp->at(ijet);;
+            if (syst=="JEnTotDown") AK8Pt=AK8JetPtTotUncDown->at(ijet);;
+            
+            AK8Mass=AK8JetSoftDropMass->at(ijet);
+            AK8Eta=fabs(AK8JetEta->at(ijet));
+            
+            if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5){
+                //AK8Jet.SetPtEtaPhiM(AK8JetPt->at(ijet), AK8JetEta->at(ijet), 0, AK8JetSoftDropMass->at(ijet));
+                break;
+            
+        }
+        }
+
+
 // Trigger Efficiency==========================================================================
 
 
@@ -826,7 +845,7 @@ if (year== 2018){
     plotFill("MET", pfMET, 50, 0, 1000, LumiWeight);
 
     //MHT
-    plotFill("MHT", pfMHT, 50, 0, 1000, LumiWeight);
+    plotFill("pfMHT", pfMHT, 50, 0, 1000, LumiWeight);
 
     //
 
@@ -942,19 +961,14 @@ if (year== 2018){
     //std::cout<<AK8Jet<<endl;
     //std::cout<<PFHT<<endl;
     PFMET_PFMHT = pfMET + MHT;
-    
-
-
-    //find total number of events
-    // FIX THIS LATER
-    float total_events_aftercuts1TeV = 3706;
-    float total_events_aftercuts2TeV = 7363;
-    float total_events_aftercuts3TeV = 7325;
-
-
+    plotFill("PFMET_PFMHT", PFMET_PFMHT, 50, 0, 1000);
+    plotFill("PFHT", PFHT, 50, 0, 1500);
+    plotFill("MHT", MHT, 50, 0, 1500);
+    plotFill("pfMET", pfMET, 50, 0, 1500);
 
 
     // if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5) break;
+
 
 
     // trigger 39 outcome (offline cuts)
@@ -962,15 +976,18 @@ if (year== 2018){
     efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
     if (efficiency39 == 1.0){
         // denominator (passes offline cuts)
-        plotFill("Denominator39", MHT, pfMET, 100, 1, 10);
+        plotFill("Denominator39", MHT, pfMET, 50, 0, 800, 50, 0, 800);
     }
-    //numerator (passes online cuts)
-    if (PassTrigger_39){
-        plotFill("Numerator39", MHT, pfMET, 100, 1, 10);
+    //numerator (passes online cuts and offline cuts)
+    if (PassTrigger_39 && efficiency39==1.0){
+        plotFill("Numerator39", MHT, pfMET, 50, 0, 800, 50, 0, 800);
     }
 
+    //float AK8JetMass;
+    
     //std::cout<<AK8Jet<<endl;
     //std::cout<<AK8Mass<<endl;
+
 
     // trigger 40 outcome (offline cuts)
     float efficiency40;
@@ -979,8 +996,8 @@ if (year== 2018){
         // denominator (passes offline cuts)
         plotFill("Denominator40", AK8Mass, AK8Jet, 100, 1, 10);
     }
-    // numerator (passes online cuts)
-    if (PassTrigger_40){
+    // numerator (passes online cuts and offline cuts)
+    if (PassTrigger_40 && efficiency40==1.0){
         plotFill("Numerator40", AK8Mass, AK8Jet, 100, 1, 10);
     }
     
