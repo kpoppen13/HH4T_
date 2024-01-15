@@ -405,6 +405,8 @@ int main(int argc, char* argv[]) {
     float Denominator39;
     float Numerator40;
     float Denominator40;
+    float AK8Pt=0;
+    float AK8Mass=0;
 
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
@@ -476,6 +478,8 @@ int main(int argc, char* argv[]) {
     outTr->Branch("Numerator39",&Numerator39,"Numerator39/F");
     outTr->Branch("Denominator40",&Denominator40,"Denominator40/F");
     outTr->Branch("Numerator40",&Numerator40,"Numerator40/F");
+    outTr->Branch("AK8Mass", &AK8Mass, "AK8Mass/F");
+    outTr->Branch("AK8Pt", &AK8Pt, "AK8Pt/F");
 
 //    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
 //    outTr->Branch("nbjet",&nbjet,"nbjet/I");
@@ -584,8 +588,8 @@ if (nBoostedTau < 3) continue;
 // 
 //=========================================================================================================
         // Cut on AK8 (for trigger purposes)
-        float AK8Pt=0;
-        float AK8Mass=0;
+        //float AK8Pt=0;
+        //float AK8Mass=0;
         float AK8Eta=100;
 
         float AK8Jet;
@@ -604,7 +608,7 @@ if (nBoostedTau < 3) continue;
 
 
 
-        //TLorentzVector AK8Jet;
+
         for (int ijet=0; ijet < nAK8Jet ; ijet ++){
             
             AK8Pt=AK8JetPt->at(ijet);
@@ -615,9 +619,7 @@ if (nBoostedTau < 3) continue;
             AK8Eta=fabs(AK8JetEta->at(ijet));
             
             if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5){
-                //AK8Jet.SetPtEtaPhiM(AK8JetPt->at(ijet), AK8JetEta->at(ijet), 0, AK8JetSoftDropMass->at(ijet));
                 break;
-            
         }
         }
 
@@ -976,29 +978,31 @@ if (year== 2018){
     efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
     if (efficiency39 == 1.0){
         // denominator (passes offline cuts)
-        plotFill("Denominator39", MHT, pfMET, 50, 0, 800, 50, 0, 800);
+        plotFill("Denominator39", PFHT, PFMET_PFMHT, 50, 0, 3200, 50, 0, 2500);
     }
     //numerator (passes online cuts and offline cuts)
     if (PassTrigger_39 && efficiency39==1.0){
-        plotFill("Numerator39", MHT, pfMET, 50, 0, 800, 50, 0, 800);
+        plotFill("Numerator39", PFHT, PFMET_PFMHT, 50, 0, 3200, 50, 0, 2500);
     }
 
-    //float AK8JetMass;
     
-    //std::cout<<AK8Jet<<endl;
+    //std::cout<<AK8Pt<<endl;
     //std::cout<<AK8Mass<<endl;
 
-
+    
     // trigger 40 outcome (offline cuts)
+    plotFill("AK8Mass", AK8Mass, 50, 0, 350);
+    plotFill("AK8Pt", AK8Pt, 50, 0, 900);
+
     float efficiency40;
-    efficiency40 = calculate_efficiency_40(AK8Mass, AK8Jet);
+    efficiency40 = calculate_efficiency_40(AK8Mass, AK8Pt);
     if (efficiency40 == 1.0){
         // denominator (passes offline cuts)
-        plotFill("Denominator40", AK8Mass, AK8Jet, 100, 1, 10);
+        plotFill("Denominator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 150, 2000);
     }
     // numerator (passes online cuts and offline cuts)
     if (PassTrigger_40 && efficiency40==1.0){
-        plotFill("Numerator40", AK8Mass, AK8Jet, 100, 1, 10);
+        plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 150, 2000);
     }
     
 
