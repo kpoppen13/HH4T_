@@ -7,9 +7,13 @@ import ROOT
 from ROOT import *
 #ROOT.gStyle.SetOptStat(0)
 
-Rad_1000 =TFile('out_1000.root', 'READ')
+Rad_1000 = TFile('out_1000.root', 'READ')
 Rad_2000 = TFile('out_2000.root', 'READ')
 Rad_3000 = TFile('out_3000.root', 'READ')
+
+ZZ_bkg = TFile('output_ZZ.root', 'READ')
+DY_bkg = TFile('output_DY.root', 'READ')
+
 
 # TRIGGER 39, 1 TeV
 ## need to divide the two histograms
@@ -130,9 +134,118 @@ result_histogram.Divide(denominator5)
 c6 = TCanvas("canvas", "Divided Histogram", 800, 600)
 result_histogram.Draw("colz")
 
+result_histogram.SetTitle("3 TeV AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
+result_histogram.GetXaxis().SetTitle("AK8Mass")
+result_histogram.GetYaxis().SetTitle("AK8Pt")
+
+c6.Draw()
+c6.SaveAs("trigger40_3TeV_eff.pdf")
+
+########################################################
+
+# TRIGGER 39, ZZ
+denominator6 = ZZ_bkg.Get("Denominator40")
+numerator6 = ZZ_bkg.Get("Numerator40")
+
+# Divide numerator by denominator
+result_histogram = numerator6.Clone()
+result_histogram.Divide(denominator6)
+
+c7 = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
+
+result_histogram.SetTitle("ZZ bkg PFHT and PFMET_PFMHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
+result_histogram.GetXaxis().SetTitle("PFHT")
+result_histogram.GetYaxis().SetTitle("PFMET_PFMHT")
+
+c7.Draw()
+c7.SaveAs("trigger39_ZZ_eff.pdf")
+
+
+
+
+# TRIGGER 40, ZZ
+denominator7 = ZZ_bkg.Get("Denominator40")
+numerator7 = ZZ_bkg.Get("Numerator40")
+
+# Divide numerator by denominator
+result_histogram = numerator7.Clone()
+result_histogram.Divide(denominator7)
+
+c8 = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
+
+result_histogram.SetTitle("ZZ bkg AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
+result_histogram.GetXaxis().SetTitle("AK8Mass")
+result_histogram.GetYaxis().SetTitle("AK8Pt")
+
+c8.Draw()
+c8.SaveAs("trigger40_ZZ_eff.pdf")
+
+
+'''
+
+
+# TRIGGER 40, 3 TeV
+denominator5 = Rad_3000.Get("Denominator40")
+numerator5 = Rad_3000.Get("Numerator40")
+
+# Divide numerator by denominator
+result_histogram = numerator5.Clone()
+result_histogram.Divide(denominator5)
+
+c6 = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
+
 result_histogram.SetTitle("1 TeV AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
 result_histogram.GetXaxis().SetTitle("AK8Mass")
 result_histogram.GetYaxis().SetTitle("AK8Pt")
 
 c6.Draw()
 c6.SaveAs("trigger40_3TeV_eff.pdf")
+
+
+
+
+
+
+# TRIGGER 40, 3 TeV
+denominator5 = Rad_3000.Get("Denominator40")
+numerator5 = Rad_3000.Get("Numerator40")
+
+# Divide numerator by denominator
+result_histogram = numerator5.Clone()
+result_histogram.Divide(denominator5)
+
+c6 = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
+
+result_histogram.SetTitle("1 TeV AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
+result_histogram.GetXaxis().SetTitle("AK8Mass")
+result_histogram.GetYaxis().SetTitle("AK8Pt")
+
+c6.Draw()
+c6.SaveAs("trigger40_3TeV_eff.pdf")
+
+
+
+
+
+# TRIGGER 40, 3 TeV
+denominator5 = Rad_3000.Get("Denominator40")
+numerator5 = Rad_3000.Get("Numerator40")
+
+# Divide numerator by denominator
+result_histogram = numerator5.Clone()
+result_histogram.Divide(denominator5)
+
+c6 = TCanvas("canvas", "Divided Histogram", 800, 600)
+result_histogram.Draw("colz")
+
+result_histogram.SetTitle("1 TeV AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
+result_histogram.GetXaxis().SetTitle("AK8Mass")
+result_histogram.GetYaxis().SetTitle("AK8Pt")
+
+c6.Draw()
+c6.SaveAs("trigger40_3TeV_eff.pdf")
+'''
