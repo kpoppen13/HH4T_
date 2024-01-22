@@ -261,10 +261,10 @@ float getMHT( float SimpleJetPtCut, string JetSys){
 }
 
 // function to find efficiency (trigger 39)
-float calculate_efficiency_39(float PFHT, float PFMET_PFMHT){
+float calculate_efficiency_39(float PFHT, float PFMET_MHT){
     float efficiency_39;
     float passing;
-    if (PFHT > 500 && PFMET_PFMHT > 200){
+    if (PFHT > 500 && PFMET_MHT > 200){
         efficiency_39 = 1.0;
     }
     else{
@@ -399,7 +399,7 @@ int main(int argc, char* argv[]) {
     bool PassTrigger_39;
     float pass_both_triggers;
     float pfMHT;
-    float PFMET_PFMHT;
+    float PFMET_MHT;
     float total_efficiency_39;
     float Numerator39;
     float Denominator39;
@@ -407,6 +407,7 @@ int main(int argc, char* argv[]) {
     float Denominator40;
     float AK8Pt=0;
     float AK8Mass=0;
+    float _cut_PFMET_MHT_;
 
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
@@ -642,17 +643,35 @@ if (year== 2018){
     _cut_PFHT_ = 500;         
     _cut_PFMET_ = 100;        
     _cut_PFMHT_= 100;         
-    //_cut_PFMETMHT_ = 280;
+    _cut_PFMET_MHT_ = 200;
     _Pass_AK8_Trigger_=PassTrigger_40;
     _Pass_METHT_Trigger_=PassTrigger_39;
     //_cut_st_ = 600;
     }
+PFMET_MHT = pfMET + MHT;
 
-    /*
+
+
+    
     ////apply trigger only on data
     bool passing;
     if (year == 2018){
         // trigger 39     HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+        // first check if the events pass trigger 39 offline and online cuts
+        if (PassTrigger_39 == 1.0 && PFHT > _cut_PFHT_ && PFMET_MHT > _cut_PFMET_MHT_){
+            passing = true;
+            // now check trigger 40 if the event did not pass trigger 39 offline and online cuts
+            // trigger 40 HLT_AK8PFJet400_TrimMass30_v 
+            if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 5 && AK8Pt > 50){
+                passing = true;
+            }
+        }
+        if (passing == false) continue; // get rid of events that did not pass either trigger
+    }
+
+    
+
+    /*
         //&& PFMHT > _cut_PFMHT_ need to add this into the if statement eventually
         if (PFHT > _cut_PFHT_ && PFMET > _cut_PFMET_  && _Pass_METHT_Trigger_){ 
             //TriggerWeight = getTriggerWeight(year, isData, AK8Pt, AK8Mass, triggerEff_HT_SF);
@@ -670,9 +689,9 @@ if (year== 2018){
         }
     }
     if (! passing) continue; //FIXME  this is for trigger studies for embedded
-
-    std::cout<<"passing: "<<passing<<endl;
     */
+    
+    
 
     
 //===============================================================================================
@@ -962,27 +981,23 @@ if (year== 2018){
     //std::cout<<TrimMass<<endl;
     //std::cout<<AK8Jet<<endl;
     //std::cout<<PFHT<<endl;
-    PFMET_PFMHT = pfMET + MHT;
-    plotFill("PFMET_PFMHT", PFMET_PFMHT, 50, 0, 1000);
+    //PFMET_MHT = pfMET + MHT;
+    plotFill("PFMET_MHT", PFMET_MHT, 50, 0, 1000);
     plotFill("PFHT", PFHT, 50, 0, 1500);
     plotFill("MHT", MHT, 50, 0, 1500);
     plotFill("pfMET", pfMET, 50, 0, 1500);
 
 
-    // if (AK8Pt > 450 && AK8Mass > 30 && AK8Eta < 2.5) break;
-
-
-
     // trigger 39 outcome (offline cuts)
     float efficiency39;
-    efficiency39 = calculate_efficiency_39(PFHT, PFMET_PFMHT);
+    efficiency39 = calculate_efficiency_39(PFHT, PFMET_MHT);
     if (efficiency39 == 1.0){
         // denominator (passes offline cuts)
-        plotFill("Denominator39", PFHT, PFMET_PFMHT, 50, 0, 3200, 50, 0, 2500);
+        plotFill("Denominator39", PFHT, PFMET_MHT, 50, 100, 1500, 50, 0, 1100);
     }
     //numerator (passes online cuts and offline cuts)
     if (PassTrigger_39 && efficiency39==1.0){
-        plotFill("Numerator39", PFHT, PFMET_PFMHT, 50, 0, 3200, 50, 0, 2500);
+        plotFill("Numerator39", PFHT, PFMET_MHT, 50, 100, 1500, 50, 0, 1100);
     }
 
     
@@ -998,11 +1013,11 @@ if (year== 2018){
     efficiency40 = calculate_efficiency_40(AK8Mass, AK8Pt);
     if (efficiency40 == 1.0){
         // denominator (passes offline cuts)
-        plotFill("Denominator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 150, 2000);
+        plotFill("Denominator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
     // numerator (passes online cuts and offline cuts)
     if (PassTrigger_40 && efficiency40==1.0){
-        plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 150, 2000);
+        plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
     
 
