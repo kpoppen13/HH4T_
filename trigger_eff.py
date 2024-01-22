@@ -27,9 +27,9 @@ result_histogram.Divide(denominator)
 c = TCanvas("canvas", "Divided Histogram", 800, 600)
 result_histogram.Draw("colz")
 
-result_histogram.SetTitle("1 TeV PFHT and PFMET_PFMHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
+result_histogram.SetTitle("1 TeV PFHT and PFMET_MHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
 result_histogram.GetXaxis().SetTitle("PFHT")
-result_histogram.GetYaxis().SetTitle("PFMET_PFMHT")
+result_histogram.GetYaxis().SetTitle("PFMET_MHT")
 
 c.Draw()
 c.SaveAs("trigger39_1TeV_eff.pdf")
@@ -47,9 +47,9 @@ result_histogram.Divide(denominator1)
 c2 = TCanvas("canvas", "Divided Histogram", 800, 600)
 result_histogram.Draw("colz")
 
-result_histogram.SetTitle("2 TeV PFHT and PFMET_PFMHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
+result_histogram.SetTitle("2 TeV PFHT and PFMET_MHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
 result_histogram.GetXaxis().SetTitle("PFHT")
-result_histogram.GetYaxis().SetTitle("PFMET_PFMHT")
+result_histogram.GetYaxis().SetTitle("PFMET_MHT")
 
 
 c2.Draw()
@@ -69,9 +69,9 @@ result_histogram.Divide(denominator2)
 c3 = TCanvas("canvas", "Divided Histogram", 800, 600)
 result_histogram.Draw("colz")
 
-result_histogram.SetTitle("3 TeV PFHT and PFMET_PFMHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
+result_histogram.SetTitle("3 TeV PFHT and PFMET_MHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
 result_histogram.GetXaxis().SetTitle("PFHT")
-result_histogram.GetYaxis().SetTitle("PFMET_PFMHT")
+result_histogram.GetYaxis().SetTitle("PFMET_MHT")
 
 c3.Draw()
 c3.SaveAs("trigger39_3TeV_eff.pdf")
@@ -154,9 +154,9 @@ result_histogram.Divide(denominator6)
 c7 = TCanvas("canvas", "Divided Histogram", 800, 600)
 result_histogram.Draw("colz")
 
-result_histogram.SetTitle("ZZ bkg PFHT and PFMET_PFMHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
+result_histogram.SetTitle("ZZ bkg PFHT and PFMET_MHT efficiency trigger 39: HLT_PFHT500_PFMET100_PFMHT100_IDTight_v")
 result_histogram.GetXaxis().SetTitle("PFHT")
-result_histogram.GetYaxis().SetTitle("PFMET_PFMHT")
+result_histogram.GetYaxis().SetTitle("PFMET_MHT")
 
 c7.Draw()
 c7.SaveAs("trigger39_ZZ_eff.pdf")
@@ -183,9 +183,9 @@ c8.Draw()
 c8.SaveAs("trigger40_ZZ_eff.pdf")
 
 
+
+
 '''
-
-
 # TRIGGER 40, 3 TeV
 denominator5 = Rad_3000.Get("Denominator40")
 numerator5 = Rad_3000.Get("Numerator40")
@@ -248,4 +248,5 @@ result_histogram.GetYaxis().SetTitle("AK8Pt")
 
 c6.Draw()
 c6.SaveAs("trigger40_3TeV_eff.pdf")
+
 '''
