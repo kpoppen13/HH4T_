@@ -662,14 +662,17 @@ PFMET_MHT = pfMET + MHT;
             passing = true;
             // now check trigger 40 if the event did not pass trigger 39 offline and online cuts
             // trigger 40 HLT_AK8PFJet400_TrimMass30_v 
-            if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 5 && AK8Pt > 50){
+            if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 30 && AK8Pt > 400){
                 passing = true;
             }
         }
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
 
+
+
     
+
 
     /*
         //&& PFMHT > _cut_PFMHT_ need to add this into the if statement eventually
