@@ -16,7 +16,7 @@ DY_bkg = TFile('output_DY.root', 'READ')
 
 data = TFile('output_Run2018_data.root', 'READ')
 
-
+'''
 # TRIGGER 39, 1 TeV
 ## need to divide the two histograms
 denominator = Rad_1000.Get("Denominator39")
@@ -146,8 +146,8 @@ c6.SaveAs("trigger40_3TeV_eff.pdf")
 ########################################################
 
 # TRIGGER 39, ZZ
-denominator6 = ZZ_bkg.Get("Denominator40")
-numerator6 = ZZ_bkg.Get("Numerator40")
+denominator6 = ZZ_bkg.Get("Denominator39")
+numerator6 = ZZ_bkg.Get("Numerator39")
 
 # Divide numerator by denominator
 result_histogram = numerator6.Clone()
@@ -183,14 +183,14 @@ result_histogram.GetYaxis().SetTitle("AK8Pt")
 
 c8.Draw()
 c8.SaveAs("trigger40_ZZ_eff.pdf")
-
+'''
 
 
 
 
 # TRIGGER 39, DATA
-denominator8 = data.Get("Denominator40")
-numerator8 = data.Get("Numerator40")
+denominator8 = data.Get("Denominator39")
+numerator8 = data.Get("Numerator39")
 
 # Divide numerator by denominator
 result_histogram = numerator8.Clone()
@@ -228,27 +228,3 @@ result_histogram.GetYaxis().SetTitle("AK8Pt")
 
 c10.Draw()
 c10.SaveAs("trigger40_data_eff.pdf")
-
-
-
-
-'''
-# TRIGGER 40, 3 TeV
-denominator5 = Rad_3000.Get("Denominator40")
-numerator5 = Rad_3000.Get("Numerator40")
-
-# Divide numerator by denominator
-result_histogram = numerator5.Clone()
-result_histogram.Divide(denominator5)
-
-c6 = TCanvas("canvas", "Divided Histogram", 800, 600)
-result_histogram.Draw("colz")
-
-result_histogram.SetTitle("1 TeV AK8Mass and AK8Pt efficiency trigger 40: HLT_AK8PFJet400_TrimMass30_v")
-result_histogram.GetXaxis().SetTitle("AK8Mass")
-result_histogram.GetYaxis().SetTitle("AK8Pt")
-
-c6.Draw()
-c6.SaveAs("trigger40_3TeV_eff.pdf")
-
-'''
