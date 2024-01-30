@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     
     
     string channel, tree_name;
-    if (dir.find("_tt") != string::npos or dir.find("tt_") != string::npos ) {channel ="tt";tree_name="tautau_tree";}
+    if (dir.find("_tt") != string::npos or dir.find("tt_") != string::npos ) {channel ="tt";tree_name="tree_4tau";}
     else (std::cout << "channel is not specificed in the outFile name !\n");
     string newChannelName= channel;
     
@@ -89,13 +89,18 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         
         float lep1Pt_=-10;
         float lep2Pt_=-10;
-        float vis_mass=-10;
         float LeadJetPt = -10;
         bool lep1IsoPassV, lep2IsoPassV ,OS,SS, lep1IsoPassL, lep2IsoPassL;
         float tmass,ht,st,Met,weight, dR_lep_lep, Metphi;
         float NN_disc,MuMatchedIsolation,EleMatchedIsolation,NN_disc_ZTT,NN_disc_QCD;
-        float higgs_pT, higgs_m, m_sv, gen_higgs_pT, gen_leadjet_pT;
+        float higgs_m, m_sv, gen_higgs_pT, gen_leadjet_pT;
         bool isGenTauSub_, isGenTauLead_;
+
+
+        float vis_mass, vis_mass2, pfMET, higgs_pT, higgs_pT2, rad_eta, radion_pt, radion_inv_mass, 
+        HT, higgs1_dr, higgs2_dr, dphi_H1, dphi_H2, dr_HH, dphi_HH, TMass_H1, TMass_H2, TMass_Radion,
+        dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H2_Rad, dph_H1_Rad, dr_H2_Rad, dr_H1_Rad, tau1_h1_pt,
+        tau2_h1_pt, tau1_h2_pt, tau2_h2_pt, ratio, ratio2, total_efficiency_39, AK8Mass, AK8Pt, dphi_H1_Rad;
 
         //tree->SetBranchAddress("isGenTauLead_",&isGenTauLead_);
         //tree->SetBranchAddress("isGenTauSub_",&isGenTauSub_);
@@ -129,7 +134,6 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
 
         tree->SetBranchAddress("vis_mass",&vis_mass);
         tree->SetBranchAddress("vis_mass2",&vis_mass2);
-        tree->SetBranchAddress("LumiWeight",&LumiWeight);
         tree->SetBranchAddress("pfMET",&pfMET);
         tree->SetBranchAddress("higgs_pT",&higgs_pT);
         tree->SetBranchAddress("higgs_pT2",&higgs_pT2);
@@ -157,9 +161,6 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("tau2_h1_pt",&tau2_h1_pt);
         tree->SetBranchAddress("tau1_h2_pt",&tau1_h2_pt);
         tree->SetBranchAddress("tau2_h2_pt",&tau2_h2_pt);
-        tree->SetBranchAddress("ratio",&ratio);
-        tree->SetBranchAddress("ratio2",&ratio2);
-        tree->SetBranchAddress("total_efficiency_39",&total_efficiency_39);
         tree->SetBranchAddress("AK8Mass", &AK8Mass);
         tree->SetBranchAddress("AK8Pt", &AK8Pt);
         
@@ -169,62 +170,39 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             tree->GetEntry(i);
             
             std::map<std::string, float>  ObsName {
-                //{"lep1Pt",lep1Pt_},
-                //{"lep2Pt",lep2Pt_},
-                //{"lep1IsoPassV",lep1IsoPassV},
-                //{"lep2IsoPassV",lep2IsoPassV},
-                //{"vis_mass",vis_mass},
-                //{"tmass",tmass},
-                //{"ht",ht},
-                //{"st",st},
-                //{"Met",Met},
-                //{"LeadJetPt",LeadJetPt},
-                //{"dR_lep_lep",dR_lep_lep},
-                //{"higgs_pT",higgs_pT},
-                //{"higgs_m",higgs_m},
-                //{"m_sv",m_sv},
-                //{"NN_disc",NN_disc},
-                //{"NN_disc_ZTT",NN_disc_ZTT},
-                //{"NN_disc_QCD",NN_disc_QCD},
-                //{"MuMatchedIsolation",MuMatchedIsolation},
-                //{"EleMatchedIsolation",EleMatchedIsolation}
 
 
-                {"vis_mass", &vis_mass},
-                {"vis_mass2", &vis_mass2},
-                {"LumiWeight", &LumiWeight},
-                {"pfMET", &pfMET},
-                {"higgs_pT", &higgs_pT},
-                {"higgs_pT2", &higgs_pT2},
-                {"rad_eta", &rad_eta},
-                {"radion_pt", &radion_pt},
-                {"radion_inv_mass", &radion_inv_mass},
-                {"HT", &HT},
-                {"higgs1_dr", &higgs1_dr},
-                {"higgs2_dr", &higgs2_dr},
-                {"dphi_H1", &dphi_H1},
-                {"dphi_H2", &dphi_H2},
-                {"dr_HH", &dr_HH},
-                {"dphi_HH", &dphi_HH},
-                {"TMass_H1", &TMass_H1},
-                {"TMass_H2", &TMass_H2},
-                {"TMass_Radion", &TMass_Radion},
-                {"dphi_H1_MET", &dphi_H1_MET},
-                {"dphi_H2_MET", &dphi_H2_MET},
-                {"dphi_rad_MET", &dphi_rad_MET},
-                {"dphi_H2_Rad", &dphi_H2_Rad},
-                {"dph_H1_Rad", &dph_H1_Rad}, //fix this one
-                {"dr_H2_Rad", &dr_H2_Rad},
-                {"dr_H1_Rad", &dr_H1_Rad},
-                {"tau1_h1_pt", &tau1_h1_pt},
-                {"tau2_h1_pt", &tau2_h1_pt},
-                {"tau1_h2_pt", &tau1_h2_pt},
-                {"tau2_h2_pt", &tau2_h2_pt},
-                {"ratio", &ratio},
-                {"ratio2", &ratio2},
-                {"total_efficiency_39", &total_efficiency_39},
-                {"AK8Mass", &AK8Mass},
-                {"AK8Pt", &AK8Pt}
+                {"vis_mass", vis_mass},
+                {"vis_mass2", vis_mass2},
+                {"pfMET", pfMET},
+                {"higgs_pT", higgs_pT},
+                {"higgs_pT2", higgs_pT2},
+                {"rad_eta", rad_eta},
+                {"radion_pt", radion_pt},
+                {"radion_inv_mass", radion_inv_mass},
+                {"HT", HT},
+                {"higgs1_dr", higgs1_dr},
+                {"higgs2_dr", higgs2_dr},
+                {"dphi_H1", dphi_H1},
+                {"dphi_H2", dphi_H2},
+                {"dr_HH", dr_HH},
+                {"dphi_HH", dphi_HH},
+                {"TMass_H1", TMass_H1},
+                {"TMass_H2", TMass_H2},
+                {"TMass_Radion", TMass_Radion},
+                {"dphi_H1_MET", dphi_H1_MET},
+                {"dphi_H2_MET", dphi_H2_MET},
+                {"dphi_rad_MET", dphi_rad_MET},
+                {"dphi_H2_Rad", dphi_H2_Rad},
+                {"dph_H1_Rad", dph_H1_Rad}, //fix this one
+                {"dr_H2_Rad", dr_H2_Rad},
+                {"dr_H1_Rad", dr_H1_Rad},
+                {"tau1_h1_pt", tau1_h1_pt},
+                {"tau2_h1_pt", tau2_h1_pt},
+                {"tau1_h2_pt", tau1_h2_pt},
+                {"tau2_h2_pt", tau2_h2_pt},
+                {"AK8Mass", AK8Mass},
+                {"AK8Pt", AK8Pt}
                 
             };
 
