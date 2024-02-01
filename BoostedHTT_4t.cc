@@ -883,7 +883,7 @@ PFMET_MHT = pfMET + MHT;
         int min_dR_index_muon = result.min_dR_index;
         float min_dR = result.min_dR;
         plotFill("min_dR_index_tau_muon", min_dR_index_muon, 50, 0 , 9, LumiWeight);
-        plotFill("min_dR_muon", min_dR, 50, 0, 2, LumiWeight);
+        plotFill("min_dR_muon", min_dR, 50, 0, 1, LumiWeight);
 
         muon_pt = Muon4Momentum.Pt();
         MatchedTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(min_dR_index_muon), boostedTauEta->at(min_dR_index_muon), boostedTauPhi->at(min_dR_index_muon), boostedTauMass->at(min_dR_index_muon));
@@ -909,7 +909,7 @@ PFMET_MHT = pfMET + MHT;
         int min_dR_index2 = result.min_dR_index2;
         float min_dR2 = result.min_dR2;
         plotFill("min_dR_index_tau_ele", min_dR_index2, 50, 0 , 9, LumiWeight);
-        plotFill("min_dR_electron", min_dR2, 50, 0, 2, LumiWeight);
+        plotFill("min_dR_electron", min_dR2, 50, 0, 1, LumiWeight);
 
         ele_pt = Electron4Momentum.Pt();
         MatchTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(min_dR_index2), boostedTauEta->at(min_dR_index2), boostedTauPhi->at(min_dR_index2), boostedTauMass->at(min_dR_index2));
