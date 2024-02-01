@@ -11,7 +11,7 @@ Rad_1000 =TFile('out_1000.root', 'READ')
 Rad_2000 = TFile('out_2000.root', 'READ')
 Rad_3000 = TFile('out_3000.root', 'READ')
 
-
+'''
 c=TCanvas()
 H1_vismass_1000=Rad_1000.Get("higgs1_vis_mass")
 H1_vismass_1000.SetLineColor(1)
@@ -301,7 +301,7 @@ leg.Draw()
 min_dR_index_tau_ele1000.SetMinimum(0)  # Set the minimum value for the y-axis
 min_dR_index_tau_ele1000.SetMaximum(6000)  # Set the maximum value for the y-axis
 c11.SaveAs('out11.pdf')
-
+'''
 
 
 c12=TCanvas()
@@ -329,7 +329,7 @@ ratio1000.SetMaximum(11000)  # Set the maximum value for the y-axis
 c12.SaveAs('out12.pdf')
 
 
-
+'''
 c13=TCanvas()
 pfMET1000=Rad_1000.Get("MET")
 pfMET1000.SetLineColor(1)
@@ -355,7 +355,7 @@ pfMET1000.SetMaximum(1000)  # Set the maximum value for the y-axis
 c13.SaveAs('out13.pdf')
 
 
-
+'''
 c14=TCanvas()
 ratio2_1000=Rad_1000.Get("ratio2")
 ratio2_1000.SetLineColor(1)
@@ -380,7 +380,7 @@ ratio2_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 ratio2_1000.SetMaximum(11000)  # Set the maximum value for the y-axis
 c14.SaveAs('out14.pdf')
 
-
+'''
 
 c15=TCanvas()
 lead_tau_iso1000=Rad_1000.Get("lead_tau_iso")
@@ -992,3 +992,4 @@ leg.Draw()
 radion_eta_1000.SetMinimum(0)  # Set the minimum value for the y-axis
 radion_eta_1000.SetMaximum(1500)  # Set the maximum value for the y-axis
 c37.SaveAs('out37.pdf')
+'''
