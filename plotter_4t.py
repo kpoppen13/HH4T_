@@ -17,15 +17,9 @@ style_map_tuple = namedtuple('style_map_tuple', [
 style_map = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-#        "embedded": style_map_tuple(GetColor("#f9cd66"), black, 1, 1, 1),
-        
-#        "jetFakes": style_map_tuple(GetColor("#ffccff"), black, 1, 1, 1),
-        
         "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-#        "ZLL": style_map_tuple(GetColor(150, 132, 232), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
         "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
@@ -35,25 +29,11 @@ style_map = {
         },
     "EWK": {
         "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
-#        "W": style_map_tuple(GetColor(200, 282, 232), no_color, 1, 0, 1),
-#        "EWKZ": style_map_tuple(GetColor("#9feff2"), no_color, 1, 0, 1),
-#        "ZJ": style_map_tuple(GetColor(200, 282, 232), no_color, 1, 0, 1),
     },
     "signals": {
         "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), ##go back and change the colors
         "out_2000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
         "out_3000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1)
-#         "MG__GGH2Jets_sm_M125": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1),
-#         "MG__GGH2Jets_pseudoscalar_M125": style_map_tuple(no_color, GetColor("#00AAFF"), 1, 3, 1),
-#        # use JHU for 2018 because MG isn't available
-##        "JHU_GGH2Jets_sm_M125": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1),
-##        "JHU_GGH2Jets_pseudoscalar_M125": style_map_tuple(no_color, GetColor("#00AAFF"), 1, 3, 1),
-#
-#        "VBF125": style_map_tuple(no_color, no_color, 0, 0, 1),  # don't show powheg
-##        "JHU_reweighted_qqH_htt_0PM125": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
-##        "JHU_reweighted_qqH_htt_0M125": style_map_tuple(no_color, GetColor("#ff5e00"), 1, 3, 1),
-#        "reweighted_qqH_htt_0PM125_comb": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
-#        "reweighted_qqH_htt_0M125_comb": style_map_tuple(no_color, GetColor("#ff5e00"), 1, 3, 1),
 
     }
 }
@@ -63,7 +43,6 @@ style_map_emu = {
     "backgrounds": {
         "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-#        "ZLL": style_map_tuple(GetColor(150, 132, 232), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
