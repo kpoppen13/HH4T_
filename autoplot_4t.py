@@ -4,7 +4,7 @@ import plotter_4t
 
 
 plots = [
-    ('viss_mass', 'viss_mass', 5),
+    ('viss_mass', 'viss_mass', 20),
 
     #('vis_mass2', 'vis_mass2', 5),
     #("pfMET", pfMET, 5),
@@ -95,6 +95,7 @@ def main(args):
             
             channel = '4t'
             channelName='4t'
+            '''
             if 'em2' in InputFile or '_em_' in InputFile:
                 channel = 'em'
                 channelName='em'
@@ -122,7 +123,7 @@ def main(args):
     #            treeName = 'mumu_tree'
             else:
                 print 'which channel ???'
-
+            '''
 
 
             inputs = PlotArgs(
