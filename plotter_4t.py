@@ -21,20 +21,20 @@ style_map = {
         
 #        "jetFakes": style_map_tuple(GetColor("#ffccff"), black, 1, 1, 1),
         
-        "TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        "QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
 #        "ZLL": style_map_tuple(GetColor(150, 132, 232), black, 1, 1, 1),
-        "ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
 
-        "WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
-        "Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1)
+        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
+        "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        #"output_T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1)
         },
     "EWK": {
-        "VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+        "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
 #        "W": style_map_tuple(GetColor(200, 282, 232), no_color, 1, 0, 1),
 #        "EWKZ": style_map_tuple(GetColor("#9feff2"), no_color, 1, 0, 1),
 #        "ZJ": style_map_tuple(GetColor(200, 282, 232), no_color, 1, 0, 1),
@@ -61,20 +61,20 @@ style_map = {
 style_map_emu = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-        "TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        "QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
 #        "ZLL": style_map_tuple(GetColor(150, 132, 232), black, 1, 1, 1),
-        "ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        #"output_T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
 
         },
     "EWK": {
-        "VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+        "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
     },
     "signals": {
         "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
@@ -164,20 +164,22 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     
     # backgrounds
     if 'ZZ' in backgrounds:
-        leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
+        leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
     else:
         # Handle the case when 'ZZ' is not present in backgrounds
         print("Warning: 'ZZ' not found in backgrounds")
     #leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
-    leg.AddEntry(backgrounds['QCD'], 'Fake bkg', 'f')
-    leg.AddEntry(backgrounds['TTT'], 'TTT', 'f')
-    leg.AddEntry(backgrounds['Tbar'], 'Tbar', 'f')
-    leg.AddEntry(backgrounds['T_tW'], 'T_tW', 'f')
-    leg.AddEntry(backgrounds['T_tchan'], 'T_tchan', 'f')
-    leg.AddEntry(backgrounds['WZ'], 'WZ', 'f')
-    leg.AddEntry(backgrounds['DY'], 'DY', 'f')
-    leg.AddEntry(backgrounds['WJets'], 'WJets', 'f')
-    leg.AddEntry(backgrounds_EWK['VV'], 'EWK', 'f')
+    #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
+    leg.AddEntry(backgrounds['output_TTT'], 'output_TTT', 'f')
+    leg.AddEntry(backgrounds['output_Tbar'], 'output_Tbar', 'f')
+
+
+    #leg.AddEntry(backgrounds['output_T-tW'], 'output_T-tW', 'f')
+    #leg.AddEntry(backgrounds['output_T-tchan'], 'output_T-tchan', 'f')
+    leg.AddEntry(backgrounds['output_WZ'], 'output_WZ', 'f')
+    leg.AddEntry(backgrounds['output_DY'], 'output_DY', 'f')
+    leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
+    leg.AddEntry(backgrounds_EWK['output_VV'], 'EWK', 'f')
 
 
     # stat. uncertainty
@@ -320,7 +322,7 @@ def BuildPlot(args):
     formatStack(stack)
 
 #    combo_signal = signals['H125'].Clone()
-    combo_signal = signals['out_1000'].Clone()    ### come back to this
+    combo_signal = signals['out_1000'].Clone()    ### COME BACK TO THIS PART
 #    combo_signal = signals['JHU_GGH2Jets_pseudoscalar_M125'].Clone()
 #    combo_signal.Scale(signals['H125'].Integral()/combo_signal.Integral())
 #    combo_signal.Add(signals['ggH125'])
