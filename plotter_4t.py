@@ -28,7 +28,7 @@ style_map = {
 
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
         "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        #"output_T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1)
@@ -69,7 +69,7 @@ style_map_emu = {
         "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        #"output_T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
 
         },
