@@ -28,8 +28,8 @@ style_map = {
 
         "WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
         "Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T-tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1)
         },
@@ -69,8 +69,8 @@ style_map_emu = {
         "DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
         "Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "T-tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "T_tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
 
         },
     "EWK": {
@@ -150,6 +150,8 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
 
     # signals
     leg.AddEntry(signals['out_1000'], ' SM Higgs(125)x50', 'l')
+    leg.AddEntry(signals['out_2000'], ' SM Higgs(125)x50', 'l')
+    leg.AddEntry(signals['out_3000'], ' SM Higgs(125)x50', 'l')
 #    leg.AddEntry(signals['MG__GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
 ##    leg.AddEntry(signals['JHU_GGH2Jets_sm_M125'], 'ggH SM Higgs(125)x50', 'l')
 ##    leg.AddEntry(signals['JHU_GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
@@ -159,27 +161,30 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
 #    leg.AddEntry(signals['reweighted_qqH_htt_0PM125_comb'], 'VBF SM Higgs(125)x50', 'l')
 #    leg.AddEntry(signals['reweighted_qqH_htt_0M125_comb'], 'VBF PS Higgs(125)x50', 'l')
 
-
+    
     # backgrounds
-    leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
-#    leg.AddEntry(backgrounds['ZLL'], 'ZLL', 'f')
+    if 'ZZ' in backgrounds:
+        leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
+    else:
+        # Handle the case when 'ZZ' is not present in backgrounds
+        print("Warning: 'ZZ' not found in backgrounds")
+    #leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
     leg.AddEntry(backgrounds['QCD'], 'Fake bkg', 'f')
     leg.AddEntry(backgrounds['TTT'], 'TTT', 'f')
     leg.AddEntry(backgrounds['Tbar'], 'Tbar', 'f')
-    leg.AddEntry(backgrounds['T-tW'], 'T-tW', 'f')
-    leg.AddEntry(backgrounds['T-tchan'], 'T-tchan', 'f')
+    leg.AddEntry(backgrounds['T_tW'], 'T_tW', 'f')
+    leg.AddEntry(backgrounds['T_tchan'], 'T_tchan', 'f')
     leg.AddEntry(backgrounds['WZ'], 'WZ', 'f')
     leg.AddEntry(backgrounds['DY'], 'DY', 'f')
     leg.AddEntry(backgrounds['WJets'], 'WJets', 'f')
     leg.AddEntry(backgrounds_EWK['VV'], 'EWK', 'f')
-#    leg.AddEntry(backgrounds['W'], 'W', 'f')
-#    leg.AddEntry(backgrounds['EWKZ'], 'EWKZ', 'f')
+
 
     # stat. uncertainty
     leg.AddEntry(stat, 'Uncertainty', 'f')
     
     return leg
-
+    
 def formatPull(pull, title):
     pull.SetTitle('')
 #    pull.SetMaximum(1.99)
@@ -264,24 +269,14 @@ def BuildPlot(args):
 
 
     # start getting histograms
-    data_hist = variableX.Get('output_Run2018_data').Clone()
-    signal_1000 = variableX.Get('out_1000').Clone()
-    signal_2000 = variableX.Get('out_2000').Clone()
-    signal_3000 =variableX.Get('out_3000').Clone()
-    signals = {signal_1000, signal_2000, signal_3000}
-    DY = variableX.Get('output_DY').Clone()
-    WJets = variableX.Get('output_WJets').Clone()
-    QCD = variableX.Get('output_QCD').Clone()
-    WZ = variableX.Get('output_WZ').Clone()
-    ZZ = variableX.Get('output_ZZ').Clone()
-    TTT = variableX.Get('output_TTT').Clone()
-    Tbar = variableX.Get('output_Tbar').Clone()
-    T-tchan = variableX.Get('output_T-tchan').Clone()
-    T-tW = variableX.Get('output_T-tW').Clone()
-    VV = variableX.Get('output_VV').Clone()
+    
+    
 
-    backgrounds = {DY, WJets, QCD, WZ, TTT, Tbar, T-tchan, T-tW, VV}
-    backgrounds_EWK = {VV}
+
+    data_hist = variableX.Get('output_Run2018_data').Clone()
+    signals = {}
+    backgrounds = {}
+    backgrounds_EWK = {}
 
     # loop through histograms to read and store to dict
     for hkey in variableX.GetListOfKeys():
@@ -296,6 +291,8 @@ def BuildPlot(args):
         elif hname in style_Xmap['signals']:
             ihist = ApplyStyle(ihist, style_Xmap['signals'][hname])
             signals[hname] = ihist
+    
+    
             
     # now get stat and stack filled
     stat = data_hist.Clone() # sum of all backgrounds
