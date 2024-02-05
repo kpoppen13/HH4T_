@@ -25,7 +25,7 @@ bool isTauGood(int tau_index) {
     bool good_or_bad = true; // Initialize to true by default
     if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(tau_index) < 0.5 || 
         boostedTaupfTausDiscriminationByDecayModeFinding->at(tau_index) < 0.5 || 
-        (boostedTauPt->at(tau_index) <= 30 || fabs(boostedTauEta->at(tau_index)) >= 2.3)) {
+        (boostedTauPt->at(tau_index) <= 20 || fabs(boostedTauEta->at(tau_index)) >= 2.3)) {
         good_or_bad = false;
     }
     return good_or_bad;
@@ -38,6 +38,7 @@ bool isTauGood(int tau_index) {
         float min_dr=100;
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
+            //don't apply charge here
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
@@ -57,6 +58,7 @@ bool isTauGood(int tau_index) {
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if (ibtau == lead_index) continue;
             if (ibtau == lead_index_match) continue;
+            //don't apply charge here
             if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
@@ -479,6 +481,9 @@ int main(int argc, char* argv[]) {
     outTr->Branch("Numerator40",&Numerator40,"Numerator40/F");
     outTr->Branch("AK8Mass", &AK8Mass, "AK8Mass/F");
     outTr->Branch("AK8Pt", &AK8Pt, "AK8Pt/F");
+
+    outTr->Branch("H1OS", &H1OS, "H1OS/F");
+    outTr->Branch("H2OS", &H2OS, "H2OS/F");
 
 //    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
 //    outTr->Branch("nbjet",&nbjet,"nbjet/I");
