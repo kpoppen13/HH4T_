@@ -39,7 +39,7 @@ bool isTauGood(int tau_index) {
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             //don't apply charge here
-            if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
+            //if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
@@ -59,7 +59,7 @@ bool isTauGood(int tau_index) {
             if (ibtau == lead_index) continue;
             if (ibtau == lead_index_match) continue;
             //don't apply charge here
-            if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
+            //if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
@@ -408,7 +408,11 @@ int main(int argc, char* argv[]) {
     float AK8Pt=0;
     float AK8Mass=0;
     float _cut_PFMET_MHT_;
-
+    bool H1OS;
+    bool H2OS;
+    float index_match_2_charge;
+    float lead_match_charge;
+    float H2_match_charge;
     
 //    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
 //    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
@@ -779,6 +783,22 @@ PFMET_MHT = pfMET + MHT;
     // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
     int index_lead_match = MatchBoostedTau(leadtau4mom, lead_charge);
     if (index_lead_match < 0) continue;
+
+
+
+    lead_match_charge = boostedTauCharge->at(index_lead_match);
+    //H1 Charge
+    if (lead_match_charge * lead_charge < 0){
+        H1OS = true;
+    }
+    if (lead_match_charge * lead_charge > 0){
+        H1OS = false;
+    }
+
+    plotFill("H1OS", H1OS, 50, 0, 1.1);
+
+
+    
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_lead_match), boostedTauEta->at(index_lead_match), boostedTauPhi->at(index_lead_match), boostedTauMass->at(index_lead_match));
     plotFill("Lead_Tau's_Match_Index", index_lead_match, 40, .5, 8, LumiWeight);
 
@@ -798,6 +818,18 @@ PFMET_MHT = pfMET + MHT;
 
     int index_match_2 = MatchBoostedTauAgain(NewBoostedTau4Momentum, newcharge, min_index, index_lead_match);
     if (index_match_2 < 0) continue; 
+
+
+    H2_match_charge = boostedTauCharge->at(index_match_2);
+    //H2 charge
+    if (H2_match_charge * newcharge < 0){
+        H2OS = true;
+    }
+    if (H2_match_charge * newcharge > 0){
+        H2OS = false;
+    }
+    plotFill("H2OS", H2OS, 50, 0, 1.1);
+
     SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
     plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8, LumiWeight);
     
@@ -874,7 +906,14 @@ PFMET_MHT = pfMET + MHT;
     //MHT
     plotFill("pfMHT", pfMHT, 50, 0, 1000, LumiWeight);
 
-    //
+    // Sign of each higgs
+    
+    
+    //check sign of first higgs
+    
+    //check sign of second higgs
+
+    //fill branches
 
     // muons
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
