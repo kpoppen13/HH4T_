@@ -17,23 +17,22 @@ style_map_tuple = namedtuple('style_map_tuple', [
 style_map = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-        "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), #go back and change the colors
-        "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1)
+        "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
+        "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
         "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
     },
     "signals": {
-        "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), ##go back and change the colors
-        "out_2000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
-        "out_3000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1)
+        "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "out_2000": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "out_3000": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
 
     }
 }
@@ -41,24 +40,23 @@ style_map = {
 style_map_emu = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-        "output_TTT": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        #"output_QCD": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "output_ZZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_DY": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_Tbar": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        "output_T-tchan": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
-        #"output_T_tW": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1),
+        "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
+        "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
     "EWK": {
         "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
     },
     "signals": {
-        "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
-        "out_2000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1),
-        "out_3000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1)
+        "out_1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "out_2000": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "out_3000": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
     }
 }
 
@@ -128,9 +126,9 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(data, 'Data', 'lep')
 
     # signals
-    leg.AddEntry(signals['out_1000'], ' SM Higgs(125)x50', 'l')
-    leg.AddEntry(signals['out_2000'], ' SM Higgs(125)x50', 'l')
-    leg.AddEntry(signals['out_3000'], ' SM Higgs(125)x50', 'l')
+    leg.AddEntry(signals['out_1000'], ' 1 TeV', 'l')
+    leg.AddEntry(signals['out_2000'], ' 2 TeV', 'l')
+    leg.AddEntry(signals['out_3000'], ' 3 TeV', 'l')
 #    leg.AddEntry(signals['MG__GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
 ##    leg.AddEntry(signals['JHU_GGH2Jets_sm_M125'], 'ggH SM Higgs(125)x50', 'l')
 ##    leg.AddEntry(signals['JHU_GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
@@ -142,12 +140,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
 
     
     # backgrounds
-    if 'ZZ' in backgrounds:
-        leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
-    else:
-        # Handle the case when 'ZZ' is not present in backgrounds
-        print("Warning: 'ZZ' not found in backgrounds")
-    #leg.AddEntry(backgrounds['ZZ'], 'ZZ', 'f')
+    leg.AddEntry(backgrounds['output_ZZ'], 'output_ZZ', 'f')
     #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
     leg.AddEntry(backgrounds['output_TTT'], 'output_TTT', 'f')
     leg.AddEntry(backgrounds['output_Tbar'], 'output_Tbar', 'f')
