@@ -197,30 +197,27 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             if (H1OS && H2OS){
 //            if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
-                //OS OS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill(vbf_var1,  weight); // making plots!
-                hists_1d.at(categories.at(zeroJet)).back()->SetTitle("OS_OS");
+                //OS OS, have to rerun 4 times for each histogram
+                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"OS_OS").c_str(),  weight); // making plots!
             }
+            '''
             if (! H1OS && H2OS){
                 //SS OS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill(vbf_var1,  weight); // making plots!
-                hists_1d.at(categories.at(zeroJet)).back()->SetTitle("SS_OS");
+                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_OS").c_str(),  weight); // making plots!
             }
             if (H1OS && ! H2OS){
 //            if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 // OS SS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill(vbf_var1,  weight); // making plots!
-                hists_1d.at(categories.at(zeroJet)).back()->SetTitle("OS_SS");
+                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"OS_SS").c_str(),  weight); // making plots!
             }
             if (! H1OS && ! H2OS){
 //            if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //SS SS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill(vbf_var1,  weight); // making plots!
-                hists_1d.at(categories.at(zeroJet)).back()->SetTitle("SS_SS");
+                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_SS").c_str(),  weight); // making plots!
             }
-
+            '''
 
 
         }
