@@ -102,11 +102,11 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H2_Rad, dph_H1_Rad, dr_H2_Rad, dr_H1_Rad, tau1_h1_pt,
         tau2_h1_pt, tau1_h2_pt, tau2_h2_pt, ratio, ratio2, total_efficiency_39, AK8Mass, AK8Pt, dphi_H1_Rad;
 
-        bool H1OS, H2OS;
+        //bool H1OS, H2OS;
 
 
-        tree->SetBranchAddress("H1OS",&H1OS);
-        tree->SetBranchAddress("H2OS",&H2OS);
+        //tree->SetBranchAddress("H1OS",&H1OS);
+        //tree->SetBranchAddress("H2OS",&H2OS);
 
         tree->SetBranchAddress("vis_mass",&vis_mass);
         tree->SetBranchAddress("vis_mass2",&vis_mass2);
@@ -179,8 +179,8 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"tau2_h2_pt", tau2_h2_pt},
                 {"AK8Mass", AK8Mass},
                 {"AK8Pt", AK8Pt},
-                {"H1OS", H1OS},
-                {"H2OS", H2OS}
+                //{"H1OS", H1OS},
+                //{"H2OS", H2OS}
             };
 
 
@@ -194,30 +194,31 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             //if (1) { // final analysis
-            if (H1OS && H2OS){
+            //if (H1OS && H2OS){
 //            if (OS != 0  && lep1IsoPassV) { // final analysis
-                cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
+                //cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //OS OS, have to rerun 4 times for each histogram
-                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"OS_OS").c_str(),  weight); // making plots!
-            }
-            '''
-            if (! H1OS && H2OS){
+                // + "OS_OS").c_str()
+                //hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1 ),  weight); // making plots!
+            //}
+            
+            //if (! H1OS && H2OS){
                 //SS OS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_OS").c_str(),  weight); // making plots!
-            }
-            if (H1OS && ! H2OS){
-//            if (OS != 0  && lep1IsoPassV) { // final analysis
-                cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
+              //  hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_OS").c_str(),  weight); // making plots!
+            //}
+            //if (H1OS && ! H2OS){
+//            //if (OS != 0  && lep1IsoPassV) { // final analysis
+                //cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 // OS SS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"OS_SS").c_str(),  weight); // making plots!
-            }
-            if (! H1OS && ! H2OS){
+                //hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"OS_SS").c_str(),  weight); // making plots!
+            //}
+            //if (! H1OS && ! H2OS){
 //            if (OS != 0  && lep1IsoPassV) { // final analysis
-                cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
+                //cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //SS SS
-                hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_SS").c_str(),  weight); // making plots!
-            }
-            '''
+                //hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_SS").c_str(),  weight); // making plots!
+            //}
+            
 
 
         }
