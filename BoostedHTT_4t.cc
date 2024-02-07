@@ -39,7 +39,7 @@ bool isTauGood(int tau_index) {
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             //don't apply charge here
-            //if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
+            if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
@@ -59,7 +59,7 @@ bool isTauGood(int tau_index) {
             if (ibtau == lead_index) continue;
             if (ibtau == lead_index_match) continue;
             //don't apply charge here
-            //if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
+            if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
             BoostTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(ibtau),boostedTauEta->at(ibtau),boostedTauPhi->at(ibtau),boostedTauMass->at(ibtau));
             if(BoostTau4Momentum.DeltaR(Object4Momentum) < min_dr ){
@@ -786,16 +786,16 @@ PFMET_MHT = pfMET + MHT;
 
 
 
-    lead_match_charge = boostedTauCharge->at(index_lead_match);
+    //lead_match_charge = boostedTauCharge->at(index_lead_match);
     //H1 Charge
-    if (lead_match_charge * lead_charge < 0){
-        H1OS = true;
-    }
-    if (lead_match_charge * lead_charge > 0){
-        H1OS = false;
-    }
+    //if (lead_match_charge * lead_charge < 0){
+        //H1OS = true;
+    //}
+    //if (lead_match_charge * lead_charge > 0){
+        //H1OS = false;
+    //}
 
-    plotFill("H1OS", H1OS, 50, 0, 1.1);
+    //plotFill("H1OS", H1OS, 50, 0, 1.1);
 
 
     
@@ -820,15 +820,15 @@ PFMET_MHT = pfMET + MHT;
     if (index_match_2 < 0) continue; 
 
 
-    H2_match_charge = boostedTauCharge->at(index_match_2);
+    //H2_match_charge = boostedTauCharge->at(index_match_2);
     //H2 charge
-    if (H2_match_charge * newcharge < 0){
-        H2OS = true;
-    }
-    if (H2_match_charge * newcharge > 0){
-        H2OS = false;
-    }
-    plotFill("H2OS", H2OS, 50, 0, 1.1);
+    //if (H2_match_charge * newcharge < 0){
+        //H2OS = true;
+    //}
+    //if (H2_match_charge * newcharge > 0){
+        //H2OS = false;
+    //}
+    //plotFill("H2OS", H2OS, 50, 0, 1.1);
 
     SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(index_match_2), boostedTauEta->at(index_match_2), boostedTauPhi->at(index_match_2), boostedTauMass->at(index_match_2));
     plotFill("new_boosted_tau_match_index", index_match_2, 40, .5, 8, LumiWeight);
