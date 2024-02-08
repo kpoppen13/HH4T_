@@ -217,10 +217,11 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 //cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //SS SS
                 //hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1+"SS_SS").c_str(),  weight); // making plots!
+
+
             //}
             
-
-
+        
         }
         delete fin;
     }
