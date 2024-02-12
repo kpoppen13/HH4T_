@@ -1,68 +1,16 @@
-#ifndef Functions_h
-#define Functions_h
-
-#include "TROOT.h"
-#include "TFile.h"
-#include "TTree.h"
-#include "TBrowser.h"
-#include "TH1.h"
-#include "TH2.h"
-#include "TH1F.h"
-#include "TF1.h"
-#include "TRandom.h"
-#include "TCanvas.h"
-#include "math.h"
-#include "TGaxis.h"
-#include "TLegend.h"
-#include "TGraph.h"
-#include "TGraphAsymmErrors.h"
-#include "TInterpreter.h"
-#include "TSystem.h"
-#include "TNtuple.h"
-#include "TPaveLabel.h"
-#include "TPaveText.h"
-#include "TFrame.h"
-#include <fstream>
-#include <sstream>
-#include <stdio.h>
-#include <vector>
-#include <utility>
-#include <iostream>
-#include <map>
-#include "TLorentzVector.h"
-#include "../interface/boostHTT_4t.h"
-#include "../interface/WeightCalculator.h"
-#include "../interface/Corrector.h"
-#include "../interface/makeHisto.h"
-#include "../interface/event_info.h"
-#include "../interface/ComputeWG1Unc.h"
-#include "../interface/bjet_weighter.h"
-
-
-
-
-
-
-
-/*
-//#include "../interface/Functions.h"
 #include <string>
 #include <ostream>
 #include <vector>
-
 #include <list>
 #include <algorithm>
-
 #include "RooWorkspace.h"
 #include "RooRealVar.h"
 #include "RooFunctor.h"
 #include "RooMsgService.h"
 #include "TLorentzVector.h"
-//#include "../interface/CLParser.h"
-//#include "../interface/boostHTT_4t.h"
-//#include "../interface/makeHisto.h"
-//#include "../interface/WeightCalculator.h"
-*/
+#include "../interface/boostHTT_4t.h"
+
+
 
 // function to chek if tau is good 
 // true = good tau, false = bad tau
