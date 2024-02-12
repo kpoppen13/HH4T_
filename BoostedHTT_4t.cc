@@ -18,9 +18,6 @@
 #include "../interface/WeightCalculator.h"
 
 
-
-
-
 // function to chek if tau is good 
 // true = good tau, false = bad tau
 bool isTauGood(int tau_index) {
@@ -353,32 +350,13 @@ int main(int argc, char* argv[]) {
     if (year== 2016) DeepCSVCut =     0.8953  ;
     if (year== 2017) DeepCSVCut =     0.8001  ;
     if (year== 2018) DeepCSVCut =    0.7527   ;
-//
-//    float LeptonIsoCut=0.15;
-//    bool debug= false;
+
     float LumiWeight = 1;
-//    float PUWeight = 1;
-//    float LepCorrection=1;
-//    float zmasspt_weight=1;
-//    float WBosonKFactor=1;
-//    float preFireWeight=1;
-//    float ttbar_rwt=1;
-//    float zmasspt_weight_err=0;
-//    float zmasspt_weight_nom=1;
-//    float weight_Rivet =1;
-//    float weight_g_NNLOPS = 1;
-//    float Weight_PS=1;
-//
-//    float lep1Pt_=-10;
-//    float lep2Pt_=-10;
     float vis_mass=-10;
     float vis_mass2=-10;
     float radion_inv_mass=-10;
     float min_dr = 100;
     float lead_tau_iso;
-//    float LeadJetPt = -10;
-//    float dR_Z_jet=-10;
-//    bool lep1IsoPassL,lep2IsoPassL,lep1IsoPassV,lep2IsoPassV,OS,SS;
     float tmass,ht,st,Met,FullWeight, dR_lep_lep, Metphi,BoostedTauRawIso, higgs_pT, higgs_pT2, radion_pt, higgs_m, m_sv_, wtnom_zpt_weight, gen_higgs_pT,gen_leadjet_pT;
     float LeadingBoostedTauPt;
     float SubLeadingBoostedTauPt;
@@ -412,7 +390,6 @@ int main(int argc, char* argv[]) {
     float _cut_PFMET_MHT_;
     bool H1OS;
     bool H2OS;
-    //int index_match_2_charge;
     int tau4_charge;
     int tau2_charge;
     int H2_match_charge;
@@ -432,37 +409,11 @@ int main(int argc, char* argv[]) {
     float efficiency39;
     float efficiency40;
 
-    
-//    float MuMatchedIsolation= -1; float EleMatchedIsolation =-1;
-//    int nbjet, gen_matched1_, gen_matched2_,gen_matched1, gen_matched2, gen_nJet;
-//
-//    bool isGenTauSub_, isGenTauLead_;
-//    bool Chan_emu, Chan_etau, Chan_mutau, Chan_tautau, Chan_emu_fid, Chan_etau_fid, Chan_mutau_fid, Chan_tautau_fid;
-//
-//    outTr->Branch("evtwt",&FullWeight,"evtwt/F");
-//    outTr->Branch("pdfWeight", &pdfWeight);
-//    outTr->Branch("pdfSystWeight", &pdfSystWeight);
-//    outTr->Branch("pdf", &pdf);
-//    outTr->Branch("zmasspt_weight",&zmasspt_weight,"zmasspt_weight/F");
-//    outTr->Branch("lep1Pt",&lep1Pt_,"lep1Pt/F");
-//    outTr->Branch("lep2Pt",&lep2Pt_,"lep2Pt/F");
-//    outTr->Branch("lep1IsoPassL",&lep1IsoPassL,"lep1IsoPassL/O");
-//    outTr->Branch("lep2IsoPassL",&lep2IsoPassL,"lep2IsoPassL/O");
-//    outTr->Branch("lep1IsoPassV",&lep1IsoPassV,"lep1IsoPassV/O");
-//    outTr->Branch("lep2IsoPassV",&lep2IsoPassV,"lep2IsoPassV/O");
-//    outTr->Branch("OS",&OS,"OS/O");
-//    outTr->Branch("SS",&SS,"SS/O");
+
    outTr->Branch("vis_mass",&vis_mass,"vis_mass/F");
    outTr->Branch("vis_mass2",&vis_mass2,"vis_mass2/F");
    outTr->Branch("LumiWeight",&LumiWeight,"LumiWeight/F");
    outTr->Branch("pfMET",&pfMET,"pfMET/F");
-//    outTr->Branch("tmass",&tmass,"tmass/F");
-//    outTr->Branch("ht",&ht,"ht/F");
-//    outTr->Branch("st",&st,"st/F");
-//    outTr->Branch("Met",&Met,"Met/F");
-//    outTr->Branch("LeadJetPt",&LeadJetPt,"LeadJetPt/F");
-//    outTr->Branch("dR_lep_lep",&dR_lep_lep,"dR_lep_lep/F");
-//    outTr->Branch("BoostedTauRawIso",&BoostedTauRawIso,"BoostedTauRawIso/F");
     outTr->Branch("higgs_pT",&higgs_pT,"higgs_pT/F");
     outTr->Branch("higgs_pT2",&higgs_pT2,"higgs_pT/F");
     outTr->Branch("rad_eta", &rad_eta, "rad_eta/F");
@@ -501,19 +452,6 @@ int main(int argc, char* argv[]) {
     outTr->Branch("H1OS", &H1OS, "H1OS/O");
     outTr->Branch("H2OS", &H2OS, "H2OS/O");
 
-//    outTr->Branch("higgs_m",&higgs_m,"higgs_m/F");
-//    outTr->Branch("nbjet",&nbjet,"nbjet/I");
-//    outTr->Branch("gen_higgs_pT",&gen_higgs_pT,"gen_higgs_pT/F");
-//    outTr->Branch("gen_leadjet_pT",&gen_leadjet_pT,"gen_leadjet_pT/F");
-//    outTr->Branch("isGenTauLead_",&isGenTauLead_,"isGenTauLead_/O");
-//    outTr->Branch("isGenTauSub_",&isGenTauSub_,"isGenTauSub_/O");
-//    outTr->Branch("MuMatchedIsolation",&MuMatchedIsolation,"MuMatchedIsolation/F");
-//    outTr->Branch("EleMatchedIsolation",&EleMatchedIsolation,"EleMatchedIsolation/F");
-//    outTr->Branch("gen_matched1_",&gen_matched1_,"gen_matched1_/I");
-//    outTr->Branch("gen_matched2_",&gen_matched2_,"gen_matched2_/I");
-//    outTr->Branch("run",&run,"run/I");
-//    outTr->Branch("event",&event,"event/I");
-//    outTr->Branch("lumis",&lumis,"lumis/I");
 
 //for the trigger
 string JetSys="Nominal";
@@ -521,10 +459,6 @@ if (syst=="JEnTotUp") JetSys="JetTotUp";
 else if (syst=="JEnTotDown") JetSys="JetTotDown";
 else std::cout<<"This is nominal Jet\n";
 
-
-
-  
-    
     Int_t nentries_wtn = (Int_t) Run_Tree->GetEntries();
     cout<<"nentries_wtn===="<<nentries_wtn<<"\n";
     for (Int_t i = 0; i < nentries_wtn; i++) {
@@ -564,7 +498,6 @@ if (PassTrigger_39 == 1){
 plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
 plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
 
-
     
 //
 //        // Trigger
@@ -584,9 +517,6 @@ plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
         TLorentzVector LeadTau4Momentum,SubTau4Momentum, Sub_and_Lead_Momentum, Met4Momentum, LeadTau4MomentumNominal, SubTau4MomentumNominal;
         //=========================================================================================================
 if (nBoostedTau < 3) continue;
-
-
-    
     float LeadingBoostedTauPt= boostedTauPt->at(0);
     float SubLeadingBoostedTauPt= boostedTauPt->at(1);
     float ThirdBoostedTauPt= boostedTauPt->at(2);
@@ -596,28 +526,20 @@ if (nBoostedTau < 3) continue;
     plotFill("ThirdBoostedTauPt_",ThirdBoostedTauPt ,50,0,700);
     plotFill("FourthBoostedTauPt_",FourthBoostedTauPt ,50,0,500);
 
-
-
-
-
 // 
 //=========================================================================================================
         // Cut on AK8 (for trigger purposes)
         //float AK8Pt=0;
         //float AK8Mass=0;
         float AK8Eta=100;
-
         float AK8Jet;
-
         float PFHT= getST(JetPtCut,JetSys); 
         float PFMET=Met;
         float MHT=getMHT(JetPtCut,JetSys);
-        
         float TriggerWeight = 1;
         float TriggerWeightError = 1;
         float _cut_AK8Pt_,_cut_AK8Mass_,_cut_PFHT_,_cut_PFMET_,_cut_PFMHT_, _cut_PFMETMHT_, _cut_st_;
         bool _Pass_AK8_Trigger_, _Pass_METHT_Trigger_;
-
 
         for (int ijet=0; ijet < nAK8Jet ; ijet ++){
             
@@ -632,17 +554,12 @@ if (nBoostedTau < 3) continue;
                 break;
         }
         }
-
-
 // Trigger Efficiency==========================================================================
-
-
 //if (year== 2018  && PFHT > 400 ){
     //plotFill("RunBeforeTrigger",run, 50 ,315000,326000);
     //if (PassTrigger_39) plotFill("RunHLTJet39",run, 50 ,315000,326000);
     //if (PassTrigger_40) plotFill("RunHLTJet40",run, 50 ,315000,326000);
     //}
-
 //=========================================================================================
 if (year== 2018){    
     _cut_AK8Pt_ = 450;
@@ -673,24 +590,15 @@ PFMET_MHT = pfMET + MHT;
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
 
-    
-    
-
-    
-//===============================================================================================
-// ^^
-
         //=========================================================================================================
         // Event Selection
         //=========================================================================================================
-
     //get the four momentum for each of the first four Tau
     TLorentzVector ThirdTau4Momentum, FourthTau4Momentum, Third_and_Fourth_Momentum;    
     LeadTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(0), boostedTauEta->at(0), boostedTauPhi->at(0), boostedTauMass->at(0));
     SubTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(1), boostedTauEta->at(1), boostedTauPhi->at(1), boostedTauMass->at(1));
     ThirdTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(2), boostedTauEta->at(2), boostedTauPhi->at(2), boostedTauMass->at(2));
     FourthTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(3), boostedTauEta->at(3), boostedTauPhi->at(3), boostedTauMass->at(3));
-
 
     // check isolation of each tau
     float subtau_iso, third_tau_iso, fourth_tau_iso;
@@ -703,7 +611,6 @@ PFMET_MHT = pfMET + MHT;
     plotFill("subtau_iso", subtau_iso, 50, -1.1, 1);
     plotFill("third_tau_iso", third_tau_iso, 50, -1.1, 1.1);
     plotFill("fourth_tau_iso", fourth_tau_iso, 50, -1.1, 1.1);
-
 
     //deltaR between the leading tau and each of the other tau
     float dR_sub_lead= SubTau4Momentum.DeltaR(LeadTau4Momentum);
@@ -719,9 +626,7 @@ PFMET_MHT = pfMET + MHT;
     if (LumiWeight == 0){
         LumiWeight = 1;
     }
-    //std::cout<<LumiWeight<<endl;
 
-    
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
     plotFill("Z_multiplicity", Z_multiplicity, 50, 0, 4.5);
     plotFill("Z_muon_mult", Zto_mumu_multiplicity(), 50, 0, 4.5);
@@ -729,7 +634,6 @@ PFMET_MHT = pfMET + MHT;
     //plotFill("Z_ee_mumu_mult", Zto_mumu_multiplicity(), Zto_ee_multiplicity(), 50, 0, 10);
     if (Z_multiplicity > 0) continue;
     
-
     //matching the pairs
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
     // get lead tau
@@ -744,7 +648,6 @@ PFMET_MHT = pfMET + MHT;
             plotFill("Lead_Tau_Index", ibtau, 50, 0, 5, LumiWeight);
             
         }
-
     }
     
     // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
@@ -764,10 +667,8 @@ PFMET_MHT = pfMET + MHT;
 
     plotFill("H1OS", H1OS, 50, 0, 1.1);
 
-
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(tau2_index), boostedTauEta->at(tau2_index), boostedTauPhi->at(tau2_index), boostedTauMass->at(tau2_index));
     plotFill("Tau_2_Index", tau2_index, 40, .5, 8, LumiWeight); 
-
     
     for (int i = 0; i< nBoostedTau; i++){
         if (i == tau1_index) continue; 
@@ -798,8 +699,6 @@ PFMET_MHT = pfMET + MHT;
     SecondPair4Momentum.SetPtEtaPhiM(boostedTauPt->at(tau4_index), boostedTauEta->at(tau4_index), boostedTauPhi->at(tau4_index), boostedTauMass->at(tau4_index));
     plotFill("tau4_index", tau4_index, 40, .5, 8, LumiWeight);
     
-
-
     //constructing the higgs, get their dr and vis mass
     higgs1_momentum = leadtau4mom + LeadMatch4Momentum;
     higgs2_momentum = SecondPair4Momentum + NewBoostedTau4Momentum;
@@ -834,7 +733,6 @@ PFMET_MHT = pfMET + MHT;
     //delta phi between the two higgs
     dphi_HH = higgs1_momentum.DeltaPhi(higgs2_momentum);
     plotFill("dphi_HH", dphi_HH, 50, -4, 4, LumiWeight);
-
 
     //get the pt of each higgs
     higgs_pT = higgs1_momentum.Pt();
