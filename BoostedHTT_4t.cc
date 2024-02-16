@@ -374,6 +374,7 @@ PFMET_MHT = pfMET + MHT;
         if (isTauGood(ibtau) == false) continue;
         if (good_or_bad_match == false) continue;
         if (ibtau<tau1_index){ 
+            //std::cout<<tau1_index<<endl;
             tau1_index = ibtau; 
             leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
             lead_charge = boostedTauCharge->at(ibtau);
@@ -384,7 +385,8 @@ PFMET_MHT = pfMET + MHT;
     
 
     // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
-    int tau2_index = MatchBoostedTau(leadtau4mom);
+    int tau2_index = MatchBoostedTau(leadtau4mom, tau1_index);
+    //std::cout<<tau2_index<<endl;
     if (tau2_index < 0) continue; 
 
 
@@ -401,7 +403,7 @@ PFMET_MHT = pfMET + MHT;
     plotFill("H1OS", H1OS, 50, -.5, .5);
 
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(tau2_index), boostedTauEta->at(tau2_index), boostedTauPhi->at(tau2_index), boostedTauMass->at(tau2_index));
-    plotFill("Tau_2_Index", tau2_index, 40, .5, 8, LumiWeight); 
+    plotFill("Tau_2_Index", tau2_index, 40, 0, 8, LumiWeight); 
     
 
     tau3_index = 15;
