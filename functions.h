@@ -26,7 +26,7 @@ bool isTauGood(int tau_index) {
 
 
 //function to find which tau are pairs from same higgs
-    int MatchBoostedTau(TLorentzVector Object4Momentum, int charge){
+    int MatchBoostedTau(TLorentzVector Object4Momentum){
         TLorentzVector BoostTau4Momentum;
         float min_dr=100;
         int min_dr_index = -1;
@@ -44,13 +44,14 @@ bool isTauGood(int tau_index) {
     }
 
 //function to find which tau are pairs from same higgs
-    int MatchBoostedTauAgain(TLorentzVector Object4Momentum, int charge, int lead_index, int lead_index_match){
+    int MatchBoostedTauAgain(TLorentzVector Object4Momentum, int charge, int lead_index, int lead_index_match, int tau3_index){
         TLorentzVector BoostTau4Momentum;
         float min_dr=100;
         int min_dr_index = -1;
         for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
             if (ibtau == lead_index) continue;
             if (ibtau == lead_index_match) continue;
+            if (ibtau == tau3_index) continue;
             //don't apply charge here
             //if ((boostedTauCharge->at(ibtau) * charge) > 0) continue;
             if (isTauGood(ibtau) == false) continue;
