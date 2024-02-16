@@ -368,22 +368,23 @@ PFMET_MHT = pfMET + MHT;
     //matching the pairs
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
     // get lead tau
+    tau1_index = 15;
     TLorentzVector leadtau4mom;
     for (int ibtau = 0; ibtau < nBoostedTau; ++ibtau){
         if (isTauGood(ibtau) == false) continue;
-        //good_or_bad_match = isTauGood(ibtau); //can change this to how i have it in the other loop below to clean it up
         if (good_or_bad_match == false) continue;
         if (ibtau<tau1_index){ 
             tau1_index = ibtau; 
             leadtau4mom.SetPtEtaPhiM(boostedTauPt->at(ibtau), boostedTauEta->at(ibtau), boostedTauPhi->at(ibtau), boostedTauMass->at(ibtau));
             lead_charge = boostedTauCharge->at(ibtau);
             plotFill("Lead_Tau_Index", ibtau, 50, 0, 5, LumiWeight);
-            
         }
     }
     
+    
+
     // once I have the lead tau, find the match (the cuts are in the functions, so it should pick good taus)
-    int tau2_index = MatchBoostedTau(leadtau4mom, lead_charge); 
+    int tau2_index = MatchBoostedTau(leadtau4mom);
     if (tau2_index < 0) continue; 
 
 
@@ -402,6 +403,8 @@ PFMET_MHT = pfMET + MHT;
     LeadMatch4Momentum.SetPtEtaPhiM(boostedTauPt->at(tau2_index), boostedTauEta->at(tau2_index), boostedTauPhi->at(tau2_index), boostedTauMass->at(tau2_index));
     plotFill("Tau_2_Index", tau2_index, 40, .5, 8, LumiWeight); 
     
+
+    tau3_index = 15;
     for (int i = 0; i< nBoostedTau; i++){
         if (i == tau1_index) continue; 
         if (i == tau2_index) continue; 
@@ -413,8 +416,7 @@ PFMET_MHT = pfMET + MHT;
             plotFill("tau3_index", i , 40, 0, 7, LumiWeight);
         }
     } 
-
-    int tau4_index = MatchBoostedTauAgain(NewBoostedTau4Momentum, tau3_charge, tau1_index, tau2_index); 
+    int tau4_index = MatchBoostedTauAgain(NewBoostedTau4Momentum, tau3_charge, tau1_index, tau2_index, tau3_index); 
     if (tau4_index < 0) continue; 
 
 
