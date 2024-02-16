@@ -312,7 +312,7 @@ def BuildPlot(args):
 #            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
 #        if 'qqH' in sig_name:
 #            sig_hist.Scale(50*signals['VBF125'].Integral()/sig_hist.Integral())
-        sig_hist.Scale(50)
+        sig_hist.Scale(0.002) #scale by smaller value
         sig_hist.Draw('same hist')
     
 
