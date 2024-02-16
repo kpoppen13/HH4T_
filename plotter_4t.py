@@ -17,14 +17,14 @@ style_map_tuple = namedtuple('style_map_tuple', [
 style_map = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-        "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_T-tW": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
@@ -47,7 +47,7 @@ style_map_emu = {
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
@@ -151,7 +151,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(backgrounds['output_T-tchan'], 'output_T-tchan', 'f')
     leg.AddEntry(backgrounds['output_WZ'], 'output_WZ', 'f')
     leg.AddEntry(backgrounds['output_DY'], 'output_DY', 'f')
-    leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
+    #leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'EWK', 'f')
 
 
