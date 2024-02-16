@@ -4,9 +4,9 @@ import plotter_4t
 
 
 plots = [
-    ('viss_mass', 'viss_mass', 20),
+    ('viss_mass', 'viss_mass', 5),
 
-    #('vis_mass2', 'vis_mass2', 5),
+    #('vis_mass2', 'vis_mass2', 10)
     #("pfMET", pfMET, 5),
     #("higgs_pT", higgs_pT, 5),
     #('higgs_pT2', 'higgs_pT2', 5),
