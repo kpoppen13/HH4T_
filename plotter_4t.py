@@ -24,7 +24,7 @@ style_map = {
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
@@ -47,7 +47,7 @@ style_map_emu = {
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
@@ -151,7 +151,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(backgrounds['output_T-tchan'], 'output_T-tchan', 'f')
     leg.AddEntry(backgrounds['output_WZ'], 'output_WZ', 'f')
     leg.AddEntry(backgrounds['output_DY'], 'output_DY', 'f')
-    #leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
+    leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'EWK', 'f')
 
 
@@ -244,9 +244,6 @@ def BuildPlot(args):
 
 
     # start getting histograms
-    
-    
-
 
     data_hist = variableX.Get('output_Run2018_data').Clone()
     signals = {}
@@ -260,12 +257,15 @@ def BuildPlot(args):
         if hname in style_Xmap['EWK']:
             ihist = ApplyStyle(ihist, style_Xmap['EWK'][hname])
             backgrounds_EWK[hname] = ihist
+        
         if hname in style_Xmap['backgrounds']:
             ihist = ApplyStyle(ihist, style_Xmap['backgrounds'][hname])
             backgrounds[hname] = ihist
+            
         elif hname in style_Xmap['signals']:
             ihist = ApplyStyle(ihist, style_Xmap['signals'][hname])
             signals[hname] = ihist
+            
     
     
             
@@ -295,7 +295,9 @@ def BuildPlot(args):
     formatStack(stack)
 
 #    combo_signal = signals['H125'].Clone()
-    combo_signal = signals['out_1000'].Clone()    ### COME BACK TO THIS PART
+    combo_signal = signals['out_1000'].Clone() 
+    #combo_signal = signals['out_2000'].Clone() 
+    #combo_signal = signals['out_3000'].Clone() 
 #    combo_signal = signals['JHU_GGH2Jets_pseudoscalar_M125'].Clone()
 #    combo_signal.Scale(signals['H125'].Integral()/combo_signal.Integral())
 #    combo_signal.Add(signals['ggH125'])
@@ -312,7 +314,7 @@ def BuildPlot(args):
 #            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
 #        if 'qqH' in sig_name:
 #            sig_hist.Scale(50*signals['VBF125'].Integral()/sig_hist.Integral())
-        sig_hist.Scale(0.002) #scale by smaller value
+        sig_hist.Scale(.002) #SCALING HERE
         sig_hist.Draw('same hist')
     
 
