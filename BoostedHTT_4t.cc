@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
     float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     if (year== 2016) DeepCSVCut =     0.8953  ;
     if (year== 2017) DeepCSVCut =     0.8001  ;
-    if (year== 2018) DeepCSVCut =    0.7527   ;
+    if (year== 2018) DeepCSVCut =    0.7527   ; //come back to this and ask if this is correct?
 
     float LumiWeight = 1;
     float vis_mass=-10;
@@ -139,6 +139,7 @@ int main(int argc, char* argv[]) {
     float matched_tau_pt;
     float efficiency39;
     float efficiency40;
+    int numBJet;
 
 
    outTr->Branch("vis_mass",&vis_mass,"vis_mass/F");
@@ -182,6 +183,7 @@ int main(int argc, char* argv[]) {
     outTr->Branch("AK8Pt", &AK8Pt, "AK8Pt/F");
     outTr->Branch("H1OS", &H1OS, "H1OS/O");
     outTr->Branch("H2OS", &H2OS, "H2OS/O");
+    outTr->Branch("numBJet", &numBJet, "numBJet/I"); 
 
 
 //for the trigger
@@ -504,6 +506,14 @@ PFMET_MHT = pfMET + MHT;
 
     //MHT
     plotFill("pfMHT", pfMHT, 50, 0, 1000, LumiWeight);
+
+
+
+    // BJet veto
+    numBJet=numBJets(BJetPtCut,DeepCSVCut,JetSys);
+    //std::cout<<BJetPtCut<<endl;
+    //if (numBJet > 0) continue;
+    plotFill("numBJet", numBJet, 15,0,15);
 
 
     // muons
