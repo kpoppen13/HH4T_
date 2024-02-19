@@ -4,21 +4,20 @@ import plotter_4t
 
 
 plots = [
-    ('viss_mass', 'viss_mass', 5),
-
-    #('vis_mass2', 'vis_mass2', 10)
+    #('vis_mass', 'vis_mass', 5),
+    #('vis_mass2', 'vis_mass2', 5),
     #("pfMET", pfMET, 5),
     #("higgs_pT", higgs_pT, 5),
     #('higgs_pT2', 'higgs_pT2', 5),
-    #('rad_eta', 'rad_eta', 5),
+   #('rad_eta', 'rad_eta', 5),
     #('radion_pt', 'radion_pt', 5),
     #('radion_inv_mass', 'radion_inv_mass', 5),
     #('HT', 'HT', 5),
     #('higgs1_dr', 'higgs1_dr', 5),
-    #('higgs2_dr', 'higgs2_dr', 5),
+    ('higgs2_dr', 'higgs2_dr', 5),
     #('dphi_H1', 'dphi_H1', 5),
     #('dphi_H2', 'dphi_H2', 5),
-    #('dr_HH', 'dr_HH', 5),
+    #('dr_HH', 'dr_HH', 5)
     #('dphi_HH', 'dphi_HH', 5),
     #('TMass_H1', 'TMass_H1', 5),
     #('TMass_H2', 'TMass_H2', 5),
