@@ -96,6 +96,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         float NN_disc,MuMatchedIsolation,EleMatchedIsolation,NN_disc_ZTT,NN_disc_QCD;
         float higgs_m, m_sv, gen_higgs_pT, gen_leadjet_pT,m_vis;
         bool isGenTauSub_, isGenTauLead_;
+        int numBJet;
 
         float vis_mass, vis_mass2, pfMET, higgs_pT, higgs_pT2, rad_eta, radion_pt, radion_inv_mass, 
         HT, higgs1_dr, higgs2_dr, dphi_H1, dphi_H2, dr_HH, dphi_HH, TMass_H1, TMass_H2, TMass_Radion,
@@ -142,6 +143,8 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("AK8Mass", &AK8Mass);
         tree->SetBranchAddress("AK8Pt", &AK8Pt);
         tree->SetBranchAddress("LumiWeight",&weight);
+        tree->SetBranchAddress("numBJet", &numBJet);
+
         
         
         // Here we have to call OS/SS method extracter
@@ -182,7 +185,8 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"AK8Mass", AK8Mass},
                 {"AK8Pt", AK8Pt},
                 {"H1OS", H1OS},
-                {"H2OS", H2OS}
+                {"H2OS", H2OS},
+                {"numBJet", numBJet}
             };
 
 
@@ -196,8 +200,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             //if (1) { // final analysis
-            if (H1OS && H2OS ){
-                //&& (Bjet == 0) ^^ add after H2OS
+            if ( H1OS &&  H2OS && (numBJet == 0)){
             //if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //OS OS, have to rerun 4 times for each histogram
