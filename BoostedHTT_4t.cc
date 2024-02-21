@@ -78,10 +78,11 @@ int main(int argc, char* argv[]) {
     float JetPtCut=30;
     float BJetPtCut=30;
 
-    float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-    if (year== 2016) DeepCSVCut =     0.8953  ;
-    if (year== 2017) DeepCSVCut =     0.8001  ;
-    if (year== 2018) DeepCSVCut =    0.7527   ; //come back to this and ask if this is correct?
+    float DeepCSVCut = 0.7527;
+    //float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+    //if (year== 2016) DeepCSVCut =     0.8953  ;
+    //if (year== 2017) DeepCSVCut =     0.8001  ;
+    //if (year== 2018) DeepCSVCut =    0.7527   ; //come back to this and ask if this is correct?
 
     float LumiWeight = 1;
     float vis_mass=-10;
@@ -450,6 +451,16 @@ PFMET_MHT = pfMET + MHT;
     plotFill("higgs2_vis_mass", vis_mass2, 50, 0, 250, LumiWeight); 
     plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5, LumiWeight); 
 
+    /*
+    if (vis_mass < 10){
+        std::cout<<"vis_mass less than 10 GeV"<<endl;
+    }
+
+    if (vis_mass2 < 10){
+        std::cout<<"vis_mass2 less than 10 GeV"<< endl;
+    }
+    */ 
+    
     // pt of each tau
     tau1_h1_pt = leadtau4mom.Pt();
     tau2_h1_pt = NewBoostedTau4Momentum.Pt();
@@ -514,6 +525,7 @@ PFMET_MHT = pfMET + MHT;
     //std::cout<<BJetPtCut<<endl;
     //if (numBJet > 0) continue;
     plotFill("numBJet", numBJet, 15,0,15);
+    
 
 
     // muons
