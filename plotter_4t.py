@@ -22,8 +22,8 @@ style_map = {
         #"output_T-tW": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
-        "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        "output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
@@ -45,8 +45,8 @@ style_map_emu = {
         "output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        "output_Tbar": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
-        "output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        "output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
@@ -123,6 +123,8 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.SetTextFont(42)
     leg.SetTextSize(0.045)
 
+    leg.SetNColumns(2)
+
     # data
     leg.AddEntry(data, 'Data', 'lep')
 
@@ -140,19 +142,22 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
 #    leg.AddEntry(signals['reweighted_qqH_htt_0M125_comb'], 'VBF PS Higgs(125)x50', 'l')
 
     
+
+
     # backgrounds
-    leg.AddEntry(backgrounds['output_ZZ'], 'output_ZZ', 'f')
+    leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
     #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
-    leg.AddEntry(backgrounds['output_TTT'], 'output_TTT', 'f')
-    leg.AddEntry(backgrounds['output_Tbar'], 'output_Tbar', 'f')
+    leg.AddEntry(backgrounds['output_TTT'], 'TTT', 'f')
+    leg.AddEntry(backgrounds['output_Tbar_T-tchan'], 'Tbar_T-tchan', 'f')
 
 
     #leg.AddEntry(backgrounds['output_T-tW'], 'output_T-tW', 'f')
-    leg.AddEntry(backgrounds['output_T-tchan'], 'output_T-tchan', 'f')
-    leg.AddEntry(backgrounds['output_WZ'], 'output_WZ', 'f')
-    leg.AddEntry(backgrounds['output_DY'], 'output_DY', 'f')
-    leg.AddEntry(backgrounds['output_WJets'], 'output_WJets', 'f')
-    leg.AddEntry(backgrounds_EWK['output_VV'], 'EWK', 'f')
+    #leg.AddEntry(backgrounds['output_T-tchan'], 'T-tchan', 'f')
+    leg.AddEntry(backgrounds['output_WZ'], 'WZ', 'f')
+    leg.AddEntry(backgrounds['output_DY'], 'DY', 'f')
+    leg.AddEntry(backgrounds['output_WJets'], 'WJets', 'f')
+    leg.AddEntry(backgrounds_EWK['output_VV'], 'VV', 'f')
+
 
 
     # stat. uncertainty
@@ -314,7 +319,7 @@ def BuildPlot(args):
 #            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
 #        if 'qqH' in sig_name:
 #            sig_hist.Scale(50*signals['VBF125'].Integral()/sig_hist.Integral())
-        sig_hist.Scale(.002) #SCALING HERE
+        sig_hist.Scale(0.002) #SCALING HERE
         sig_hist.Draw('same hist')
     
 
