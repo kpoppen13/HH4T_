@@ -78,7 +78,9 @@ int main(int argc, char* argv[]) {
     float JetPtCut=30;
     float BJetPtCut=30;
 
-    float DeepCSVCut = 0.7527;
+    float DeepCSVCut = 0.8001;
+    // use 0.8001 instead ^^
+
     //float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     //if (year== 2016) DeepCSVCut =     0.8953  ;
     //if (year== 2017) DeepCSVCut =     0.8001  ;
@@ -451,15 +453,11 @@ PFMET_MHT = pfMET + MHT;
     plotFill("higgs2_vis_mass", vis_mass2, 50, 0, 250, LumiWeight); 
     plotFill("higgs2_dr", higgs2_dr, 50, 0, 1.5, LumiWeight); 
 
-    /*
-    if (vis_mass < 10){
-        std::cout<<"vis_mass less than 10 GeV"<<endl;
-    }
+    
+    if (vis_mass < 10) continue;
 
-    if (vis_mass2 < 10){
-        std::cout<<"vis_mass2 less than 10 GeV"<< endl;
-    }
-    */ 
+   if (vis_mass2 < 10) continue;
+    
     
     // pt of each tau
     tau1_h1_pt = leadtau4mom.Pt();
