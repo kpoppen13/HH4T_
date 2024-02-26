@@ -18,11 +18,12 @@ style_map = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
         "output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_T-tW": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        "output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
@@ -42,10 +43,11 @@ style_map_emu = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
         "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
-        "output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        "output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
+        "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
         "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
@@ -147,8 +149,8 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     # backgrounds
     leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
     #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
-    leg.AddEntry(backgrounds['output_TTT'], 'TTT', 'f')
-    leg.AddEntry(backgrounds['output_Tbar_T-tchan'], 'Tbar_T-tchan', 'f')
+    leg.AddEntry(backgrounds['output_TTT'], 'TTbar', 'f')
+    #leg.AddEntry(backgrounds['output_Tbar_T-tchan'], 'Tbar_T-tchan', 'f')
 
 
     #leg.AddEntry(backgrounds['output_T-tW'], 'output_T-tW', 'f')
@@ -157,6 +159,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(backgrounds['output_DY'], 'DY', 'f')
     leg.AddEntry(backgrounds['output_WJets'], 'WJets', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'VV', 'f')
+    leg.AddEntry(backgrounds['other_bkg'], 'other_bkg', 'f')
 
 
 
@@ -278,15 +281,19 @@ def BuildPlot(args):
     stat = data_hist.Clone() # sum of all backgrounds
     stat.Reset()
     stack = ROOT.THStack() # stack of all backgrounds
+    
+    ## I DELETED THIS PART BELOW FOR OSOS BJET
+    '''
     for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
+    '''
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
-
+    
 
 #    sig_yields = [ihist.GetMaximum() for ihist in signals.itervalues()] + [data_hist.GetMaximum(), stat.GetMaximum()]
     stack.SetMaximum(data_hist.GetMaximum() * args.scale)
@@ -296,6 +303,15 @@ def BuildPlot(args):
     can = createCanvas()
     data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
     stat = formatStat(stat)
+    
+    data_hist.Rebin(2)  # Rebin the data histogram with a factor of 2
+    for bkg in backgrounds.values():
+        bkg.Rebin(2)  # Rebin each background histogram with a factor of 2
+    for sig_hist in signals.values():
+        sig_hist.Rebin(2)  # Rebin each signal histogram with a factor of 2
+
+   
+
     stack.Draw('hist')
     formatStack(stack)
 
@@ -310,11 +326,19 @@ def BuildPlot(args):
 #    data_hist = blindData(data_hist, combo_signal, stat,args.variable,args.category)
 
     # draw the plots
+    #data_hist.Rebin(2)  ### TRIED TO REBIN HERE
     data_hist.Draw('same lep')
+
+    
+    
+    
+
     stat.Draw('same e2')
     print "CheckData= ",data_hist.Integral()
     print "stat= ",stat.Integral()
+   
     for sig_name, sig_hist in signals.iteritems():
+        #sig_hist.Rebin(2) #### TRIED TO REBIN HERE
 #        if 'GGH' in sig_name:
 #            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
 #        if 'qqH' in sig_name:
@@ -322,10 +346,10 @@ def BuildPlot(args):
         sig_hist.Scale(0.002) #SCALING HERE
         sig_hist.Draw('same hist')
     
-
+    
     legend = fillLegend(data_hist, backgrounds, backgrounds_EWK, signals, stat)
     legend.Draw('same')
-
+    
     # do some printing on the canvas
     ll = ROOT.TLatex()
     ll.SetNDC(ROOT.kTRUE)
@@ -405,6 +429,7 @@ def BuildPlot(args):
 
     # rat_unc.SetFillColor(ROOT.kGray)
     rat_unc.Draw('same e2')
+    ratio.Rebin(2) ## TRIED TO REBIN HERE
     ratio.Draw('same lep')
 #    ratio.Fit("pol0","","",200,400)
 #    ratio.Fit("pol1","","",20,200)
