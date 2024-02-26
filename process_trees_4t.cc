@@ -200,7 +200,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             //if (1) { // final analysis
-            if ( H1OS &&  H2OS && (numBJet == 0)){
+            if ( !H1OS &&  !H2OS && (numBJet == 0)){
             //if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //OS OS, have to rerun 4 times for each histogram
