@@ -79,7 +79,6 @@ int main(int argc, char* argv[]) {
     float BJetPtCut=30;
 
     float DeepCSVCut = 0.8001;
-    // use 0.8001 instead ^^
 
     //float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     //if (year== 2016) DeepCSVCut =     0.8953  ;
@@ -143,6 +142,9 @@ int main(int argc, char* argv[]) {
     float efficiency39;
     float efficiency40;
     int numBJet;
+    bool Mu_trigger;
+    bool pfmet_pfmht_trigger;
+    bool PassTrigger_50;
 
 
    outTr->Branch("vis_mass",&vis_mass,"vis_mass/F");
@@ -188,6 +190,10 @@ int main(int argc, char* argv[]) {
     outTr->Branch("H2OS", &H2OS, "H2OS/O");
     outTr->Branch("numBJet", &numBJet, "numBJet/I"); 
 
+    //outTr->Branch("PassMuTrigger", &PassMuTrigger, "PassMuTrigger/B");
+    //outTr->Branch("Pass_pfmet_pfmht_trigger", &Pass_pfmet_pfmht_trigger, "Pass_pfmet_pfmht_trigger/B");
+    outTr->Branch("PassTrigger_50", &PassTrigger_50, "PassTrigger_50/B");
+
 
 //for the trigger
 string JetSys="Nominal";
@@ -224,6 +230,7 @@ else std::cout<<"This is nominal Jet\n";
 PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v 
 PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
 
+/*
 //std::cout << "PassTrigger_40: " << PassTrigger_40 << endl;
 if (PassTrigger_40 == 1){
     plotFill("passtrigger_40_beforecuts", PassTrigger_40, 100, 0, 1.25);
@@ -233,8 +240,25 @@ if (PassTrigger_39 == 1){
 }
 plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
 plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
+*/
 
-    
+// The next change is to use OR between these two triggers Mu50 (bitEleMuX = 21) 
+// and HLT_PFMET120_PFMHT120_IDTight_v (bitJet = 27). No cut on the AKJetpT or AKMAss or PFHT
+
+int bitEleMuX;
+int bitJet;
+PassTrigger_50 = (Mu50 (bitEleMuX = 21)==1); // Mu trigger
+pfmet_pfmht_trigger = (HLT_PFMET120_PFMHT120_IDTight_v(bitJet = 27)==1);
+
+if (PassTrigger_50 == 1){
+    plotFill("passtrigger_50_beforecuts", PassTrigger_50, 100, 0, 1.25);
+}
+if (pfmet_pfmht_trigger==1){
+    plotFill("pass_pfmet_pfmht_trigger_beforecuts", pfmet_pfmht_trigger, 100, 0, 1.25);
+}
+
+
+
 //
 //        // Trigger
 //        //        https://cmsoms.cern.ch/cms/triggers/hlt_trigger_rates?cms_run=325175
@@ -246,6 +270,8 @@ plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
 //        PassTrigger_42 = ((HLTJet >> 42 & 1)==1);//HLT_PFHT500_PFMET110_PFMHT110_IDTight_v
 //        PassTrigger_43 = ((HLTJet >> 43 & 1)==1); // HLT_AK8PFHT850_TrimMass50_v  HLT_AK8PFHT800_TrimMass50_v is OK as well
 //        PassTrigger_44 = ((HLTJet >> 44 & 1)==1); //HLT_AK8PFHT900_TrimMass50_v
+
+ 
 
         plotFill("cutFlowTable",2 ,15,0,15);
         
@@ -308,9 +334,13 @@ if (year== 2018){
     _Pass_METHT_Trigger_=PassTrigger_39;
     //_cut_st_ = 600;
     }
+
+
 PFMET_MHT = pfMET + MHT;
 
     ////apply trigger only on data
+    /*
+    // offline cuts
     bool passing;
     if (year == 2018){
         // trigger 39     HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
@@ -320,6 +350,23 @@ PFMET_MHT = pfMET + MHT;
             // now check trigger 40 if the event did not pass trigger 39 offline and online cuts
             // trigger 40 HLT_AK8PFJet400_TrimMass30_v 
             if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 30 && AK8Pt > 400){
+                passing = true;
+            }
+        }
+        if (passing == false) continue; // get rid of events that did not pass either trigger
+    }
+    */
+
+    bool passing;
+    if (year == 2018){
+        // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
+        // first check if the events pass this trigger offline and online cuts
+
+        // NEED HELP UNDERSTANDING THIS ONE
+        if (PassTrigger_50 == 1.0 && ){
+            passing = true;
+            // now check the other trigger if the event did not pass trigger 50 online and offline cuts
+            if (passing == false && pfmet_pfmht_trigger == 1.0 && PFMET > 120 && PFMHT > 120){
                 passing = true;
             }
         }
@@ -608,11 +655,10 @@ PFMET_MHT = pfMET + MHT;
     PassTrigger_40 = ((HLTJet >> 40 & 1)==1); //HLT_AK8PFJet400_TrimMass30_v //HLT_AK8PFJet400_TrimMass30_v
     PassTrigger_39 = ((HLTJet >> 39 & 1)==1); //HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
 
-    //std::cout << "PassTrigger_40: " << PassTrigger_40 << endl;
     plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
     plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
 
-
+    /*
     if (PassTrigger_40 == 1){
         plotFill("aftercuts_trigger40", PassTrigger_40, 100, 0, 1.25);
     }
@@ -624,6 +670,18 @@ PFMET_MHT = pfMET + MHT;
     if (PassTrigger_40 ==1 && PassTrigger_39==1){
         pass_both_triggers = (PassTrigger_39 + PassTrigger_40)/2;
         plotFill("passed both triggers", pass_both_triggers, 100, .99 , 1.01);
+    }
+    */
+
+    if (PassTrigger_50 == 1){
+        plotFill("passtrigger_50_aftercuts", PassTrigger_50, 100, 0, 1.25);
+    }
+    if (pfmet_pfmht_trigger==1){
+        plotFill("Pass_pfmet_pfmht_trigger_aftercuts", pfmet_pfmht_trigger, 100, 0, 1.25);
+    }
+    if (PassTrigger_50 ==1 && pfmet_pfmht_trigger ==1){
+        pass_both_triggers = (PassTrigger_50 + pfmet_pfmht_trigger)/2;
+        plotFill("passed both triggers", pass_both_triggers, 100, .99, 1.01);
     }
 
     //std::cout<<pfMET<<endl;
@@ -665,6 +723,29 @@ PFMET_MHT = pfMET + MHT;
         plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
     
+
+
+    //COME BACK TO THIS LATER
+    // THERE ARE A LOT OF MISSING PARTS HERE
+    // NEED TO MAKE TWO NEW FUNCTIONS
+    float efficiency50 = calculate_efficiency50();
+    if (efficiency50 == 1.0){
+        // denominator (passes offline cuts)
+        plotFill("Denominator50", );
+    }
+    if (PassTrigger_50 && efficiency50==1.0){
+        plotFill("Numerator50", );
+    }
+
+
+    float pfmet_pfmht_efficiency = calculate_pfmet_pfmht_eff(PFMET, PFMHT); // double check these variables, might have slightly different name
+    if (pfmet_pfmht_efficiency ==1.0){
+        plotFill("Denom_pfmet_pfmht");
+    }
+    if (pfmet_pfmht_trigger && pfmet_pfmht_efficiency==1.0){
+        plotFill("Num_pfmet_pfmht");
+    }
+    // COME BACK TO THIS LATER
 
     // Fill the tree
     outTr->Fill();
