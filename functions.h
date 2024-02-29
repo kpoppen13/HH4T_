@@ -16,7 +16,7 @@
 // true = good tau, false = bad tau
 bool isTauGood(int tau_index) {
     bool good_or_bad = true; // Initialize to true by default
-    if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(tau_index) < 0.5 || 
+    if (boostedTauByIsolationMVArun2v1DBoldDMwLTrawNew->at(tau_index) < 0 || 
         boostedTaupfTausDiscriminationByDecayModeFinding->at(tau_index) < 0.5 || 
         (boostedTauPt->at(tau_index) <= 20 || fabs(boostedTauEta->at(tau_index)) >= 2.3)) {
         good_or_bad = false;
@@ -279,4 +279,36 @@ float calculate_efficiency_40(float TrimMass, float AK8Jet){
         efficiency_40 = 0.0;
     }
     return efficiency_40;
+}
+
+// bjet multiplicity
+int numBJets( float BJetPtCut, float CSVCut, string JetSys){
+    int numBJet=0;
+    
+    if (JetSys.find("Nominal")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            //std::cout<<jetDeepCSVTags_b->at(ijet)<<endl;
+            if ( jetPFLooseId->at(ijet) > 0.5 && jetPt->at(ijet) > BJetPtCut && fabs(jetEta->at(ijet)) < 2.4  &&
+                jetDeepCSVTags_b->at(ijet) >  CSVCut)
+                //std::cout<<"bjet"<<endl;
+                numBJet++;
+        }
+    }
+    else if (JetSys.find("JetTotUp")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncUp->at(ijet) > BJetPtCut && fabs(jetEta->at(ijet)) < 2.4  &&
+                jetDeepCSVTags_b->at(ijet) >  CSVCut)
+                numBJet++;
+        }
+    }
+    else if (JetSys.find("JetTotDown")!=string::npos){
+        for (int ijet= 0 ; ijet < nJet ; ijet++){
+            if (jetPFLooseId->at(ijet) > 0.5 && jetPtTotUncDown->at(ijet) > BJetPtCut && fabs(jetEta->at(ijet)) < 2.4  &&
+                jetDeepCSVTags_b->at(ijet) >  CSVCut)
+                numBJet++;
+        }
+    }
+    
+    
+    return numBJet;
 }
