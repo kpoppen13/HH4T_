@@ -242,21 +242,30 @@ plotFill("PassTrigger_40", PassTrigger_40, 100,0,1.25);
 plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
 */
 
-// The next change is to use OR between these two triggers Mu50 (bitEleMuX = 21) 
-// and HLT_PFMET120_PFMHT120_IDTight_v (bitJet = 27). No cut on the AKJetpT or AKMAss or PFHT
+
+
+
+// The next change is to use OR between these two triggers 
+// Mu50 (bitEleMuX = 21) 
+// HLT_PFMET120_PFMHT120_IDTight_v (bitJet = 27)
+// No cut on the AKJetpT or AKMAss or PFHT
 
 int bitEleMuX;
 int bitJet;
-PassTrigger_50 = (Mu50 (bitEleMuX = 21)==1); // Mu trigger
-pfmet_pfmht_trigger = (HLT_PFMET120_PFMHT120_IDTight_v(bitJet = 27)==1);
 
+bool HLT_Mu50 = ((HLTEleMuX >> 21 & 1)==1); // else if (name.find(“HLT_Mu50_v”)  != string::npos) bitEleMuX = 21;
+
+
+// pfmet_pfmht_trigger = (HLT_PFMET120_PFMHT120_IDTight_v>>(bitJet = 27)==1);
+bool PassTrigger_27 = ((HLTJet >> 27 & 1)==1); 
+/*
 if (PassTrigger_50 == 1){
     plotFill("passtrigger_50_beforecuts", PassTrigger_50, 100, 0, 1.25);
 }
-if (pfmet_pfmht_trigger==1){
+//if (pfmet_pfmht_trigger==1){
     plotFill("pass_pfmet_pfmht_trigger_beforecuts", pfmet_pfmht_trigger, 100, 0, 1.25);
 }
-
+*/
 
 
 //
@@ -356,23 +365,24 @@ PFMET_MHT = pfMET + MHT;
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
     */
+    
 
     bool passing;
     if (year == 2018){
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
 
-        // NEED HELP UNDERSTANDING THIS ONE
         if (PassTrigger_50 == 1.0 && ){
+            // loop over all muons, pt above 52, events pass
             passing = true;
             // now check the other trigger if the event did not pass trigger 50 online and offline cuts
-            if (passing == false && pfmet_pfmht_trigger == 1.0 && PFMET > 120 && PFMHT > 120){
+            if (passing == false && pfmet_pfmht_trigger == 1.0 && PFMET > 130 && PFMHT > 130){
                 passing = true;
             }
         }
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
-
+    
         //=========================================================================================================
         // Event Selection
         //=========================================================================================================
@@ -724,7 +734,8 @@ PFMET_MHT = pfMET + MHT;
     }
     
 
-
+    
+    /*
     //COME BACK TO THIS LATER
     // THERE ARE A LOT OF MISSING PARTS HERE
     // NEED TO MAKE TWO NEW FUNCTIONS
@@ -738,7 +749,7 @@ PFMET_MHT = pfMET + MHT;
     }
 
 
-    float pfmet_pfmht_efficiency = calculate_pfmet_pfmht_eff(PFMET, PFMHT); // double check these variables, might have slightly different name
+    float pfmet_pfmht_efficiency = calculate_pfmet_pfmht_eff(pfMET, MHT); // double check these variables, might have slightly different name
     if (pfmet_pfmht_efficiency ==1.0){
         plotFill("Denom_pfmet_pfmht");
     }
@@ -746,6 +757,7 @@ PFMET_MHT = pfMET + MHT;
         plotFill("Num_pfmet_pfmht");
     }
     // COME BACK TO THIS LATER
+    */
 
     // Fill the tree
     outTr->Fill();
