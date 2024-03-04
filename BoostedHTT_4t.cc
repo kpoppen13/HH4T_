@@ -145,6 +145,9 @@ int main(int argc, char* argv[]) {
     bool Mu_trigger;
     bool pfmet_pfmht_trigger;
     bool PassTrigger_50;
+    bool PassTrigger_27;
+
+    TLorentzVector Muon4Momentum, MatchedTau4Momentum;
 
 
    outTr->Branch("vis_mass",&vis_mass,"vis_mass/F");
@@ -193,6 +196,7 @@ int main(int argc, char* argv[]) {
     //outTr->Branch("PassMuTrigger", &PassMuTrigger, "PassMuTrigger/B");
     //outTr->Branch("Pass_pfmet_pfmht_trigger", &Pass_pfmet_pfmht_trigger, "Pass_pfmet_pfmht_trigger/B");
     outTr->Branch("PassTrigger_50", &PassTrigger_50, "PassTrigger_50/B");
+    outTr->Branch("PassTrigger_27", &PassTrigger_27, "PassTrigger_27/B");
 
 
 //for the trigger
@@ -256,16 +260,18 @@ int bitJet;
 bool HLT_Mu50 = ((HLTEleMuX >> 21 & 1)==1); // else if (name.find(“HLT_Mu50_v”)  != string::npos) bitEleMuX = 21;
 
 
-// pfmet_pfmht_trigger = (HLT_PFMET120_PFMHT120_IDTight_v>>(bitJet = 27)==1);
-bool PassTrigger_27 = ((HLTJet >> 27 & 1)==1); 
-/*
-if (PassTrigger_50 == 1){
-    plotFill("passtrigger_50_beforecuts", PassTrigger_50, 100, 0, 1.25);
+// PassTrigger_27 = (HLT_PFMET120_PFMHT120_IDTight_v>>(bitJet = 27)==1);
+PassTrigger_27 = ((HLTJet >> 27 & 1)==1); 
+
+
+
+if (HLT_Mu50 == 1){
+    plotFill("passtrigger_50_beforecuts", HLT_Mu50, 100, 0, 1.25);
 }
-//if (pfmet_pfmht_trigger==1){
-    plotFill("pass_pfmet_pfmht_trigger_beforecuts", pfmet_pfmht_trigger, 100, 0, 1.25);
+if (PassTrigger_27==1){
+    plotFill("PassTrigger_27_beforecuts", PassTrigger_27, 100, 0, 1.25);
 }
-*/
+
 
 
 //
@@ -348,6 +354,7 @@ if (year== 2018){
 PFMET_MHT = pfMET + MHT;
 
     ////apply trigger only on data
+    
     /*
     // offline cuts
     bool passing;
@@ -366,22 +373,30 @@ PFMET_MHT = pfMET + MHT;
     }
     */
     
-
+    
     bool passing;
     if (year == 2018){
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
-
-        if (PassTrigger_50 == 1.0 && ){
+        for (int i = 0; i < nMu; ++i){
             // loop over all muons, pt above 52, events pass
-            passing = true;
-            // now check the other trigger if the event did not pass trigger 50 online and offline cuts
-            if (passing == false && pfmet_pfmht_trigger == 1.0 && PFMET > 130 && PFMHT > 130){
+            Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
+            muon_pt = Muon4Momentum.Pt();
+            if (PassTrigger_50 == 1.0 && muon_pt > 52){
                 passing = true;
             }
         }
-        if (passing == false) continue; // get rid of events that did not pass either trigger
+        // now check the other trigger if the event did not pass trigger 50 online and offline cuts
+        if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
+            passing = true;
+        }
+        if (passing == false) continue;  // get rid of events that did not pass either trigger
     }
+        
+        
+        
+            
+         
     
         //=========================================================================================================
         // Event Selection
@@ -584,7 +599,6 @@ PFMET_MHT = pfMET + MHT;
 
 
     // muons
-    TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     for (int i = 0; i < nMu; ++i){
         Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
         if (Muon4Momentum.Pt() < 20) continue;
@@ -681,7 +695,7 @@ PFMET_MHT = pfMET + MHT;
         pass_both_triggers = (PassTrigger_39 + PassTrigger_40)/2;
         plotFill("passed both triggers", pass_both_triggers, 100, .99 , 1.01);
     }
-    */
+    
 
     if (PassTrigger_50 == 1){
         plotFill("passtrigger_50_aftercuts", PassTrigger_50, 100, 0, 1.25);
@@ -693,6 +707,8 @@ PFMET_MHT = pfMET + MHT;
         pass_both_triggers = (PassTrigger_50 + pfmet_pfmht_trigger)/2;
         plotFill("passed both triggers", pass_both_triggers, 100, .99, 1.01);
     }
+    */
+
 
     //std::cout<<pfMET<<endl;
     //std::cout<<MHT<<endl;
@@ -735,29 +751,6 @@ PFMET_MHT = pfMET + MHT;
     
 
     
-    /*
-    //COME BACK TO THIS LATER
-    // THERE ARE A LOT OF MISSING PARTS HERE
-    // NEED TO MAKE TWO NEW FUNCTIONS
-    float efficiency50 = calculate_efficiency50();
-    if (efficiency50 == 1.0){
-        // denominator (passes offline cuts)
-        plotFill("Denominator50", );
-    }
-    if (PassTrigger_50 && efficiency50==1.0){
-        plotFill("Numerator50", );
-    }
-
-
-    float pfmet_pfmht_efficiency = calculate_pfmet_pfmht_eff(pfMET, MHT); // double check these variables, might have slightly different name
-    if (pfmet_pfmht_efficiency ==1.0){
-        plotFill("Denom_pfmet_pfmht");
-    }
-    if (pfmet_pfmht_trigger && pfmet_pfmht_efficiency==1.0){
-        plotFill("Num_pfmet_pfmht");
-    }
-    // COME BACK TO THIS LATER
-    */
 
     // Fill the tree
     outTr->Fill();
