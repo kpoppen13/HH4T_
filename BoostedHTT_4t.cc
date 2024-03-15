@@ -193,8 +193,6 @@ int main(int argc, char* argv[]) {
     outTr->Branch("H2OS", &H2OS, "H2OS/O");
     outTr->Branch("numBJet", &numBJet, "numBJet/I"); 
 
-    //outTr->Branch("PassMuTrigger", &PassMuTrigger, "PassMuTrigger/B");
-    //outTr->Branch("Pass_pfmet_pfmht_trigger", &Pass_pfmet_pfmht_trigger, "Pass_pfmet_pfmht_trigger/B");
     outTr->Branch("PassTrigger_50", &PassTrigger_50, "PassTrigger_50/B");
     outTr->Branch("PassTrigger_27", &PassTrigger_27, "PassTrigger_27/B");
 
@@ -249,7 +247,7 @@ plotFill("PassTrigger_39", PassTrigger_39, 100, 0, 1.25);
 
 
 
-// The next change is to use OR between these two triggers 
+// use OR between these two triggers 
 // Mu50 (bitEleMuX = 21) 
 // HLT_PFMET120_PFMHT120_IDTight_v (bitJet = 27)
 // No cut on the AKJetpT or AKMAss or PFHT
@@ -430,6 +428,9 @@ PFMET_MHT = pfMET + MHT;
     //==================================================================
 
     LumiWeight = getLuminsoity(2018, "tt") * XSection(sample)*1.0 / HistoTot->GetBinContent(2);
+    //std::cout<< HistoTot->GetBinContent(2)<<endl;
+    // print lumiweight, run on TTbar
+    //std::cout<<LumiWeight<<endl;
     // sets LumiWeight to 1 for signal
     if (LumiWeight == 0){
         LumiWeight = 1;
