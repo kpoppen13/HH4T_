@@ -16,8 +16,18 @@ style_map_tuple = namedtuple('style_map_tuple', [
 ])
 style_map = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
+    
+    #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
-        "output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        #"output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "out_TTToHadronic": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "out_TTTo2L2Nu": style_map_tuple(GetColor(34, 139, 34), black, 1, 1, 1),
+        "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
+        
+        #"output_JetC": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        #"output_JetD": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
+        #"output_JetA": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+
         "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_T-tW": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
@@ -25,7 +35,7 @@ style_map = {
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
@@ -41,15 +51,28 @@ style_map = {
 
 style_map_emu = {
     "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
+    #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
+
     "backgrounds": {
-        "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        # "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "out_TTToHadronic": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "out_TTTo2L2Nu": style_map_tuple(GetColor(34, 139, 34), black, 1, 1, 1),
+        "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
+
+
+        #"output_JetA": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        #"output_JetD": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
+        #"output_JetC": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+
+
+
         #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
         "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
         #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        "output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
@@ -149,7 +172,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     # backgrounds
     leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
     #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
-    leg.AddEntry(backgrounds['output_TTT'], 'TTbar', 'f')
+    #leg.AddEntry(backgrounds['output_TTT'], 'TTbar', 'f')
     #leg.AddEntry(backgrounds['output_Tbar_T-tchan'], 'Tbar_T-tchan', 'f')
 
 
@@ -157,14 +180,22 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     #leg.AddEntry(backgrounds['output_T-tchan'], 'T-tchan', 'f')
     leg.AddEntry(backgrounds['output_WZ'], 'WZ', 'f')
     leg.AddEntry(backgrounds['output_DY'], 'DY', 'f')
-    leg.AddEntry(backgrounds['output_WJets'], 'WJets', 'f')
+    #leg.AddEntry(backgrounds['output_WJets'], 'WJets', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'VV', 'f')
     leg.AddEntry(backgrounds['other_bkg'], 'other_bkg', 'f')
 
 
+    leg.AddEntry(backgrounds['out_TTToHadronic'], 'TTtoHad', 'f')
+    leg.AddEntry(backgrounds['out_TTTo2L2Nu'], 'TTto2L2Nu', 'f')
+    leg.AddEntry(backgrounds['out_TTToSemiLeptonic'], 'TTtoSemiLeptonic', 'f')
+
+    #leg.AddEntry(backgrounds['output_JetC'], 'JetC', 'f')
+    #leg.AddEntry(backgrounds['output_JetD'], 'JetD', 'f')
+    #leg.AddEntry(backgrounds['output_JetA'], 'JetA', 'f')
+
 
     # stat. uncertainty
-    leg.AddEntry(stat, 'Uncertainty', 'f')
+    #leg.AddEntry(stat, 'Uncertainty', 'f')
     
     return leg
     
@@ -172,8 +203,8 @@ def formatPull(pull, title):
     pull.SetTitle('')
 #    pull.SetMaximum(1.99)
 #    pull.SetMinimum(0.01)
-    pull.SetMaximum(1.50)
-    pull.SetMinimum(0.50)
+    pull.SetMaximum(2)  ## adjust ratio axis here?
+    pull.SetMinimum(0)  ## adjust ratio axis here?
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
     pull.GetXaxis().SetTitleSize(0.18)
@@ -254,6 +285,9 @@ def BuildPlot(args):
     # start getting histograms
 
     data_hist = variableX.Get('output_Run2018_data').Clone()
+    #data_hist = variableX.Get('output_JetB').Clone()
+
+
     signals = {}
     backgrounds = {}
     backgrounds_EWK = {}
@@ -288,6 +322,7 @@ def BuildPlot(args):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
+    ######## uncomment here
     '''
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
@@ -302,18 +337,24 @@ def BuildPlot(args):
     # format the plots
     can = createCanvas()
     data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
+    #data_hist = ApplyStyle(data_hist, style_Xmap['output_JetB'])
+   
+
+
     stat = formatStat(stat)
     
-    data_hist.Rebin(2)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(1)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(2)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(1)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(2)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(1)  # Rebin each signal histogram with a factor of 2
 
    
 
     stack.Draw('hist')
     formatStack(stack)
+    stack.SetMaximum(8)
+    
 
 #    combo_signal = signals['H125'].Clone()
     combo_signal = signals['out_1000'].Clone() 
@@ -428,9 +469,11 @@ def BuildPlot(args):
     # rat_unc.SetMarkerStyle(8)
 
     # rat_unc.SetFillColor(ROOT.kGray)
-    rat_unc.Draw('same e2')
-    ratio.Rebin(2) ## TRIED TO REBIN HERE
-    ratio.Draw('same lep')
+    rat_unc.Draw('same')
+    ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
+    ratio.Rebin(1) ## TRIED TO REBIN HERE
+    ratio.Draw('same')
+    ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
 #    ratio.Fit("pol1","","",20,200)
     
