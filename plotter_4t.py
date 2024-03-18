@@ -15,27 +15,12 @@ style_map_tuple = namedtuple('style_map_tuple', [
     'fill_color', 'line_color', 'line_style', 'line_width', 'marker_style'
 ])
 style_map = {
-    #"output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     "data": style_map_tuple(no_color, black, 1, 1, 8),
-    #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
+    
     "backgrounds": {
-        #"output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
-        "out_TTToHadronic": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
-        "out_TTTo2L2Nu": style_map_tuple(GetColor(34, 139, 34), black, 1, 1, 1),
-        "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
-        
-        #"output_JetD": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_JetA": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
-        #"output_JetC": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
-
+        "output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
         "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        #"output_T-tW": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
-        #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
@@ -50,30 +35,13 @@ style_map = {
 }
 
 style_map_emu = {
-    #"output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
-    #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
+ 
     "data": style_map_tuple(no_color, black, 1, 1, 8),
 
     "backgrounds": {
-        # "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
-        "out_TTToHadronic": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
-        "out_TTTo2L2Nu": style_map_tuple(GetColor(34, 139, 34), black, 1, 1, 1),
-        "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
-
-
-        #"output_JetC": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_JetA": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
-        #"output_JetD": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
-
-
-
-        #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
         "output_ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "output_WZ": style_map_tuple(GetColor(108, 226, 354), black, 1, 1, 1), 
-        #"output_Tbar_T-tchan": style_map_tuple(GetColor(158, 226, 54), black, 1, 1, 1),
         "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        #"output_T-tchan": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_WJets": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
         "output_DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
@@ -171,28 +139,12 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
 
 
     # backgrounds
-    leg.AddEntry(backgrounds['output_ZZ'], 'ZZ', 'f')
-    #leg.AddEntry(backgrounds['output_QCD'], 'Fake bkg', 'f')
-    #leg.AddEntry(backgrounds['output_TTT'], 'TTbar', 'f')
-    #leg.AddEntry(backgrounds['output_Tbar_T-tchan'], 'Tbar_T-tchan', 'f')
-
-
-    #leg.AddEntry(backgrounds['output_T-tW'], 'output_T-tW', 'f')
-    #leg.AddEntry(backgrounds['output_T-tchan'], 'T-tchan', 'f')
-    leg.AddEntry(backgrounds['output_WZ'], 'WZ', 'f')
+    leg.AddEntry(backgrounds['output_ZZ'], 'ZZ4l', 'f')
+    leg.AddEntry(backgrounds['output_TTT'], 'TTbar', 'f')
     leg.AddEntry(backgrounds['output_DY'], 'DY', 'f')
-    #leg.AddEntry(backgrounds['output_WJets'], 'WJets', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'VV', 'f')
     leg.AddEntry(backgrounds['other_bkg'], 'other_bkg', 'f')
 
-
-    leg.AddEntry(backgrounds['out_TTToHadronic'], 'TTtoHad', 'f')
-    leg.AddEntry(backgrounds['out_TTTo2L2Nu'], 'TTto2L2Nu', 'f')
-    leg.AddEntry(backgrounds['out_TTToSemiLeptonic'], 'TTtoSemiLeptonic', 'f')
-
-    #leg.AddEntry(backgrounds['output_JetD'], 'JetD', 'f')
-    #leg.AddEntry(backgrounds['output_JetA'], 'JetA', 'f')
-    #leg.AddEntry(backgrounds['output_JetC'], 'JetC', 'f')
 
 
     # stat. uncertainty
@@ -318,13 +270,13 @@ def BuildPlot(args):
     stack = ROOT.THStack() # stack of all backgrounds
     
     ## I DELETED THIS PART BELOW FOR OSOS BJET
-    '''
+   
     for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
     ######## uncomment here
-    '''
+   
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
@@ -354,7 +306,7 @@ def BuildPlot(args):
 
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(20)
+    stack.SetMaximum(10)
     
 
 #    combo_signal = signals['H125'].Clone()
@@ -472,7 +424,7 @@ def BuildPlot(args):
     # rat_unc.SetFillColor(ROOT.kGray)
     rat_unc.Draw('same')
     ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
-    ratio.Rebin(1) ## TRIED TO REBIN HERE
+    ratio.Rebin(2) ## TRIED TO REBIN HERE
     ratio.Draw('same')
     ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
