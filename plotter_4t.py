@@ -15,8 +15,8 @@ style_map_tuple = namedtuple('style_map_tuple', [
     'fill_color', 'line_color', 'line_style', 'line_width', 'marker_style'
 ])
 style_map = {
-    "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
-    
+    #"output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
+    "data": style_map_tuple(no_color, black, 1, 1, 8),
     #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
     "backgrounds": {
         #"output_TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
@@ -24,9 +24,9 @@ style_map = {
         "out_TTTo2L2Nu": style_map_tuple(GetColor(34, 139, 34), black, 1, 1, 1),
         "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
         
-        #"output_JetC": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_JetD": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
-        #"output_JetA": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_JetD": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        #"output_JetA": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
+        #"output_JetC": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
 
         "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
         #"output_QCD": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
@@ -50,8 +50,9 @@ style_map = {
 }
 
 style_map_emu = {
-    "output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
+    #"output_Run2018_data": style_map_tuple(no_color, black, 1, 1, 8),
     #"output_JetB": style_map_tuple(no_color, black, 1, 1, 8),
+    "data": style_map_tuple(no_color, black, 1, 1, 8),
 
     "backgrounds": {
         # "output_TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
@@ -60,9 +61,9 @@ style_map_emu = {
         "out_TTToSemiLeptonic": style_map_tuple(GetColor(255, 182, 193), black, 1, 1, 1),
 
 
-        #"output_JetA": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
-        #"output_JetD": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
-        #"output_JetC": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
+        #"output_JetC": style_map_tuple(GetColor(208, 26, 254), black, 1, 1, 1),
+        #"output_JetA": style_map_tuple(GetColor(128, 0, 128), black, 1, 1, 1),
+        #"output_JetD": style_map_tuple(GetColor(308, 226, 154), black, 1, 1, 1),
 
 
 
@@ -189,9 +190,9 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(backgrounds['out_TTTo2L2Nu'], 'TTto2L2Nu', 'f')
     leg.AddEntry(backgrounds['out_TTToSemiLeptonic'], 'TTtoSemiLeptonic', 'f')
 
-    #leg.AddEntry(backgrounds['output_JetC'], 'JetC', 'f')
     #leg.AddEntry(backgrounds['output_JetD'], 'JetD', 'f')
     #leg.AddEntry(backgrounds['output_JetA'], 'JetA', 'f')
+    #leg.AddEntry(backgrounds['output_JetC'], 'JetC', 'f')
 
 
     # stat. uncertainty
@@ -284,8 +285,8 @@ def BuildPlot(args):
 
     # start getting histograms
 
-    data_hist = variableX.Get('output_Run2018_data').Clone()
-    #data_hist = variableX.Get('output_JetB').Clone()
+    #data_hist = variableX.Get('output_Run2018_data').Clone()
+    data_hist = variableX.Get('data').Clone()
 
 
     signals = {}
@@ -336,24 +337,24 @@ def BuildPlot(args):
     
     # format the plots
     can = createCanvas()
-    data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
-    #data_hist = ApplyStyle(data_hist, style_Xmap['output_JetB'])
+    #data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
+    data_hist = ApplyStyle(data_hist, style_Xmap['data'])
    
 
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(1)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(2)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(1)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(2)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(1)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(2)  # Rebin each signal histogram with a factor of 2
 
    
 
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(8)
+    stack.SetMaximum(20)
     
 
 #    combo_signal = signals['H125'].Clone()
