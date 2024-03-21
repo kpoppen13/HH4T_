@@ -339,10 +339,10 @@ if (nBoostedTau < 3) continue;
 if (year== 2018){    
     _cut_AK8Pt_ = 450;
     _cut_AK8Mass_ = 30;
-    _cut_PFHT_ = 500;         
-    _cut_PFMET_ = 100;        
-    _cut_PFMHT_= 100;         
-    _cut_PFMET_MHT_ = 200;
+    _cut_PFHT_ = 550;         
+    _cut_PFMET_ = 110;        
+    _cut_PFMHT_= 110;         
+    _cut_PFMET_MHT_ = 220;
     _Pass_AK8_Trigger_=PassTrigger_40;
     _Pass_METHT_Trigger_=PassTrigger_39;
     //_cut_st_ = 600;
@@ -352,8 +352,12 @@ if (year== 2018){
 PFMET_MHT = pfMET + MHT;
 
     ////apply trigger only on data
+
+
+// HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
+// offline, you apply HT 550; MET 110 and MHET 110
     
-    /*
+    
     // offline cuts
     bool passing;
     if (year == 2018){
@@ -363,15 +367,15 @@ PFMET_MHT = pfMET + MHT;
             passing = true;
             // now check trigger 40 if the event did not pass trigger 39 offline and online cuts
             // trigger 40 HLT_AK8PFJet400_TrimMass30_v 
-            if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 30 && AK8Pt > 400){
-                passing = true;
-            }
+            //if (passing == false && PassTrigger_40 == 1.0 && AK8Mass > 30 && AK8Pt > 400){
+              //  passing = true;
+            //}
         }
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
-    */
     
     
+    /*
     bool passing;
     if (year == 2018){
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
@@ -391,7 +395,7 @@ PFMET_MHT = pfMET + MHT;
         if (passing == false) continue;  // get rid of events that did not pass either trigger
     }
         
-        
+    */
         
             
          
