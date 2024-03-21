@@ -126,17 +126,6 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(signals['out_1000'], ' 1 TeV', 'l')
     leg.AddEntry(signals['out_2000'], ' 2 TeV', 'l')
     leg.AddEntry(signals['out_3000'], ' 3 TeV', 'l')
-#    leg.AddEntry(signals['MG__GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
-##    leg.AddEntry(signals['JHU_GGH2Jets_sm_M125'], 'ggH SM Higgs(125)x50', 'l')
-##    leg.AddEntry(signals['JHU_GGH2Jets_pseudoscalar_M125'], 'ggH PS Higgs(125)x50', 'l')
-#
-##    leg.AddEntry(signals['JHU_reweighted_qqH_htt_0PM125'], 'VBF SM Higgs(125)x50', 'l')
-##    leg.AddEntry(signals['JHU_reweighted_qqH_htt_0M125'], 'VBF PS Higgs(125)x50', 'l')
-#    leg.AddEntry(signals['reweighted_qqH_htt_0PM125_comb'], 'VBF SM Higgs(125)x50', 'l')
-#    leg.AddEntry(signals['reweighted_qqH_htt_0M125_comb'], 'VBF PS Higgs(125)x50', 'l')
-
-    
-
 
     # backgrounds
     leg.AddEntry(backgrounds['output_ZZ'], 'ZZ4l', 'f')
@@ -144,8 +133,6 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(backgrounds['output_DY'], 'DY', 'f')
     leg.AddEntry(backgrounds_EWK['output_VV'], 'VV', 'f')
     leg.AddEntry(backgrounds['other_bkg'], 'other_bkg', 'f')
-
-
 
     # stat. uncertainty
     #leg.AddEntry(stat, 'Uncertainty', 'f')
@@ -322,12 +309,15 @@ def BuildPlot(args):
     # draw the plots
     #data_hist.Rebin(2)  ### TRIED TO REBIN HERE
     data_hist.Draw('same lep')
-
-    
-    
     
 
-    stat.Draw('same e2')
+    
+    stat.Draw('same')
+    #stat.Draw('same e2')
+    stat.SetLineWidth(0)
+    stat.SetLineColor(ROOT.kBlack)
+
+
     print "CheckData= ",data_hist.Integral()
     print "stat= ",stat.Integral()
    
@@ -413,6 +403,7 @@ def BuildPlot(args):
     ratio = data_hist.Clone()
     ratio.Divide(stat)
     ratio = formatPull(ratio, args.label)
+    
     rat_unc = ratio.Clone()
     for ibin in range(1, rat_unc.GetNbinsX()+1):
         rat_unc.SetBinContent(ibin, 1)
@@ -424,7 +415,8 @@ def BuildPlot(args):
     # rat_unc.SetFillColor(ROOT.kGray)
     rat_unc.Draw('same')
     ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
-    ratio.Rebin(2) ## TRIED TO REBIN HERE
+    
+    ratio.Rebin(1) ## TRIED TO REBIN HERE
     ratio.Draw('same')
     ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
