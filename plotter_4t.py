@@ -143,7 +143,7 @@ def formatPull(pull, title):
     pull.SetTitle('')
 #    pull.SetMaximum(1.99)
 #    pull.SetMinimum(0.01)
-    pull.SetMaximum(2)  ## adjust ratio axis here?
+    pull.SetMaximum(1)  ## adjust ratio axis here?
     pull.SetMinimum(0)  ## adjust ratio axis here?
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
@@ -293,7 +293,7 @@ def BuildPlot(args):
 
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(10)
+    stack.SetMaximum(20)
     
 
 #    combo_signal = signals['H125'].Clone()
@@ -412,6 +412,7 @@ def BuildPlot(args):
     # rat_unc.SetMarkerSize(0)
     # rat_unc.SetMarkerStyle(8)
 
+    ratio.Scale(.1)
     # rat_unc.SetFillColor(ROOT.kGray)
     rat_unc.Draw('same')
     ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
@@ -421,7 +422,8 @@ def BuildPlot(args):
     ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
 #    ratio.Fit("pol1","","",20,200)
-    
+
+
 
     line1, line2, line3 = sigmaLines(data_hist)
     line1.Draw()
