@@ -78,12 +78,14 @@ int main(int argc, char* argv[]) {
     float JetPtCut=30;
     float BJetPtCut=30;
 
-    float DeepCSVCut = 0.8001;
+    float DeepCSVCut = 0.4184;
+    // 0.8001; // use 0.4184, less TTbar in signal region
+
 
     //float DeepCSVCut=   1000   ;                  //  loose  https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
     //if (year== 2016) DeepCSVCut =     0.8953  ;
     //if (year== 2017) DeepCSVCut =     0.8001  ;
-    //if (year== 2018) DeepCSVCut =    0.7527   ; //come back to this and ask if this is correct?
+    //if (year== 2018) DeepCSVCut =    0.7527   ; 
 
     float LumiWeight = 1;
     float vis_mass=-10;
