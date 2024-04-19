@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
     float BJetPtCut=30;
 
     float DeepCSVCut = 0.4184;
+    // 0.4184;
     // 0.8001; // use 0.4184, less TTbar in signal region
 
 
@@ -108,7 +109,7 @@ int main(int argc, char* argv[]) {
     float dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H1_Rad, dphi_H2_Rad;
     float dr_H1_Rad, dr_H2_Rad;
     float tau1_h1_pt, tau2_h1_pt, tau1_h2_pt, tau2_h2_pt;
-    float rad_eta;
+    float radion_eta;
     float HT;
     float ratio, ratio2;
     bool PassTrigger_40;
@@ -149,7 +150,11 @@ int main(int argc, char* argv[]) {
     bool PassTrigger_50;
     bool PassTrigger_27;
 
+    
+    long event;
+
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
+    TLorentzVector even_events, odd_events;
 
 
    outTr->Branch("vis_mass",&vis_mass,"vis_mass/F");
@@ -158,7 +163,7 @@ int main(int argc, char* argv[]) {
    outTr->Branch("pfMET",&pfMET,"pfMET/F");
     outTr->Branch("higgs_pT",&higgs_pT,"higgs_pT/F");
     outTr->Branch("higgs_pT2",&higgs_pT2,"higgs_pT/F");
-    outTr->Branch("rad_eta", &rad_eta, "rad_eta/F");
+    outTr->Branch("radion_eta", &radion_eta, "radion_eta/F");
     outTr->Branch("radion_pt", &radion_pt, "radion_pt/F");
     outTr->Branch("radion_inv_mass", &radion_inv_mass, "radion_inv_mass/F");
     outTr->Branch("HT",&HT,"HT/F");
@@ -197,6 +202,8 @@ int main(int argc, char* argv[]) {
 
     outTr->Branch("PassTrigger_50", &PassTrigger_50, "PassTrigger_50/B");
     outTr->Branch("PassTrigger_27", &PassTrigger_27, "PassTrigger_27/B");
+
+    outTr->Branch("event", &event, "event/L");
 
 
 //for the trigger
@@ -574,9 +581,9 @@ PFMET_MHT = pfMET + MHT;
     TLorentzVector radion4momentum;
     radion4momentum = higgs1_momentum + higgs2_momentum;
     radion_inv_mass = radion4momentum.M();
-    rad_eta = radion4momentum.Eta();
+    radion_eta = radion4momentum.Eta();
     plotFill("radion_inv_mass", radion_inv_mass, 50, 0, 2600, LumiWeight); 
-    plotFill("radion_eta", rad_eta, 50, -5, 5, LumiWeight);
+    plotFill("radion_eta", radion_eta, 50, -5, 5, LumiWeight);
 
     // delta R between the two Higgs
     dr_HH = higgs1_momentum.DeltaR(higgs2_momentum);
@@ -755,9 +762,12 @@ PFMET_MHT = pfMET + MHT;
     if (PassTrigger_40 && efficiency40==1.0){
         plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
+
+
     
 
     
+
 
     // Fill the tree
     outTr->Fill();
