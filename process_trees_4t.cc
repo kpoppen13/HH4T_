@@ -7,6 +7,11 @@
 #include <iomanip>      // std::setprecision
 
 
+#include <TCanvas.h>
+#include <TH1F.h>
+#include "../interface/makeHisto.h"
+
+
 
 
 using std::string;
@@ -22,7 +27,8 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> sbins = parser.MultiOption("-b", 3);
     
     string year;
-    if (dir.find("2016") != string::npos) year ="2016";
+    if (dir.find("2016") != string::npos) year ="2016"; // similar to this to get just ZZ or signal, change dir to the sample
+    //see where I get the sample name?
     else if (dir.find("2017") != string::npos ) year ="2017";
     else if (dir.find("2018") != string::npos) year ="2018";
     else (std::cout << "Year is not specificed in the outFile name !\n");
@@ -54,7 +60,6 @@ int main(int argc, char *argv[]) {
     
     // initialize histogram holder
     auto hists = new HistTool(newChannelName, channel,var_name,  year, suffix, bins);
-    
     std::vector<float>  OSSS= hists->Get_OS_SS_ratio();
     
     
@@ -98,12 +103,14 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         bool isGenTauSub_, isGenTauLead_;
         int numBJet;
 
-        float vis_mass, vis_mass2, pfMET, higgs_pT, higgs_pT2, rad_eta, radion_pt, radion_inv_mass, 
+        float vis_mass, vis_mass2, pfMET, higgs_pT, higgs_pT2, radion_eta, radion_pt, radion_inv_mass, 
         HT, higgs1_dr, higgs2_dr, dphi_H1, dphi_H2, dr_HH, dphi_HH, TMass_H1, TMass_H2, TMass_Radion,
         dphi_H1_MET, dphi_H2_MET, dphi_rad_MET, dphi_H2_Rad, dph_H1_Rad, dr_H2_Rad, dr_H1_Rad, tau1_h1_pt,
         tau2_h1_pt, tau1_h2_pt, tau2_h2_pt, ratio, ratio2, total_efficiency_39, AK8Mass, AK8Pt, dphi_H1_Rad;
 
         bool H1OS, H2OS;
+
+        Long64_t event;
 
     
 
@@ -116,7 +123,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("pfMET",&pfMET);
         tree->SetBranchAddress("higgs_pT",&higgs_pT);
         tree->SetBranchAddress("higgs_pT2",&higgs_pT2);
-        tree->SetBranchAddress("rad_eta", &rad_eta);
+        tree->SetBranchAddress("radion_eta", &radion_eta);
         tree->SetBranchAddress("radion_pt", &radion_pt);
         tree->SetBranchAddress("radion_inv_mass", &radion_inv_mass);
         tree->SetBranchAddress("HT",&HT);
@@ -145,6 +152,8 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("LumiWeight",&weight);
         tree->SetBranchAddress("numBJet", &numBJet);
 
+
+        tree->SetBranchAddress("event", &event);
         
         
         // Here we have to call OS/SS method extracter
@@ -158,7 +167,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"pfMET", pfMET},
                 {"higgs_pT", higgs_pT},
                 {"higgs_pT2", higgs_pT2},
-                {"rad_eta", rad_eta},
+                {"radion_eta", radion_eta},
                 {"radion_pt", radion_pt},
                 {"radion_inv_mass", radion_inv_mass},
                 {"HT", HT},
@@ -186,7 +195,9 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"AK8Pt", AK8Pt},
                 {"H1OS", H1OS},
                 {"H2OS", H2OS},
-                {"numBJet", numBJet}
+                {"numBJet", numBJet},
+
+                {"event", event}
             };
 
 
@@ -200,12 +211,22 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             //if (1) { // final analysis
-            if ( !H1OS &&  !H2OS && (numBJet == 0)){
+            // if (name.find("output_ZZ") != string::npos) year ="2016";
+            if (event%2 == 0) continue; // if it is an even event, skip it
+            // if (event%2 == 1) continue; // if it is an odd event, skip it
+            // only split for ZZ4l and signal
+            if (H1OS &&  H2OS && (numBJet == 0)){
+
+
             //if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //OS OS, have to rerun 4 times for each histogram
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
+
+
+
             }
+            
             
             //if (! H1OS && H2OS){
                 //SS OS
