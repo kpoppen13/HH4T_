@@ -212,8 +212,12 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
 // apply the cuts here
             //if (1) { // final analysis
             // if (name.find("output_ZZ") != string::npos) year ="2016";
-            if (event%2 == 0) continue; // if it is an even event, skip it
-            // if (event%2 == 1) continue; // if it is an odd event, skip it
+            for (int i= 0; i<= event; i++){
+                if (event%2 == 0) continue; // if it is an even event, skip it
+                // if (event%2 == 1) continue; // if it is an odd event, skip it
+            }
+
+            
             // only split for ZZ4l and signal
             if (H1OS &&  H2OS && (numBJet == 0)){
 
