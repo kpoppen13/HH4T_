@@ -152,7 +152,18 @@ int main(int argc, char* argv[]) {
 
     
     long event;
+    /*
+    std::cout<<event<<endl;
 
+    for (int i= 0; i<= event; i+=2){
+    }
+    //if (event%2 == 0) continue; // if it is an even event, skip it
+    //else plotFill;
+    //if (i%2 == 1) std::cout<<"odd"<<endl; // if it is an odd event, skip it
+    //}
+    */
+    
+    
 
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     TLorentzVector even_events, odd_events;
@@ -449,6 +460,11 @@ PFMET_MHT = pfMET + MHT;
     if (LumiWeight == 0){
         LumiWeight = 1;
     }
+
+
+    
+    
+
 
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
     plotFill("Z_multiplicity", Z_multiplicity, 50, 0, 4.5);
@@ -766,10 +782,9 @@ PFMET_MHT = pfMET + MHT;
 
 
     
-    for (int i= 0; i<= event; i++){
-        if (event%2 == 0) continue; // if it is an even event, skip it
-        // if (event%2 == 1) continue; // if it is an odd event, skip it
-    }
+    
+    
+    
     
 
 
