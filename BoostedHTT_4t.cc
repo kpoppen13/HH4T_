@@ -153,6 +153,7 @@ int main(int argc, char* argv[]) {
     
     long event;
 
+
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     TLorentzVector even_events, odd_events;
 
@@ -765,7 +766,10 @@ PFMET_MHT = pfMET + MHT;
 
 
     
-
+    for (int i= 0; i<= event; i++){
+        if (event%2 == 0) continue; // if it is an even event, skip it
+        // if (event%2 == 1) continue; // if it is an odd event, skip it
+    }
     
 
 
