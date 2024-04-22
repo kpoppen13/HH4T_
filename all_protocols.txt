@@ -20,11 +20,17 @@ To run BNN:
 *Make sure to have my_functions.py in your directory
 
 To run training script:
+get newest version of CMS release
+put training and evaluation script in src directory in the release
+go to /src directory and go into cmsenv
 
+To run the training script:
+(update ML variables and path in this code before running)
 python3 my_train_model_binary.py
 
 To run evaluation script:
 
+(update conf.json file before running)
 python3 evaluate.py input.root output.root conf.json
 
 
