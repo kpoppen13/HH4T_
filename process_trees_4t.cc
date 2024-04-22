@@ -216,9 +216,9 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 if (event%2 == 0) continue; // if it is an even event, skip it
                 // if (event%2 == 1) continue; // if it is an odd event, skip it
             }
+            // only split for ZZ4l and signal
 
             
-            // only split for ZZ4l and signal
             if (H1OS &&  H2OS && (numBJet == 0)){
 
 
