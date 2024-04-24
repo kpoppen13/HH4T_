@@ -55,21 +55,23 @@ class MyCustomCallback(tf.keras.callbacks.Callback):
 def prepare_data():
 
     # Get data from root files
-    samples = ['output_ZZ', 'out_2000'] 
+    #samples = ['output_ZZ', 'out_2000']  ## eventually change this to 'output_ZZ_even', 'out_2000_even' 
+    samples = ['output_ZZ_odd', 'out_2000_odd']
     DataFrames = {} # define empty dictionary to hold dataframes
     Selection = {}    
 
     Selection_inputs = [] ## don't need
  
-    ML_inputs = ["radion_pt", "vis_mass", "vis_mass2","rad_eta", "higgs2_dr", "higgs1_dr", "dphi_H1",
+    ML_inputs = ["radion_pt", "vis_mass", "vis_mass2","radion_eta", "higgs2_dr", "higgs1_dr", "dphi_H1",
                  "dphi_H1_MET", "dphi_H2", "dphi_H2_MET", "dr_HH", "dr_H1_Rad", "dphi_HH", "dr_H2_Rad", "dphi_rad_MET"]  
 
     print('Preparing data')
     for s in samples: # loop over samples
         print(s)
-        file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/outputs/" + s + ".root") 
-
-        ##"/uscms/home/kpoppen/nobackup/HH4tau/HH4tau/"+s+".root" 
+        file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/bnn_outputs/" + s + ".root") 
+        #file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/Output/templates/" + s + ".root") 
+        #/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/bnn_outputs
+        ## THIS HAS WORKED: file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/outputs/" + s + ".root") 
         tree = file['tree_4tau']
         DataFrames[s] = tree.arrays(ML_inputs,library="pd")
         Selection[s] = tree.arrays(Selection_inputs,library="pd")
@@ -87,7 +89,9 @@ def prepare_data():
         print(s)
         if s!='data': # only MC should pass this
             all_MC.append(DataFrames[s][ML_inputs]) # append the MC dataframe to the list containing all MC features
-            if 'out_2000' in s: # only signal MC should pass this
+            if 'out_2000_odd' in s: # only signal MC should pass this
+            ## sort between even and odd 
+
                 all_y.append(np.ones(DataFrames[s].shape[0])) # signal events are labelled with 1
             else:
                 all_y.append(np.full(DataFrames[s].shape[0],0)) # All backgrounds labelled with 0
@@ -124,9 +128,9 @@ def prepare_data():
     y_valid, y_train_nn = y_train[:1000], y_train[1000:] # first 1000 events for validation
 
     print('Input feature correlation')
-    print(DataFrames['out_2000'].corr()) #Pearson
+    print(DataFrames['out_2000_odd'].corr()) #Pearson
     fig = pyplot.figure(figsize=(20, 16))
-    corrMatrix = DataFrames['out_2000'].corr()
+    corrMatrix = DataFrames['out_2000_odd'].corr()
     ax = pyplot.gca()    
     pyplot.text(0.5, 1.05, "CMS Simulation (Work In Progress)      (13 TeV)", fontweight="bold", horizontalalignment='center',verticalalignment='center', transform=ax.transAxes, fontsize=28)   
     sns.heatmap(corrMatrix, annot=True, cmap=pyplot.cm.Blues)
