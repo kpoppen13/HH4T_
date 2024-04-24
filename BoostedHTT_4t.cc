@@ -151,20 +151,8 @@ int main(int argc, char* argv[]) {
     bool PassTrigger_27;
 
     
-    long event;
-    /*
-    std::cout<<event<<endl;
-
-    for (int i= 0; i<= event; i+=2){
-    }
-    //if (event%2 == 0) continue; // if it is an even event, skip it
-    //else plotFill;
-    //if (i%2 == 1) std::cout<<"odd"<<endl; // if it is an odd event, skip it
-    //}
-    */
+ 
     
-    
-
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     TLorentzVector even_events, odd_events;
 
@@ -215,7 +203,7 @@ int main(int argc, char* argv[]) {
     outTr->Branch("PassTrigger_50", &PassTrigger_50, "PassTrigger_50/B");
     outTr->Branch("PassTrigger_27", &PassTrigger_27, "PassTrigger_27/B");
 
-    outTr->Branch("event", &event, "event/L");
+    //outTr->Branch("event", &event, "event/L");
 
 
 //for the trigger
@@ -424,6 +412,11 @@ PFMET_MHT = pfMET + MHT;
         //=========================================================================================================
         // Event Selection
         //=========================================================================================================
+
+    //std::cout<<event<<endl;
+    if (event%2 == 1) continue; // cut odd events
+    
+    
     //get the four momentum for each of the first four Tau
     TLorentzVector ThirdTau4Momentum, FourthTau4Momentum, Third_and_Fourth_Momentum;    
     LeadTau4Momentum.SetPtEtaPhiM(boostedTauPt->at(0), boostedTauEta->at(0), boostedTauPhi->at(0), boostedTauMass->at(0));
