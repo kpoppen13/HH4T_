@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     
     
     string channel = "4t";
-    string tree_name = "tree_4tau";
+    string tree_name = "tree_4tau"; //  output_eval_tree
 //    if (dir.find("_tt") != string::npos or dir.find("tt_") != string::npos ) {channel ="tt";tree_name="tautau_tree";}
 //    else (std::cout << "channel is not specificed in the outFile name !\n");
     string newChannelName= channel;
@@ -110,9 +110,11 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
 
         bool H1OS, H2OS;
 
-        Long64_t event;
+        //Long64_t event;
 
-    
+        //float HH4tau_NN_output;
+
+        
 
 
         tree->SetBranchAddress("H1OS",&H1OS);
@@ -153,10 +155,14 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("numBJet", &numBJet);
 
 
-        tree->SetBranchAddress("event", &event);
+        //tree->SetBranchAddress("event", &event);
+        //tree->SetBranchAddress("HH4tau_NN_output", &HH4tau_NN_output);
+        //std::cout<<HH4tau_NN_output<<endl;
         
         
         // Here we have to call OS/SS method extracter
+
+        
         std::cout<<" tree->GetEntries() is "<<tree->GetEntries()<<"\n";
         for (auto i = 0; i < tree->GetEntries(); i++) {
             tree->GetEntry(i);
@@ -195,12 +201,15 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"AK8Pt", AK8Pt},
                 {"H1OS", H1OS},
                 {"H2OS", H2OS},
-                {"numBJet", numBJet},
+                {"numBJet", numBJet}
 
-                {"event", event}
+                //{"event", event},
+
+
+                //{"HH4tau_NN_output", HH4tau_NN_output}
             };
 
-
+            
             vbf_var1 =ObsName[var_name];
             
 
@@ -211,25 +220,24 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             //if (1) { // final analysis
-            // if (name.find("output_ZZ") != string::npos) year ="2016";
-            for (int i= 0; i<= event; i++){
-                if (event%2 == 0) continue; // if it is an even event, skip it
-                // if (event%2 == 1) continue; // if it is an odd event, skip it
-            }
-            // only split for ZZ4l and signal
-
+            
             
             if (H1OS &&  H2OS && (numBJet == 0)){
 
+            // add purity cuts here
+            //if (HH4tau_NN_output >= 0.7) {
 
+            
             //if (OS != 0  && lep1IsoPassV) { // final analysis
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 //OS OS, have to rerun 4 times for each histogram
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
-
-
-
+            //}
+            
             }
+            
+    
+
             
             
             //if (! H1OS && H2OS){
