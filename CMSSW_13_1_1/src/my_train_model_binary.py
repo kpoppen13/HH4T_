@@ -63,14 +63,14 @@ def prepare_data():
     Selection_inputs = [] ## don't need
  
     ML_inputs = ["radion_pt", "vis_mass", "vis_mass2","radion_eta", "higgs2_dr", "higgs1_dr", "dphi_H1",
-                 "dphi_H1_MET", "dphi_H2", "dphi_H2_MET", "dr_HH", "dr_H1_Rad", "dphi_HH", "dr_H2_Rad", "dphi_rad_MET"]  
+                 "dphi_H1_MET", "dphi_H2", "dphi_H2_MET", "dr_HH", "dr_H1_Rad", "dphi_HH", "dr_H2_Rad", "dphi_rad_MET", 
+                 "H2OS", "H1OS", "numBJet"]  
 
     print('Preparing data')
     for s in samples: # loop over samples
         print(s)
-        file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/bnn_outputs/" + s + ".root") 
-        #file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/Output/templates/" + s + ".root") 
-        #/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/bnn_outputs
+        file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/training_samples/" + s + ".root") 
+
         ## THIS HAS WORKED: file = uprt.open("/afs/hep.wisc.edu/home/kpoppen/HH4tau/HH4T_/outputs/" + s + ".root") 
         tree = file['tree_4tau']
         DataFrames[s] = tree.arrays(ML_inputs,library="pd")
@@ -143,7 +143,7 @@ def nn_model():
     # create model
     model = Sequential()
     ###change dimension here (input_dim = number of variables in ML inputs) 
-    model.add(Dense(249, input_dim=15,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
+    model.add(Dense(249, input_dim=18,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.09))
     model.add(Dense(24,kernel_regularizer=regularizers.l1_l2(l1=1e-5,l2=7*1e-4)))
