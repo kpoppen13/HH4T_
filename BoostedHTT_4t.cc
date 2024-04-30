@@ -413,8 +413,8 @@ PFMET_MHT = pfMET + MHT;
         // Event Selection
         //=========================================================================================================
 
-    //std::cout<<event<<endl;
-    if (event%2 == 1) continue; // cut odd events
+    // if (event%2 == 1) continue; // cut odd events (only do this for the evaluation script of BNN)
+    // ^^ comment out this line otherwise
     
     
     //get the four momentum for each of the first four Tau
@@ -552,7 +552,7 @@ PFMET_MHT = pfMET + MHT;
     
     if (vis_mass < 10) continue;
 
-   if (vis_mass2 < 10) continue;
+    if (vis_mass2 < 10) continue;
     
     
     // pt of each tau
