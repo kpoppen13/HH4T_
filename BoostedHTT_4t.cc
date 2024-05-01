@@ -32,12 +32,12 @@ int main(int argc, char* argv[]) {
     std::string year_str;
 //    if (path.find("2016") != string::npos) year_str = "2016";
 //    else if (path.find("2017") != string::npos) year_str = "2017";
-//    else if (path.find("2018") != string::npos) year_str = "2018";
+      // if (path.find("2018") != string::npos) year_str = "2018";
 //    else cout<<"Which year are you looking for \n\n";
 //    cout<<"%%%% Note: you are running on  "<< year_str <<"%%%%\n";
     
     stringstream yearstream(year_str);
-    int year=0;
+    int year=2018;
     yearstream >> year;
     
     
@@ -366,7 +366,7 @@ PFMET_MHT = pfMET + MHT;
 // HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
 // offline, you apply HT 550; MET 110 and MHET 110
     
-    
+    /*
     // offline cuts
     bool passing;
     if (year == 2018){
@@ -382,29 +382,87 @@ PFMET_MHT = pfMET + MHT;
         }
         if (passing == false) continue; // get rid of events that did not pass either trigger
     }
+    */
+
+    if (year == 2018) {
+    std::vector<bool> passingMuons(nMu, false); 
+    for (int i = 0; i < nMu; ++i) {
+        // loop over all muons
+        Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
+        double muon_pt = Muon4Momentum.Pt(); 
+        if (HLT_Mu50 == 1.0 && muon_pt > 52) {
+            passingMuons[i] = true;
+        }
+    }
+    /* the below section is just for cross checking
+    for (int i = 0; i < nMu; ++i) {
+        if (passingMuons[i] == 0) continue; // cut the event if it doesn't pass the triggers
+    }
+    */ 
+
     
-    
+    if (!passing && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130) passing = true;
+    if (!passing) continue;
+
+
+}
+
     /*
-    bool passing;
     if (year == 2018){
+        bool passing = false; 
+
+        for (int i = 0; i < nMu; ++i) {
+            // loop over all muons
+            Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
+            double muon_pt = Muon4Momentum.Pt(); 
+            if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
+
+            
+        }
+        if (!passing) continue;
+        //if (!passing && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130) passing = true;
+        //else passing = false;
+        //if (!passing) continue;
+
+
+    }
+
+*/
+
+
+/*
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
+        if (PassTrigger_50 == 1.0 && muon_pt > 52){
+            passing = true;
+            
+        }
+
+    }
+
         for (int i = 0; i < nMu; ++i){
             // loop over all muons, pt above 52, events pass
             Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
             muon_pt = Muon4Momentum.Pt();
             if (PassTrigger_50 == 1.0 && muon_pt > 52){
+                std::cout<<"true"<<endl;
                 passing = true;
             }
+            else passing = false;
+
         }
         // now check the other trigger if the event did not pass trigger 50 online and offline cuts
-        if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
-            passing = true;
-        }
-        if (passing == false) continue;  // get rid of events that did not pass either trigger
-    }
+        //if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
+          //  passing = true;
+        //}
+        //if (passing == false) std::cout<<"false"<<endl;  // get rid of events that did not pass either trigger
+        //else std::cout<<"true"<<endl;
+
         
+    }
     */
+ 
+    
         
             
          
