@@ -428,23 +428,28 @@ PFMET_MHT = pfMET + MHT;
 
 
 
-// OG 
+//  
         bool passing;
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
-        if (PassTrigger_50 == 1.0 && muon_pt > 52){
-            passing = true;
-            
-        }
+        //
+        /*
+        if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
+        if (!passing) continue;
+*/
+        /*
         // ONLY COMMENT OUT FOR CROSS CHECK PURPOSES
         // now check the other trigger if the event did not pass trigger 50 online and offline cuts
         if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
             passing = true;
         }
-        if (passing == false) continue;  // get rid of events that did not pass either trigger
+        if (!passing) continue;  // get rid of events that did not pass either trigger
+*/
+
+
 
     /*
-    // DONT NEED TO DO IT THIS WAY
+    // don't need to do it this way
         for (int i = 0; i < nMu; ++i){
             // loop over all muons, pt above 52, events pass
             Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
@@ -457,6 +462,7 @@ PFMET_MHT = pfMET + MHT;
 
         }
         */
+        
         
         
     
