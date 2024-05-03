@@ -15,35 +15,43 @@ style_map_tuple = namedtuple('style_map_tuple', [
     'fill_color', 'line_color', 'line_style', 'line_width', 'marker_style'
 ])
 style_map = {
-    #"data": style_map_tuple(no_color, black, 1, 1, 8),
+    "out_data_eval": style_map_tuple(no_color, black, 1, 1, 8),
     
     "backgrounds": {
-        "highpurity_0bjets_control": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
-        "highpurity_1bjet_control": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        "4t_radion_inv_mass_2018_low": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1)
+        "out_TTT_eval": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "other_bkg_eval": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "out_ZZ_eval": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "out_DY_eval": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
-    #"EWK": {
-     #   "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
-    #},
+    "EWK": {
+        "out_VV_eval": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+    },
     "signals": {
-        "4t_radion_inv_mass_2018": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1)
+        "out_1000_eval": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "out_2000_eval": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "out_3000_eval": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
+
     }
 }
 
 style_map_emu = {
  
-    ##"data": style_map_tuple(no_color, black, 1, 1, 8),
+    "out_data_eval": style_map_tuple(no_color, black, 1, 1, 8),
 
     "backgrounds": {
-        "highpurity_0bjets_control": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
-        "highpurity_1bjet_control": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "4t_radion_inv_mass_2018_low": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1)
+        "out_TTT_eval": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "out_ZZ_eval": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "other_bkg_eval": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "out_DY_eval": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
+
         },
-    #"EWK": {
-     #   "output_VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
-    #},
+    "EWK": {
+        "out_VV_eval": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+    },
     "signals": {
-        "4t_radion_inv_mass_2018": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1)
+        "out_1000_eval": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "out_2000_eval": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "out_3000_eval": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
     }
 }
 
@@ -112,17 +120,19 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.SetNColumns(2)
 
     # data
-    # leg.AddEntry(data, 'Data', 'lep')
+    leg.AddEntry(data, 'Data', 'lep')
 
     # signals
-    leg.AddEntry(signals['4t_radion_inv_mass_2018'], 'signal_high_purity', 'l')
-
+    leg.AddEntry(signals['out_1000_eval'], ' 1 TeV', 'l')
+    leg.AddEntry(signals['out_2000_eval'], ' 2 TeV', 'l')
+    leg.AddEntry(signals['out_3000_eval'], ' 3 TeV', 'l')
 
     # backgrounds
-    leg.AddEntry(backgrounds['highpurity_0bjets_control'], '0bjets_control', 'f')
-    leg.AddEntry(backgrounds['highpurity_1bjet_control'], '1bjet_control', 'f')
-    leg.AddEntry(backgrounds['4t_radion_inv_mass_2018_low'], 'signal_low_purity', 'f')
-
+    leg.AddEntry(backgrounds['out_ZZ_eval'], 'ZZ4l', 'f')
+    leg.AddEntry(backgrounds['out_TTT_eval'], 'TTbar', 'f')
+    leg.AddEntry(backgrounds['out_DY_eval'], 'DY', 'f')
+    leg.AddEntry(backgrounds_EWK['out_VV_eval'], 'VV', 'f')
+    leg.AddEntry(backgrounds['other_bkg_eval'], 'other_bkg', 'f')
 
     # stat. uncertainty
     #leg.AddEntry(stat, 'Uncertainty', 'f')
@@ -215,22 +225,21 @@ def BuildPlot(args):
     # start getting histograms
 
     #data_hist = variableX.Get('output_Run2018_data').Clone()
-    data_hist = variableX.Get('data').Clone()
+    data_hist = variableX.Get('out_data_eval').Clone()
 
 
     signals = {}
     backgrounds = {}
-    #backgrounds_EWK = {}
+    backgrounds_EWK = {}
 
     # loop through histograms to read and store to dict
     for hkey in variableX.GetListOfKeys():
         hname = hkey.GetName()
         ihist = variableX.Get(hname).Clone()
-        '''
         if hname in style_Xmap['EWK']:
             ihist = ApplyStyle(ihist, style_Xmap['EWK'][hname])
             backgrounds_EWK[hname] = ihist
-        '''
+        
         if hname in style_Xmap['backgrounds']:
             ihist = ApplyStyle(ihist, style_Xmap['backgrounds'][hname])
             backgrounds[hname] = ihist
@@ -248,13 +257,13 @@ def BuildPlot(args):
     stack = ROOT.THStack() # stack of all backgrounds
     
     ## I DELETED THIS PART BELOW FOR OSOS BJET
-   '''
-    for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
-        print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
-        stat.Add(bkg)
-        stack.Add(bkg)
+   
+   # for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
+    #    print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
+     #   stat.Add(bkg)
+      #  stack.Add(bkg)
     ######## uncomment here
-   '''
+  
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
@@ -268,7 +277,7 @@ def BuildPlot(args):
     # format the plots
     can = createCanvas()
     #data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
-    data_hist = ApplyStyle(data_hist, style_Xmap['data'])
+    data_hist = ApplyStyle(data_hist, style_Xmap['out_data_eval'])
    
 
 
@@ -291,9 +300,9 @@ def BuildPlot(args):
     
 
 #    combo_signal = signals['H125'].Clone()
-    combo_signal = signals['4t_radion_inv_mass_2018'].Clone() 
-    #combo_signal = signals['out_2000'].Clone() 
-    #combo_signal = signals['out_3000'].Clone() 
+    combo_signal = signals['out_1000_eval'].Clone() 
+    combo_signal = signals['out_2000_eval'].Clone() 
+    combo_signal = signals['out_3000_eval'].Clone() 
 #    combo_signal = signals['JHU_GGH2Jets_pseudoscalar_M125'].Clone()
 #    combo_signal.Scale(signals['H125'].Integral()/combo_signal.Integral())
 #    combo_signal.Add(signals['ggH125'])
