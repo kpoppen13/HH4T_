@@ -433,18 +433,18 @@ PFMET_MHT = pfMET + MHT;
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
         //
-        /*
+        
         if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
-        if (!passing) continue;
-*/
-        /*
+        // if (!passing) continue;
+
+        
         // ONLY COMMENT OUT FOR CROSS CHECK PURPOSES
         // now check the other trigger if the event did not pass trigger 50 online and offline cuts
         if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
             passing = true;
         }
         if (!passing) continue;  // get rid of events that did not pass either trigger
-*/
+
 
 
 
