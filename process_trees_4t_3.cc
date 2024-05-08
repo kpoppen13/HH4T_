@@ -100,6 +100,9 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         double radion_inv_mass, LumiWeight, radion_pt, vis_mass, vis_mass2, radion_eta, higgs2_dr, higgs1_dr,
         dphi_H1, dphi_H1_MET, dphi_H2, dphi_H2_MET, dr_HH, dr_H1_Rad, dphi_HH, dr_H2_Rad, dphi_rad_MET, HH4tau_NN_output, weight;
 
+        double H1OS, H2OS;
+        double numBJet;
+
         tree->SetBranchAddress("vis_mass",&vis_mass);
         tree->SetBranchAddress("vis_mass2",&vis_mass2);
         tree->SetBranchAddress("index", &index);
@@ -119,6 +122,10 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
         tree->SetBranchAddress("dr_H1_Rad",&dr_H1_Rad);
         tree->SetBranchAddress("LumiWeight",&weight);
         tree->SetBranchAddress("HH4tau_NN_output", &HH4tau_NN_output);
+
+        tree->SetBranchAddress("numBJet", &numBJet);
+        tree->SetBranchAddress("H1OS",&H1OS);
+        tree->SetBranchAddress("H2OS",&H2OS);
         
         
         // Here we have to call OS/SS method extracter
@@ -145,7 +152,10 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
                 {"dr_H1_Rad", dr_H1_Rad},
                 {"HH4tau_NN_output", HH4tau_NN_output},
                 {"index", index},
-                {"LumiWeight", LumiWeight}
+                {"LumiWeight", LumiWeight},
+                {"H1OS", H1OS},
+                {"H2OS", H2OS},
+                {"numBJet", numBJet}
             };
 
 
@@ -159,12 +169,13 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             // add purity requirements here
-            
-            if (HH4tau_NN_output >= 0.7){
+            //if (H1OS && !H2OS && (numBJet == 0)){
+            if (HH4tau_NN_output < 0.7){
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
             }
             
+        //}
         }
         delete fin;
     }
