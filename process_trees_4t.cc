@@ -221,7 +221,7 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
 // apply the cuts here
             //if (1) { // final analysis
             
-            
+            // && (numBJet == 0)
             if (H1OS &&  H2OS && (numBJet == 0)){
 
             // add purity cuts here
