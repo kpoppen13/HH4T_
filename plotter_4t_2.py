@@ -286,16 +286,16 @@ def BuildPlot(args):
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(4)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(3)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(4)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(3)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(4)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(3)  # Rebin each signal histogram with a factor of 2
 
    
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(50)
+    stack.SetMaximum(120)
 
     
 
@@ -312,7 +312,7 @@ def BuildPlot(args):
     # draw the plots
     #data_hist.Rebin(2)  
 
-    data_hist.GetXaxis().SetRangeUser(1000, 20000)
+    #data_hist.GetXaxis().SetRangeUser(1000, 20000)
     data_hist.Draw('same lep')
     
 
@@ -334,7 +334,7 @@ def BuildPlot(args):
         sig_hist.Scale(.002) #SCALING HERE 0.002
 
 
-        sig_hist.GetXaxis().SetRangeUser(1000, 20000)
+        #sig_hist.GetXaxis().SetRangeUser(1000, 20000)
         sig_hist.Draw('same hist')
     
     
@@ -426,7 +426,7 @@ def BuildPlot(args):
     
     ratio.Rebin(1) ## TRIED TO REBIN HERE
 
-    ##ratio.GetXaxis().SetRangeUser(1000, 20000)
+    #ratio.GetXaxis().SetRangeUser(1000, 20000)
     ratio.Draw('same')
     ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
