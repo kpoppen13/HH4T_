@@ -153,6 +153,7 @@ def formatPull(pull, title):
     pull.GetXaxis().SetLabelFont(42)
     pull.GetXaxis().SetLabelSize(.111)
     pull.GetXaxis().SetNdivisions(505)
+
     # pull.GetXaxis().SetLabelSize(0)
     # pull.GetXaxis().SetTitleSize(0)
 
@@ -272,7 +273,9 @@ def BuildPlot(args):
 
 #    sig_yields = [ihist.GetMaximum() for ihist in signals.itervalues()] + [data_hist.GetMaximum(), stat.GetMaximum()]
     stack.SetMaximum(data_hist.GetMaximum() * args.scale)
+    #stack.GetXaxis().SetRangeUser(0,2500)
 #    stack.SetMaximum(data_hist.GetMaximum() * 1000)
+
     
     # format the plots
     can = createCanvas()
@@ -283,20 +286,17 @@ def BuildPlot(args):
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(2)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(4)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(2)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(4)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(2)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(4)  # Rebin each signal histogram with a factor of 2
 
    
-    #stack.GetXaxis().SetRangeUser(0,1.5)
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(20)
+    stack.SetMaximum(50)
 
-    
-    data_hist.GetXaxis().SetRangeUser(0, 1.5)
     
 
 #    combo_signal = signals['H125'].Clone()
@@ -310,12 +310,14 @@ def BuildPlot(args):
 #    data_hist = blindData(data_hist, combo_signal, stat,args.variable,args.category)
 
     # draw the plots
-    #data_hist.Rebin(2)  ### TRIED TO REBIN HERE
+    #data_hist.Rebin(2)  
+
+    data_hist.GetXaxis().SetRangeUser(1000, 20000)
     data_hist.Draw('same lep')
     
 
     
-    stat.Draw('same')
+    #stat.Draw('same')
     #stat.Draw('same e2')
     stat.SetLineWidth(0)
     stat.SetLineColor(ROOT.kBlack)
@@ -325,12 +327,14 @@ def BuildPlot(args):
     print "stat= ",stat.Integral()
    
     for sig_name, sig_hist in signals.iteritems():
-        #sig_hist.Rebin(2) #### TRIED TO REBIN HERE
 #        if 'GGH' in sig_name:
 #            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
 #        if 'qqH' in sig_name:
 #            sig_hist.Scale(50*signals['VBF125'].Integral()/sig_hist.Integral())
-        sig_hist.Scale(0.002) #SCALING HERE 0.002
+        sig_hist.Scale(.002) #SCALING HERE 0.002
+
+
+        sig_hist.GetXaxis().SetRangeUser(1000, 20000)
         sig_hist.Draw('same hist')
     
     
@@ -421,6 +425,8 @@ def BuildPlot(args):
     ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
     
     ratio.Rebin(1) ## TRIED TO REBIN HERE
+
+    ##ratio.GetXaxis().SetRangeUser(1000, 20000)
     ratio.Draw('same')
     ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
