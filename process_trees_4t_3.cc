@@ -158,9 +158,9 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################    Fill  data, signal & non QCD Bkg
             //            ################################################################################
 // apply the cuts here
-            // add purity cuts here
+            // add purity requirements here
             
-            if (HH4tau_NN_output < 0.7){
+            if (HH4tau_NN_output >= 0.7){
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
             }
