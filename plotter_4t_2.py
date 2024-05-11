@@ -143,8 +143,8 @@ def formatPull(pull, title):
     pull.SetTitle('')
 #    pull.SetMaximum(1.99)
 #    pull.SetMinimum(0.01)
-    pull.SetMaximum(2)  ## adjust ratio axis here?
-    pull.SetMinimum(0)  ## adjust ratio axis here?
+    pull.SetMaximum(2)  ## adjust ratio axis here
+    pull.SetMinimum(0)  ## adjust ratio axis here
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
     pull.GetXaxis().SetTitleSize(0.18)
@@ -257,16 +257,18 @@ def BuildPlot(args):
     stat.Reset()
     stack = ROOT.THStack() # stack of all backgrounds
     
-    ## I DELETED THIS PART BELOW FOR OSOS BJET
-   
-   # for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
-    #    print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
-     #   stat.Add(bkg)
-      #  stack.Add(bkg)
-    ######## uncomment here
+  
+   ## checkout sorted function
+   ## dont delete this part below
+
   
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
+        stat.Add(bkg)
+        stack.Add(bkg)
+
+    for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
+        print "\t\t = ", bkg.GetName()," int= ", bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
     
@@ -286,16 +288,16 @@ def BuildPlot(args):
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(3)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(1)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(3)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(1)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(3)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(1)  # Rebin each signal histogram with a factor of 2
 
    
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(120)
+    stack.SetMaximum(10)
 
     
 
