@@ -169,13 +169,13 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
             //            ################################################################################
 // apply the cuts here
             // add purity requirements here
-            //if (H1OS && !H2OS && (numBJet == 0)){
+            if (H1OS && H2OS && (numBJet == 0)){
             if (HH4tau_NN_output < 0.7){
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
             }
             
-        //}
+        }
         }
         delete fin;
     }
