@@ -259,12 +259,11 @@ def BuildPlot(args):
         stat.Add(bkg)
         stack.Add(bkg)
 
-    '''
     for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
         print "\t\t = ", bkg.GetName()," int= ", bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
-    '''
+
     stack.SetMaximum(data_hist.GetMaximum() * args.scale)
     #stack.GetXaxis().SetRangeUser(0,2500)
 
