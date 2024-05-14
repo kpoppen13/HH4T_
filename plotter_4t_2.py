@@ -141,8 +141,6 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     
 def formatPull(pull, title):
     pull.SetTitle('')
-#    pull.SetMaximum(1.99)
-#    pull.SetMinimum(0.01)
     pull.SetMaximum(2)  ## adjust ratio axis here
     pull.SetMinimum(0)  ## adjust ratio axis here
     pull.GetXaxis().SetTitle(title)
@@ -220,12 +218,7 @@ def BuildPlot(args):
     if 'em' in args.category or 'me' in args.category:
         style_Xmap=style_map_emu
 
-
-
-
     # start getting histograms
-
-    #data_hist = variableX.Get('output_Run2018_data').Clone()
     data_hist = variableX.Get('out_data_eval').Clone()
 
 
@@ -259,26 +252,22 @@ def BuildPlot(args):
     
   
    ## checkout sorted function
-   ## dont delete this part below
-
-  
+   ## dont delete this part below 
+   
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
         print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
 
+    '''
     for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
         print "\t\t = ", bkg.GetName()," int= ", bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
-    
-
-#    sig_yields = [ihist.GetMaximum() for ihist in signals.itervalues()] + [data_hist.GetMaximum(), stat.GetMaximum()]
+    '''
     stack.SetMaximum(data_hist.GetMaximum() * args.scale)
     #stack.GetXaxis().SetRangeUser(0,2500)
-#    stack.SetMaximum(data_hist.GetMaximum() * 1000)
 
-    
     # format the plots
     can = createCanvas()
     #data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
@@ -288,37 +277,29 @@ def BuildPlot(args):
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(1)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(3)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(1)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(3)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(1)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(3)  # Rebin each signal histogram with a factor of 2
 
    
     stack.Draw('hist')
     formatStack(stack)
     stack.SetMaximum(10)
 
-    
 
-#    combo_signal = signals['H125'].Clone()
-    combo_signal = signals['out_1000_eval'].Clone() 
-    combo_signal = signals['out_2000_eval'].Clone() 
-    combo_signal = signals['out_3000_eval'].Clone() 
-#    combo_signal = signals['JHU_GGH2Jets_pseudoscalar_M125'].Clone()
-#    combo_signal.Scale(signals['H125'].Integral()/combo_signal.Integral())
-#    combo_signal.Add(signals['ggH125'])
-#    combo_signal.Add(signals['VBF125'])
+    #combo_signal = signals['out_1000_eval'].Clone() 
+    #combo_signal = signals['out_2000_eval'].Clone() 
+    #combo_signal = signals['out_3000_eval'].Clone() 
 #    data_hist = blindData(data_hist, combo_signal, stat,args.variable,args.category)
 
-    # draw the plots
-    #data_hist.Rebin(2)  
 
     #data_hist.GetXaxis().SetRangeUser(1000, 20000)
     data_hist.Draw('same lep')
     
 
-    
+ 
     #stat.Draw('same')
     #stat.Draw('same e2')
     stat.SetLineWidth(0)
@@ -329,14 +310,7 @@ def BuildPlot(args):
     print "stat= ",stat.Integral()
    
     for sig_name, sig_hist in signals.iteritems():
-#        if 'GGH' in sig_name:
-#            sig_hist.Scale(50*signals['ggH125'].Integral()/sig_hist.Integral())
-#        if 'qqH' in sig_name:
-#            sig_hist.Scale(50*signals['VBF125'].Integral()/sig_hist.Integral())
         sig_hist.Scale(.002) #SCALING HERE 0.002
-
-
-        #sig_hist.GetXaxis().SetRangeUser(1000, 20000)
         sig_hist.Draw('same hist')
     
     
@@ -422,15 +396,11 @@ def BuildPlot(args):
     # rat_unc.SetMarkerStyle(8)
 
     ratio.Scale(.1)
-    # rat_unc.SetFillColor(ROOT.kGray)
-    rat_unc.Draw('same')
-    ## rat_unc.Draw('same e2')  # try changing these inputs to eliminate the uncertainty
-    
-    ratio.Rebin(1) ## TRIED TO REBIN HERE
 
-    #ratio.GetXaxis().SetRangeUser(1000, 20000)
+    rat_unc.Draw('same')
+    #ratio.Rebin(2) ## TRIED TO REBIN HERE
+
     ratio.Draw('same')
-    ##ratio.Draw('same lep')  # try changing these inputs to eliminate the uncertainty
 #    ratio.Fit("pol0","","",200,400)
 #    ratio.Fit("pol1","","",20,200)
 
