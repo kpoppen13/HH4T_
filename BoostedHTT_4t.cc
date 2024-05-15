@@ -78,7 +78,9 @@ int main(int argc, char* argv[]) {
     float JetPtCut=30;
     float BJetPtCut=30;
 
-    float DeepCSVCut = 0.4184;
+    float DeepCSVCut = 0.7527;
+
+    // 0.7527
     // 0.4184;
     // 0.8001; // use 0.4184, less TTbar in signal region
 
@@ -301,6 +303,7 @@ if (PassTrigger_27==1){
         TLorentzVector LeadTau4Momentum,SubTau4Momentum, Sub_and_Lead_Momentum, Met4Momentum, LeadTau4MomentumNominal, SubTau4MomentumNominal;
         //=========================================================================================================
 if (nBoostedTau < 3) continue;
+
     float LeadingBoostedTauPt= boostedTauPt->at(0);
     float SubLeadingBoostedTauPt= boostedTauPt->at(1);
     float ThirdBoostedTauPt= boostedTauPt->at(2);
@@ -429,6 +432,8 @@ PFMET_MHT = pfMET + MHT;
 
 
 //  
+
+
         bool passing;
         // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
         // first check if the events pass this trigger offline and online cuts
@@ -477,7 +482,7 @@ PFMET_MHT = pfMET + MHT;
         // Event Selection
         //=========================================================================================================
 
-    // if (event%2 == 1) continue; // cut odd events (only do this for the evaluation script of BNN)
+    // if (event%2 == 1) continue; // cut odd events or even events (want only odds for training script)
     // ^^ comment out this line otherwise
     
     
@@ -615,7 +620,6 @@ PFMET_MHT = pfMET + MHT;
 
     
     if (vis_mass < 10) continue;
-
     if (vis_mass2 < 10) continue;
     
     
@@ -680,8 +684,6 @@ PFMET_MHT = pfMET + MHT;
 
     // BJet veto
     numBJet=numBJets(BJetPtCut,DeepCSVCut,JetSys);
-    //std::cout<<BJetPtCut<<endl;
-    //if (numBJet > 0) continue;
     plotFill("numBJet", numBJet, 15,0,15);
     
 
@@ -836,14 +838,6 @@ PFMET_MHT = pfMET + MHT;
     if (PassTrigger_40 && efficiency40==1.0){
         plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
-
-
-    
-    
-    
-    
-    
-
 
     // Fill the tree
     outTr->Fill();
