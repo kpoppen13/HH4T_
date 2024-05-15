@@ -458,7 +458,7 @@ PFMET_MHT = pfMET + MHT;
         // Event Selection
         //=========================================================================================================
 
-    // if (event%2 == 1) continue; // cut odd events or even events (want only odds for training script)
+    if (event%2 == 1) continue; // cut odd events or even events (want only odds for training script)
     // ^^ comment out this line otherwise
     
     
@@ -509,7 +509,7 @@ PFMET_MHT = pfMET + MHT;
     plotFill("Z_muon_mult", Zto_mumu_multiplicity(), 50, 0, 4.5);
     plotFill("Z_ee_mult", Zto_ee_multiplicity(), 50, 0, 4.5);
     //plotFill("Z_ee_mumu_mult", Zto_mumu_multiplicity(), Zto_ee_multiplicity(), 50, 0, 10);
-    //if (Z_multiplicity > 0) continue;
+    if (Z_multiplicity > 0) continue;
     
     //matching the pairs
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
