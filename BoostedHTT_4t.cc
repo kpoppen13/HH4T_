@@ -433,51 +433,27 @@ PFMET_MHT = pfMET + MHT;
 
 //  
 
+//HERE
 
-        bool passing;
-        // trigger 50 (Mu50 (bitEleMuX = 21)==1); Mu trigger
-        // first check if the events pass this trigger offline and online cuts
-        //
-        
+    bool passing = false; 
+    // Loop over muons
+    for (int i = 0; i < nMu; ++i) {
+        Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
+        muon_pt = Muon4Momentum.Pt();
         if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
-        // if (!passing) continue;
-
+    }
+    if (!passing) continue;
         
         // ONLY COMMENT OUT FOR CROSS CHECK PURPOSES
         // now check the other trigger if the event did not pass trigger 50 online and offline cuts
-        if (passing == false && PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130){
-            passing = true;
-        }
-        if (!passing) continue;  // get rid of events that did not pass either trigger
 
+    if (passing == false){
+        if (PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130) passing = true;
+    }
+    if (!passing) continue;  // get rid of events that did not pass either trigger
 
+//HERE
 
-
-    /*
-    // don't need to do it this way
-        for (int i = 0; i < nMu; ++i){
-            // loop over all muons, pt above 52, events pass
-            Muon4Momentum.SetPtEtaPhiM(muPt->at(i), muEta->at(i), muPhi->at(i), muMass);
-            muon_pt = Muon4Momentum.Pt();
-            if (PassTrigger_50 == 1.0 && muon_pt > 52){
-                // std::cout<<"true"<<endl;
-                passing = true;
-            }
-            else passing = false;
-
-        }
-        */
-        
-        
-        
-    
-    
- 
-    
-        
-            
-         
-    
         //=========================================================================================================
         // Event Selection
         //=========================================================================================================
@@ -533,7 +509,7 @@ PFMET_MHT = pfMET + MHT;
     plotFill("Z_muon_mult", Zto_mumu_multiplicity(), 50, 0, 4.5);
     plotFill("Z_ee_mult", Zto_ee_multiplicity(), 50, 0, 4.5);
     //plotFill("Z_ee_mumu_mult", Zto_mumu_multiplicity(), Zto_ee_multiplicity(), 50, 0, 10);
-    if (Z_multiplicity > 0) continue;
+    //if (Z_multiplicity > 0) continue;
     
     //matching the pairs
     TLorentzVector NewBoostedTau4Momentum, LeadMatch4Momentum, higgs1_momentum, SecondPair4Momentum, higgs2_momentum; 
@@ -839,8 +815,12 @@ PFMET_MHT = pfMET + MHT;
         plotFill("Numerator40", AK8Mass, AK8Pt, 50, 0, 350, 50, 0, 900);
     }
 
+    
+
     // Fill the tree
     outTr->Fill();
+
+
         
     } //End of Tree
     
