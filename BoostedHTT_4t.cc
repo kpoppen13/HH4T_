@@ -442,7 +442,7 @@ PFMET_MHT = pfMET + MHT;
         muon_pt = Muon4Momentum.Pt();
         if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
     }
-    if (!passing) continue;
+    // if (!passing) continue;
         
         // ONLY COMMENT OUT FOR CROSS CHECK PURPOSES
         // now check the other trigger if the event did not pass trigger 50 online and offline cuts
