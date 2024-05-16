@@ -141,7 +141,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     
 def formatPull(pull, title):
     pull.SetTitle('')
-    pull.SetMaximum(2)  ## adjust ratio axis here
+    pull.SetMaximum(5)  ## adjust ratio axis here
     pull.SetMinimum(0)  ## adjust ratio axis here
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
@@ -213,10 +213,18 @@ def BuildPlot(args):
     channelName = ifile.Get(args.channelName)
 #    variable = category.Get(args.variable)
     variableX = ifile.Get(args.category)
+   
     
     style_Xmap=style_map
     if 'em' in args.category or 'me' in args.category:
         style_Xmap=style_map_emu
+
+    ########### TESTING #####################
+    #print("Type of variableX:", type(variableX))
+    #print("args.category:", args.category)
+    #print("Is variableX None?", variableX is None)
+    #print("Contents of variableX:", variableX) # problem is here because there's no highPurity category
+    #########################################
 
     # start getting histograms
     data_hist = variableX.Get('out_data_eval').Clone()
@@ -249,20 +257,22 @@ def BuildPlot(args):
     stat = data_hist.Clone() # sum of all backgrounds
     stat.Reset()
     stack = ROOT.THStack() # stack of all backgrounds
-    
-  
-   ## checkout sorted function
-   ## dont delete this part below 
+
    
     for bkg in sorted(backgrounds.itervalues(), key = lambda hist: hist.Integral()):
-        print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
+        #print "\t\t = ", bkg.GetName(),"  int= ",bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
+        #print("stat integral: ", stat.Integral())
 
     for bkg in sorted(backgrounds_EWK.itervalues(), key = lambda hist: 1./hist.Integral()):
-        print "\t\t = ", bkg.GetName()," int= ", bkg.Integral()
+        #print "\t\t = ", bkg.GetName()," int= ", bkg.Integral()
         stat.Add(bkg)
         stack.Add(bkg)
+        
+
+    #print(stat.Integral())
+    
 
     stack.SetMaximum(data_hist.GetMaximum() * args.scale)
     #stack.GetXaxis().SetRangeUser(0,2500)
@@ -285,7 +295,7 @@ def BuildPlot(args):
    
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(10)
+    stack.SetMaximum(12)
 
 
     #combo_signal = signals['out_1000_eval'].Clone() 
@@ -303,10 +313,6 @@ def BuildPlot(args):
     #stat.Draw('same e2')
     stat.SetLineWidth(0)
     stat.SetLineColor(ROOT.kBlack)
-
-
-    print "CheckData= ",data_hist.Integral()
-    print "stat= ",stat.Integral()
    
     for sig_name, sig_hist in signals.iteritems():
         sig_hist.Scale(.002) #SCALING HERE 0.002
@@ -383,6 +389,12 @@ def BuildPlot(args):
     # now work on ratio plot
     can.cd(2)
     ratio = data_hist.Clone()
+
+
+    print("stat integral: ", stat.Integral())
+    print ("data integral: ",data_hist.Integral())
+    print("ratio integral: ", ratio.Integral()) 
+
     ratio.Divide(stat)
     ratio = formatPull(ratio, args.label)
     
@@ -394,8 +406,7 @@ def BuildPlot(args):
     # rat_unc.SetMarkerSize(0)
     # rat_unc.SetMarkerStyle(8)
 
-    ratio.Scale(.1)
-
+    # ratio.Scale(.1)
     rat_unc.Draw('same')
     #ratio.Rebin(2) ## TRIED TO REBIN HERE
 
