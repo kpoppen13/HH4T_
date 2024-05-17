@@ -141,7 +141,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     
 def formatPull(pull, title):
     pull.SetTitle('')
-    pull.SetMaximum(5)  ## adjust ratio axis here
+    pull.SetMaximum(2.5)  ## adjust ratio axis here
     pull.SetMinimum(0)  ## adjust ratio axis here
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
@@ -292,7 +292,7 @@ def BuildPlot(args):
     for sig_hist in signals.values():
         sig_hist.Rebin(3)  # Rebin each signal histogram with a factor of 2
 
-   
+    stat.Rebin(3)
     stack.Draw('hist')
     formatStack(stack)
     stack.SetMaximum(12)
@@ -390,12 +390,17 @@ def BuildPlot(args):
     can.cd(2)
     ratio = data_hist.Clone()
 
-
+    ###### TESTING #########
     print("stat integral: ", stat.Integral())
+    print("stat nbins: ",stat.GetNbinsX())
     print ("data integral: ",data_hist.Integral())
-    print("ratio integral: ", ratio.Integral()) 
+    print("data nbins: ",data_hist.GetNbinsX())
+
 
     ratio.Divide(stat)
+    print("ratio integral: ", ratio.Integral()) 
+
+
     ratio = formatPull(ratio, args.label)
     
     rat_unc = ratio.Clone()
