@@ -152,9 +152,7 @@ int main(int argc, char* argv[]) {
     bool PassTrigger_50;
     bool PassTrigger_27;
 
-    
- 
-    
+
     TLorentzVector Muon4Momentum, MatchedTau4Momentum;
     TLorentzVector even_events, odd_events;
 
@@ -283,6 +281,8 @@ if (PassTrigger_27==1){
 
 
 
+
+
 //
 //        // Trigger
 //        //        https://cmsoms.cern.ch/cms/triggers/hlt_trigger_rates?cms_run=325175
@@ -320,9 +320,10 @@ if (nBoostedTau < 3) continue;
         //float AK8Mass=0;
         float AK8Eta=100;
         float AK8Jet;
-        float PFHT= getST(JetPtCut,JetSys); 
-        float PFMET=Met;
-        float MHT=getMHT(JetPtCut,JetSys);
+        // float PFHT= getST(JetPtCut,JetSys); 
+        //float PFMET=Met;
+        // float PFMET = pfMET;
+        // float MHT=getMHT(JetPtCut,JetSys);
         float TriggerWeight = 1;
         float TriggerWeightError = 1;
         float _cut_AK8Pt_,_cut_AK8Mass_,_cut_PFHT_,_cut_PFMET_,_cut_PFMHT_, _cut_PFMETMHT_, _cut_st_;
@@ -361,9 +362,8 @@ if (year== 2018){
     }
 
 
-PFMET_MHT = pfMET + MHT;
 
-    ////apply trigger only on data
+// apply trigger only on data
 
 
 // HLT_PFHT500_PFMET100_PFMHT100_IDTight_v
@@ -435,6 +435,11 @@ PFMET_MHT = pfMET + MHT;
 
 //HERE
 
+    float PFHT= getST(JetPtCut,JetSys); 
+    float PFMET = pfMET;
+    float MHT=getMHT(JetPtCut,JetSys);
+    // PFMET_MHT = PFMET + MHT;
+
     bool passing = false; 
     // Loop over muons
     for (int i = 0; i < nMu; ++i) {
@@ -442,15 +447,19 @@ PFMET_MHT = pfMET + MHT;
         muon_pt = Muon4Momentum.Pt();
         if (HLT_Mu50 == 1.0 && muon_pt > 52) passing = true;
     }
-    // if (!passing) continue;
-        
-        // ONLY COMMENT OUT FOR CROSS CHECK PURPOSES
-        // now check the other trigger if the event did not pass trigger 50 online and offline cuts
-
+     // now check the other trigger if the event did not pass trigger 50 online and offline cuts
     if (passing == false){
-        if (PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130) passing = true;
+        if (PassTrigger_39 == 1.0 && (PFHT > 550) && (PFMET > 120) && (MHT > 120)) passing = true;  
     }
-    if (!passing) continue;  // get rid of events that did not pass either trigger
+    if (!passing) continue; // get rid of events that did not pass either trigger
+
+
+
+    // old trigger
+    //if (passing == false){
+      //  if (PassTrigger_27 == 1.0 && pfMET > 130 && MHT > 130) passing = true;
+    //}
+    //if (!passing) continue;  // get rid of events that did not pass either trigger
 
 //HERE
 
@@ -458,7 +467,7 @@ PFMET_MHT = pfMET + MHT;
         // Event Selection
         //=========================================================================================================
 
-    if (event%2 == 1) continue; // cut odd events or even events (want only odds for training script)
+    // if (event%2 == 1) continue; // cut odd events or even events (want only odds for training script)
     // ^^ comment out this line otherwise
     
     
@@ -498,10 +507,6 @@ PFMET_MHT = pfMET + MHT;
     if (LumiWeight == 0){
         LumiWeight = 1;
     }
-
-
-    
-    
 
 
     Z_multiplicity = Zto_mumu_multiplicity() + Zto_ee_multiplicity();
@@ -655,8 +660,6 @@ PFMET_MHT = pfMET + MHT;
 
     //MHT
     plotFill("pfMHT", pfMHT, 50, 0, 1000, LumiWeight);
-
-
 
     // BJet veto
     numBJet=numBJets(BJetPtCut,DeepCSVCut,JetSys);
