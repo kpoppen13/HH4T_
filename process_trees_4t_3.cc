@@ -28,13 +28,12 @@ int main(int argc, char *argv[]) {
     
     string year;
     if (dir.find("2016") != string::npos) year ="2016"; // similar to this to get just ZZ or signal, change dir to the sample
-    //see where I get the sample name?
     else if (dir.find("2017") != string::npos ) year ="2017";
     else if (dir.find("2018") != string::npos) year ="2018";
     else (std::cout << "Year is not specificed in the outFile name !\n");
     
     
-    string channel = "4t";
+    string channel = "4t"; // update this
     string tree_name = "output_eval_tree";
 //    if (dir.find("_tt") != string::npos or dir.find("tt_") != string::npos ) {channel ="tt";tree_name="tautau_tree";}
 //    else (std::cout << "channel is not specificed in the outFile name !\n");
@@ -160,17 +159,13 @@ void HistTool::histoLoop(std::string year , vector<string> files, string dir, st
 
 
             vbf_var1 =ObsName[var_name];
-            
-            
-            
-            
             //            ################################################################################
             //            ################    Fill  data, signal & non QCD Bkg
             //            ################################################################################
 // apply the cuts here
-            // add purity requirements here
-            if (H1OS && H2OS && (numBJet == 0)){
-            if (HH4tau_NN_output < 0.7){
+            // add purity requirements here  
+            if ((H1OS && H2OS && numBJet == 0)){
+            if (HH4tau_NN_output >= 0.7){
                 cout<<"vbf_var1,  weight "<<vbf_var1 <<" "<< weight<<"\n";
                 hists_1d.at(categories.at(zeroJet)).back()->Fill((vbf_var1) , weight); // making plots!
             }
