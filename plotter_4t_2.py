@@ -15,43 +15,43 @@ style_map_tuple = namedtuple('style_map_tuple', [
     'fill_color', 'line_color', 'line_style', 'line_width', 'marker_style'
 ])
 style_map = {
-    "out_data_eval": style_map_tuple(no_color, black, 1, 1, 8),
+    "data_obs": style_map_tuple(no_color, black, 1, 1, 8),
     
     "backgrounds": {
-        "out_TTT_eval": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
-        "other_bkg_eval": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        "out_ZZ_eval": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "out_DY_eval": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
+        "TTT": style_map_tuple(GetColor(255, 165, 0), black, 1, 1, 1),
+        "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
         },
     "EWK": {
-        "out_VV_eval": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+        "VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
     },
     "signals": {
-        "out_1000_eval": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
-        "out_2000_eval": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
-        "out_3000_eval": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
+        "Radion1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "Radion2000": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "Radion3000": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
 
     }
 }
 
 style_map_emu = {
  
-    "out_data_eval": style_map_tuple(no_color, black, 1, 1, 8),
+    "data_obs": style_map_tuple(no_color, black, 1, 1, 8),
 
     "backgrounds": {
-        "out_TTT_eval": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
-        "out_ZZ_eval": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
-        "other_bkg_eval": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
-        "out_DY_eval": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
+        "TTT": style_map_tuple(GetColor(0, 0, 0), black, 1, 1, 1),
+        "ZZ": style_map_tuple(GetColor(408, 106, 154), black, 1, 1, 1),
+        "other_bkg": style_map_tuple(GetColor(208, 376, 124), black, 1, 1, 1),
+        "DY": style_map_tuple(GetColor(208, 126, 254), black, 1, 1, 1)
 
         },
     "EWK": {
-        "out_VV_eval": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
+        "VV": style_map_tuple(GetColor(200, 282, 232), black, 1, 1, 1),
     },
     "signals": {
-        "out_1000_eval": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
-        "out_2000_eval": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
-        "out_3000_eval": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
+        "Radion1000": style_map_tuple(no_color, GetColor("#FF0000"), 1, 3, 1), 
+        "Radion2000": style_map_tuple(no_color, GetColor("#00FF00"), 1, 3, 1),
+        "Radion3000": style_map_tuple(no_color, GetColor("#0000FF"), 1, 3, 1)
     }
 }
 
@@ -76,7 +76,10 @@ def createCanvas():
     pad1.SetPad(0, .3, 1, 1)
     pad1.SetTopMargin(.1)
     pad1.SetBottomMargin(0.02)
-#    pad1.SetLogy()
+
+    #pad1.SetLogy()
+
+
     pad1.SetTickx(1)
     pad1.SetTicky(1)
 
@@ -123,16 +126,16 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     leg.AddEntry(data, 'Data', 'lep')
 
     # signals
-    leg.AddEntry(signals['out_1000_eval'], ' 1 TeV', 'l')
-    leg.AddEntry(signals['out_2000_eval'], ' 2 TeV', 'l')
-    leg.AddEntry(signals['out_3000_eval'], ' 3 TeV', 'l')
+    leg.AddEntry(signals['Radion1000'], ' 1 TeV', 'l')
+    leg.AddEntry(signals['Radion2000'], ' 2 TeV', 'l')
+    leg.AddEntry(signals['Radion3000'], ' 3 TeV', 'l')
 
     # backgrounds
-    leg.AddEntry(backgrounds['out_ZZ_eval'], 'ZZ4l', 'f')
-    leg.AddEntry(backgrounds['out_TTT_eval'], 'TTbar', 'f')
-    leg.AddEntry(backgrounds['out_DY_eval'], 'DY', 'f')
-    leg.AddEntry(backgrounds_EWK['out_VV_eval'], 'VV', 'f')
-    leg.AddEntry(backgrounds['other_bkg_eval'], 'other_bkg', 'f')
+    leg.AddEntry(backgrounds['ZZ'], 'ZZ4l', 'f')
+    leg.AddEntry(backgrounds['TTT'], 'TTbar', 'f')
+    leg.AddEntry(backgrounds['DY'], 'DY', 'f')
+    leg.AddEntry(backgrounds_EWK['VV'], 'VV', 'f')
+    leg.AddEntry(backgrounds['other_bkg'], 'other_bkg', 'f')
 
     # stat. uncertainty
     #leg.AddEntry(stat, 'Uncertainty', 'f')
@@ -141,7 +144,7 @@ def fillLegend(data, backgrounds,backgrounds_EWK, signals, stat):
     
 def formatPull(pull, title):
     pull.SetTitle('')
-    pull.SetMaximum(2.5)  ## adjust ratio axis here
+    pull.SetMaximum(3)  ## adjust ratio axis here
     pull.SetMinimum(0)  ## adjust ratio axis here
     pull.GetXaxis().SetTitle(title)
     pull.SetMarkerStyle(21)
@@ -169,13 +172,13 @@ def sigmaLines(data):
         data.GetBinWidth(data.GetNbinsX())
 
     ## high line
-    line1 = ROOT.TLine(low, 1.25, high, 1.25)
+    line1 = ROOT.TLine(low, 2, high, 2) ## previously 1.25 for both, change to 2 I think 
     line1.SetLineWidth(1)
     line1.SetLineStyle(3)
     line1.SetLineColor(ROOT.kBlack)
 
     ## low line
-    line2 = ROOT.TLine(low, 0.75, high, 0.75)
+    line2 = ROOT.TLine(low, 1, high, 1) # previously 0.75 for both, change to 1 I think 
     line2.SetLineWidth(1)
     line2.SetLineStyle(3)
     line2.SetLineColor(ROOT.kBlack)
@@ -227,7 +230,7 @@ def BuildPlot(args):
     #########################################
 
     # start getting histograms
-    data_hist = variableX.Get('out_data_eval').Clone()
+    data_hist = variableX.Get('data_obs').Clone()
 
 
     signals = {}
@@ -280,22 +283,22 @@ def BuildPlot(args):
     # format the plots
     can = createCanvas()
     #data_hist = ApplyStyle(data_hist, style_Xmap['output_Run2018_data'])
-    data_hist = ApplyStyle(data_hist, style_Xmap['out_data_eval'])
+    data_hist = ApplyStyle(data_hist, style_Xmap['data_obs'])
    
 
 
     stat = formatStat(stat)
     
-    data_hist.Rebin(3)  # Rebin the data histogram with a factor of 2
+    data_hist.Rebin(1)  # Rebin the data histogram with a factor of 2
     for bkg in backgrounds.values():
-        bkg.Rebin(3)  # Rebin each background histogram with a factor of 2
+        bkg.Rebin(1)  # Rebin each background histogram with a factor of 2
     for sig_hist in signals.values():
-        sig_hist.Rebin(3)  # Rebin each signal histogram with a factor of 2
+        sig_hist.Rebin(1)  # Rebin each signal histogram with a factor of 2
 
-    stat.Rebin(3)
+    stat.Rebin(1)
     stack.Draw('hist')
     formatStack(stack)
-    stack.SetMaximum(12)
+    stack.SetMaximum(30)
 
 
     #combo_signal = signals['out_1000_eval'].Clone() 
@@ -328,7 +331,7 @@ def BuildPlot(args):
     ll.SetTextSize(0.06)
     ll.SetTextFont(42)
     print 'args.category = {} args.year {}'.format(args.category, args.year)
-    lepLabel = "e#mu"
+    lepLabel = "4t" ## change this to 4t, was previousl e#mu
     if 'em_' in args.category:
         lepLabel = "e#mu"
     elif 'me_' in args.category:
@@ -342,7 +345,7 @@ def BuildPlot(args):
     else:
         print 'which channel'
         
-    lumi='XXX'
+    lumi='59.7 fb^{-1}' ## modify luminosity here, was previously X X X
     if args.year == 2016:
         lumi = "35.9 fb^{-1}"
     elif args.year == 2017:
@@ -367,7 +370,12 @@ def BuildPlot(args):
     prel.SetNDC(ROOT.kTRUE)
     prel.SetTextFont(52)
     prel.SetTextSize(0.06)
-    prel.DrawLatex(0.16, 0.74, "Preliminary")
+    prel.DrawLatex(0.16, 0.74, "Internal")
+
+    prel.SetTextSize(0.03)
+    prel.DrawLatex(0.16, 0.70, "TT Control Region")
+
+
 
     if args.category == 'mt_inclusive':
         catName = 'Inclusive'
