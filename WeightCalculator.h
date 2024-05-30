@@ -126,9 +126,9 @@ float XSection(std::string OutName) {
     else if (OutName.find("T-tW") != string::npos) return  35.6;
 
     // signal
-    else if (OutName.find("out_1000") != string::npos) return  0.001;
-    else if (OutName.find("out_2000") != string::npos) return  0.001;
-    else if (OutName.find("out_3000") != string::npos) return  0.001;
+    else if (OutName.find("GluGluToRadionToHHTo4T_M-1000") != string::npos) return  0.001;
+    else if (OutName.find("GluGluToRadionToHHTo4T_M-2000") != string::npos) return  0.001;
+    else if (OutName.find("GluGluToRadionToHHTo4T_M-3000") != string::npos) return  0.001;
     
     //Other SingleTop
     else if (OutName.find("ST_t-channel_antitop") != string::npos) return 80.95;
